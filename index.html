@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Коллекция винила · для друзей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f2ead9;
+    --paper-raised: #fbf7ee;
+    --ink: #241d15;
+    --ink-soft: #7a6d59;
+    --ink-faint: #a89a82;
+    --line: #ddcfb3;
+    --accent: #c9631f;
+    --accent-strong: #a04f16;
+    --accent-ink: #fff7ec;
+    --accent2: #2c6b64;
+    --shadow: rgba(48, 34, 12, 0.16);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #171310;
+      --paper-raised: #221c15;
+      --ink: #f1e6d3;
+      --ink-soft: #b6a688;
+      --ink-faint: #7d715c;
+      --line: #3b3225;
+      --accent: #e08a3e;
+      --accent-strong: #f2a15b;
+      --accent-ink: #201004;
+      --accent2: #5aa89f;
+      --shadow: rgba(0, 0, 0, 0.55);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #171310;
+    --paper-raised: #221c15;
+    --ink: #f1e6d3;
+    --ink-soft: #b6a688;
+    --ink-faint: #7d715c;
+    --line: #3b3225;
+    --accent: #e08a3e;
+    --accent-strong: #f2a15b;
+    --accent-ink: #201004;
+    --accent2: #5aa89f;
+    --shadow: rgba(0, 0, 0, 0.55);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Work Sans", system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  button { font-family: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 64px; }
+
+  header.top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+    padding-bottom: 22px; margin-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .label-badge {
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    background:
+      radial-gradient(circle at 50% 50%, var(--paper) 0 4px, transparent 4.5px),
+      conic-gradient(from 90deg, var(--accent-strong), var(--accent) 40%, var(--accent-strong) 75%, var(--accent));
+    box-shadow: 0 2px 6px var(--shadow);
+  }
+  .brand h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: 0.015em; }
+
+  .controls {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .search-box {
+    position: relative; flex: 0 1 170px; max-width: 200px;
+  }
+  .search-box input {
+    width: 100%; padding: 8px 12px 8px 30px; border-radius: 7px;
+    border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink);
+    font-size: 0.88rem;
+  }
+  .search-box::before {
+    content: "⌕"; position: absolute; left: 11px; top: 50%; transform: translateY(-52%);
+    color: var(--ink-faint); font-size: 1rem; pointer-events: none;
+  }
+  select.sort-select {
+    padding: 9px 12px; border-radius: 7px; border: 1px solid var(--line);
+    background: var(--paper-raised); color: var(--ink); font-size: 0.88rem;
+  }
+  .count-tag {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.75rem; color: var(--ink-faint);
+    margin-left: auto;
+  }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+  #genreChips { margin-bottom: 14px; }
+  #rarityChips { border-top: 1px solid var(--line); padding-top: 14px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--paper-raised); color: var(--ink-soft);
+    font-size: 0.8rem; cursor: pointer; user-select: none;
+    transition: border-color 0.12s ease, color 0.12s ease;
+  }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .chip.active { color: var(--ink); border-color: currentColor; font-weight: 500; }
+  .chip:hover { border-color: var(--ink-faint); }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr);
+    gap: 22px 18px;
+  }
+  .layout-toggle {
+    display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--paper-raised);
+  }
+  .layout-btn {
+    width: 32px; height: 28px; display: flex; align-items: center; justify-content: center;
+    border: none; border-radius: 5px; background: transparent; color: var(--ink-faint);
+    cursor: pointer; transition: background 0.12s ease, color 0.12s ease;
+  }
+  .layout-btn:hover { color: var(--ink-soft); }
+  .layout-btn.active { background: var(--paper); color: var(--accent); box-shadow: inset 0 0 0 1px var(--line); }
+  .layout-btn svg { width: 15px; height: 15px; fill: currentColor; }
+  @media (max-width: 640px) {
+    .layout-toggle { display: none; }
+  }
+  .card {
+    position: relative; display: flex; flex-direction: column; cursor: pointer;
+  }
+  .cover-wrap {
+    position: relative; aspect-ratio: 1 / 1; border-radius: 7px; overflow: hidden;
+    border: 1px solid var(--line); background: var(--paper-raised);
+    box-shadow: 0 3px 10px var(--shadow);
+  }
+  .cover-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cover-hint {
+    position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--paper-raised) 70%, transparent);
+    border: 1px solid var(--line); box-shadow: 0 2px 6px var(--shadow);
+    color: var(--ink-soft); opacity: 0; transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+  .card:hover .cover-hint, .card:focus-visible .cover-hint { opacity: 1; }
+  .cover-hint svg { width: 14px; height: 14px; }
+  @media (max-width: 640px) {
+    .cover-hint { opacity: 0.9; }
+  }
+  .cover-placeholder {
+    width: 100%; height: 100%;
+    background:
+      radial-gradient(circle at 50% 50%, var(--paper) 0 6%, transparent 6.5%),
+      repeating-radial-gradient(circle at 50% 50%, var(--line) 0 1.5px, transparent 1.5px 9px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cover-placeholder span {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.62rem; color: var(--ink-faint);
+    background: var(--paper-raised); padding: 3px 8px; border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+  .card-tags { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .edition-badge {
+    display: inline-block;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.58rem; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 3px 7px; border-radius: 4px; line-height: 1.3;
+    background: var(--paper-raised); border: 1px solid var(--line); color: var(--ink-faint);
+  }
+  .vinyl-icon { display: inline-flex; flex-shrink: 0; cursor: default; }
+  .vinyl-icon svg { display: block; }
+
+  .card-meta { padding: 10px 2px 0; }
+  .card-artist { font-size: 1rem; font-weight: 600; line-height: 1.25; }
+  .card-album { font-size: 0.86rem; font-style: italic; color: var(--ink-soft); margin-top: 1px; }
+  .card-sub {
+    display: flex; align-items: center; gap: 7px; margin-top: 6px;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 70px 20px; gap: 16px;
+  }
+  .empty-state h2 { font-size: 1.5rem; font-weight: 600; }
+  .empty-state p { max-width: 380px; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.5; }
+
+  dialog.modal {
+    border: none; border-radius: 12px; padding: 0; width: min(460px, 92vw);
+    background: var(--paper-raised); color: var(--ink);
+    box-shadow: 0 18px 50px var(--shadow);
+  }
+  dialog.modal::backdrop { background: rgba(20, 14, 6, 0.45); }
+
+  .stats-strip {
+    display: flex; flex-wrap: wrap;
+    border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    background: var(--paper-raised); box-shadow: 0 2px 8px var(--shadow);
+    margin-bottom: 24px;
+  }
+  .stat-tile {
+    flex: 1 1 150px; padding: 13px 18px;
+    border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .stat-tile:last-child { border-right: none; }
+  .stat-value {
+    font-family: "Fraunces", Georgia, serif; font-weight: 600;
+    font-size: 1.55rem; line-height: 1.15; font-variant-numeric: tabular-nums;
+  }
+  .stat-value.accent { color: var(--accent); }
+  .stat-label {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--ink-faint); margin-top: 3px;
+  }
+
+  .lang-toggle {
+    display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--paper-raised); flex-shrink: 0;
+  }
+  .lang-btn {
+    padding: 5px 10px; border: none; border-radius: 5px; background: transparent;
+    color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+    font-weight: 500; letter-spacing: 0.03em; cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .lang-btn:hover { color: var(--ink-soft); }
+  .lang-btn.active { background: var(--paper); color: var(--accent); box-shadow: inset 0 0 0 1px var(--line); }
+
+  .detail-dialog { width: min(640px, 94vw); max-height: 86vh; padding: 0; }
+  .detail-inner { display: flex; flex-direction: column; max-height: 86vh; position: relative; }
+  .detail-close {
+    position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 7px;
+    border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft);
+    cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
+    z-index: 1;
+  }
+  .detail-close:hover { color: var(--ink); border-color: var(--ink-faint); }
+  .detail-head { display: flex; gap: 16px; padding: 26px 52px 18px 26px; border-bottom: 1px solid var(--line); }
+  .detail-cover-btn {
+    position: relative; width: 92px; height: 92px; flex-shrink: 0; padding: 0; border: none;
+    background: none; cursor: pointer; border-radius: 8px;
+  }
+  .detail-cover {
+    width: 92px; height: 92px; border-radius: 8px; object-fit: cover; display: block;
+    border: 1px solid var(--line); background: var(--paper);
+  }
+  .detail-cover-btn .cover-hint { opacity: 0; }
+  .detail-cover-btn:hover .cover-hint, .detail-cover-btn:focus-visible .cover-hint { opacity: 1; }
+  dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 0; max-width: 90vw; max-height: 90vh; }
+  dialog.lightbox::backdrop { background: rgba(10, 7, 3, 0.72); }
+  dialog.lightbox img {
+    display: block; max-width: 90vw; max-height: 90vh; border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .detail-titles { min-width: 0; }
+  .detail-titles h2 { font-size: 1.3rem; font-weight: 600; font-style: italic; line-height: 1.2; }
+  .detail-album { font-size: 0.95rem; color: var(--ink-soft); font-style: italic; margin-top: 2px; }
+  .detail-sub {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; color: var(--ink-faint);
+    margin-top: 9px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .detail-body { padding: 20px 26px 28px; overflow-y: auto; }
+  .detail-meta-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px 18px; margin-bottom: 20px;
+  }
+  .detail-meta-label {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.6rem; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--ink-faint); margin-bottom: 3px;
+  }
+  .detail-meta-value { font-size: 0.87rem; font-variant-numeric: tabular-nums; }
+  .detail-credits { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.55; margin-bottom: 22px; white-space: pre-line; }
+  .detail-section-title {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--ink-faint); margin-bottom: 10px;
+  }
+  .tracklist-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+  .tracklist-side h4 {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--accent);
+    margin-bottom: 6px; letter-spacing: 0.04em; font-weight: 500;
+  }
+  .track-row { display: flex; gap: 9px; padding: 5px 0; font-size: 0.85rem; border-bottom: 1px dashed var(--line); }
+  .track-row:last-child { border-bottom: none; }
+  .track-pos { font-family: "IBM Plex Mono", monospace; color: var(--ink-faint); width: 24px; flex-shrink: 0; }
+  .detail-empty { font-size: 0.85rem; color: var(--ink-faint); font-style: italic; }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 20px 16px 48px; }
+    header.top { gap: 12px; }
+    .controls { align-items: stretch; }
+    .search-box { flex: 1 1 100%; max-width: none; order: 1; }
+    .sort-select { flex: 1 1 auto; order: 2; }
+    .layout-toggle { order: 3; }
+    .count-tag { order: 4; margin-left: 0; width: 100%; }
+    .stat-tile { flex: 1 1 50%; }
+    .detail-head { padding: 22px 46px 16px 18px; }
+    .detail-body { padding: 16px 18px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="label-badge"></div>
+      <h1 id="brandName">Коллекция винила · для друзей</h1>
+    </div>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="ru">RU</button>
+    </div>
+  </header>
+
+  <div class="stats-strip" id="statsStrip"></div>
+
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Поиск" autocomplete="off">
+    </div>
+    <select class="sort-select" id="sortSelect">
+      <option value="artist">Сортировка: Исполнитель А–Я</option>
+      <option value="genre">Сортировка: Жанр</option>
+      <option value="year">Сортировка: Год</option>
+    </select>
+    <div class="layout-toggle" role="group" aria-label="Плиток в ряду">
+      <button type="button" class="layout-btn" data-cols="2" title="2 в ряду" aria-label="2 в ряду">
+        <svg viewBox="0 0 16 16"><rect x="1.5" y="3" width="5.3" height="10" rx="1.3"></rect><rect x="9.2" y="3" width="5.3" height="10" rx="1.3"></rect></svg>
+      </button>
+      <button type="button" class="layout-btn" data-cols="3" title="3 в ряду" aria-label="3 в ряду">
+        <svg viewBox="0 0 16 16"><rect x="1" y="3" width="3.6" height="10" rx="1.1"></rect><rect x="6.2" y="3" width="3.6" height="10" rx="1.1"></rect><rect x="11.4" y="3" width="3.6" height="10" rx="1.1"></rect></svg>
+      </button>
+    </div>
+    <span class="count-tag" id="countTag"></span>
+  </div>
+
+  <div class="chips" id="genreChips"></div>
+  <div class="chips" id="rarityChips"></div>
+
+  <div id="gridHost" class="grid"></div>
+</div>
+
+<dialog class="modal detail-dialog" id="detailDialog">
+  <div class="detail-inner">
+    <button type="button" class="detail-close" id="detailCloseBtn" aria-label="Close">✕</button>
+    <div id="detailBody"></div>
+  </div>
+</dialog>
+
+<dialog class="lightbox" id="lightboxDialog">
+  <img id="lightboxImg" src="" alt="">
+</dialog>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var records = RECORDS;
+
+  var GENRE_COLORS = ["#b5482c", "#2c6b64", "#8a6d1d", "#4c5c8f", "#7a3b69", "#4f7a3a", "#a03e53", "#39708a"];
+  function genreColor(key) {
+    var h = 0;
+    for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+    return GENRE_COLORS[h % GENRE_COLORS.length];
+  }
+
+  var GENRE_GROUP_RULES = [
+    [/trip hop/, "groupTripHop"],
+    [/jazz/, "groupJazz"],
+    [/hip hop/, "groupHipHopSoul"],
+    [/soul/, "groupHipHopSoul"],
+    [/r&b/, "groupHipHopSoul"],
+    [/synth-pop|new wave/, "groupSynthPop"],
+    [/downtempo/, "groupDowntempo"],
+    [/balearic/, "groupDowntempo"],
+    [/ambient/, "groupDowntempo"],
+    [/techno/, "groupElectronic"],
+    [/deep house/, "groupDowntempo"],
+    [/house/, "groupElectronic"],
+    [/rock/, "groupRock"],
+    [/pop/, "groupPop"]
+  ];
+  function genreGroupKey(genre) {
+    var g = (genre || "").toLowerCase();
+    for (var i = 0; i < GENRE_GROUP_RULES.length; i++) {
+      if (GENRE_GROUP_RULES[i][0].test(g)) return GENRE_GROUP_RULES[i][1];
+    }
+    return "groupPop";
+  }
+
+  var STRINGS = {
+    brandName: { ru: "Коллекция винила · для друзей", en: "Vinyl Collection · shared copy" },
+    searchPlaceholder: { ru: "Поиск", en: "Search" },
+    sortArtist: { ru: "Сортировка: Исполнитель А–Я", en: "Sort: Artist A–Z" },
+    sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
+    sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
+    layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
+    layout2: { ru: "2 в ряду", en: "2 per row" },
+    layout3: { ru: "3 в ряду", en: "3 per row" },
+    countConnector: { ru: "из", en: "of" },
+    noMatchesTitle: { ru: "Ничего не найдено", en: "No matches" },
+    noMatchesBody: { ru: "Попробуйте другой запрос или сбросьте фильтр по жанру.", en: "Try a different search or clear the genre filter." },
+    noCover: { ru: "НЕТ ОБЛОЖКИ", en: "NO COVER" },
+    rarityLimited: { ru: "Ограниченный тираж", en: "Limited edition" },
+    rarityRare: { ru: "Редкая", en: "Rare" },
+    vinylWord: { ru: "винил", en: "vinyl" },
+    groupHipHopSoul: { ru: "Хип-хоп / Соул", en: "Hip-Hop / Soul" },
+    groupSynthPop: { ru: "Синти-поп / Нью-вейв", en: "Synth-pop / New Wave" },
+    groupTripHop: { ru: "Трип-хоп", en: "Trip Hop" },
+    groupJazz: { ru: "Джаз", en: "Jazz" },
+    groupDowntempo: { ru: "Даунтемпо / Чилаут", en: "Downtempo / Chillout" },
+    groupElectronic: { ru: "Электроника / Танцевальная", en: "Electronic / Dance" },
+    groupRock: { ru: "Рок", en: "Rock" },
+    groupPop: { ru: "Поп", en: "Pop" },
+    statRecords: { ru: "Пластинок", en: "Records" },
+    statArtists: { ru: "Исполнителей", en: "Artists" },
+    statYears: { ru: "Годы выпуска", en: "Years spanned" },
+    statValue: { ru: "Стоимость коллекции", en: "Collection value" },
+    detailPressingYear: { ru: "Год этого экземпляра", en: "Year of this pressing" },
+    originalEdition: { ru: "Оригинальное издание", en: "Original edition" },
+    reissueEdition: { ru: "Переиздание", en: "Reissue" },
+    detailCatalogNo: { ru: "Каталожный номер", en: "Catalog no." },
+    detailBarcode: { ru: "Штрихкод", en: "Barcode" },
+    detailCondition: { ru: "Состояние", en: "Condition" },
+    detailPrice: { ru: "Стоимость", en: "Value" },
+    detailRarity: { ru: "Редкость", en: "Rarity" },
+    detailVinylColor: { ru: "Цвет винила", en: "Vinyl color" },
+    detailCreditsTitle: { ru: "Авторы и выходные данные", en: "Credits" },
+    detailTracklistTitle: { ru: "Треклист", en: "Tracklist" },
+    detailNoExtra: { ru: "Дополнительных данных нет.", en: "No extra details." },
+    sideLabel: { ru: "Сторона", en: "Side" }
+  };
+  function loadLang() {
+    try {
+      var v = localStorage.getItem("runout.lang");
+      if (v === "en" || v === "ru") return v;
+    } catch (e) {}
+    return "ru";
+  }
+  var state = { search: "", genre: null, rarity: null, sort: "artist", cols: loadCols(), lang: loadLang() };
+  function t(key) { return (STRINGS[key] && STRINGS[key][state.lang]) || key; }
+  function genreGroup(genre) { return t(genreGroupKey(genre)); }
+
+  function isCyrillic(s) { return /[Ѐ-ӿ]/.test((s || "").trim().charAt(0)); }
+  function compareNames(a, b) {
+    var ca = isCyrillic(a), cb = isCyrillic(b);
+    if (ca !== cb) return ca ? 1 : -1;
+    return (a || "").localeCompare(b || "");
+  }
+
+  var VINYL_COLOR_RULES = [
+    [/black|чёрн|черн/, "#1c1a18"],
+    [/clear|transparent|прозрачн/, "#cfcac0"],
+    [/white|бел/, "#f2ede0"],
+    [/pink|розов/, "#e8779a"],
+    [/red|красн/, "#c23b3b"],
+    [/orange|оранж/, "#d97a2c"],
+    [/yellow|жёлт|желт/, "#e0b93a"],
+    [/gold|золот/, "#c9a227"],
+    [/green|зелен|зелён/, "#4c8a52"],
+    [/blue|син|голуб/, "#3d6fa8"],
+    [/purple|violet|фиолет|пурпур/, "#7a4f9e"],
+    [/silver|серебр/, "#b9bec4"],
+    [/grey|gray|сер/, "#8b8580"],
+    [/brown|коричнев/, "#7a5230"],
+    [/marble|marbled|мрамор/, "#9a8f7e"],
+    [/splatter/, "#a85a7a"]
+  ];
+  function vinylColorToCss(text) {
+    var s = (text || "").toLowerCase();
+    for (var i = 0; i < VINYL_COLOR_RULES.length; i++) {
+      if (VINYL_COLOR_RULES[i][0].test(s)) return VINYL_COLOR_RULES[i][1];
+    }
+    return "var(--ink-faint)";
+  }
+  var VINYL_ICON_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">' +
+    '<circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.88"></circle>' +
+    '<circle cx="8" cy="8" r="2.6" fill="var(--paper-raised)"></circle>' +
+    '<circle cx="8" cy="8" r="1" fill="currentColor"></circle></svg>';
+  var EXPAND_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>' +
+    '<circle cx="12" cy="12" r="3"></circle></svg>';
+
+  function parsePrice(p) {
+    if (!p) return null;
+    var m = String(p).match(/[€$]\s?([\d,]+(?:\.\d+)?)/);
+    if (!m) return null;
+    var n = parseFloat(m[1].replace(/,/g, ""));
+    return isNaN(n) ? null : n;
+  }
+
+  var els = {
+    stats: document.getElementById("statsStrip"),
+    grid: document.getElementById("gridHost"),
+    chips: document.getElementById("genreChips"),
+    rarityChips: document.getElementById("rarityChips"),
+    search: document.getElementById("searchInput"),
+    sort: document.getElementById("sortSelect"),
+    count: document.getElementById("countTag"),
+    layoutBtns: Array.prototype.slice.call(document.querySelectorAll(".layout-btn")),
+    langBtns: Array.prototype.slice.call(document.querySelectorAll(".lang-btn")),
+    detailDialog: document.getElementById("detailDialog"),
+    detailCloseBtn: document.getElementById("detailCloseBtn"),
+    detailBody: document.getElementById("detailBody"),
+    lightboxDialog: document.getElementById("lightboxDialog"),
+    lightboxImg: document.getElementById("lightboxImg")
+  };
+
+  var scrollLockCount = 0, savedScrollY = 0;
+  function lockScroll() {
+    if (scrollLockCount === 0) {
+      savedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = "-" + savedScrollY + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+    }
+    scrollLockCount++;
+  }
+  function unlockScroll() {
+    scrollLockCount = Math.max(0, scrollLockCount - 1);
+    if (scrollLockCount === 0) {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      window.scrollTo(0, savedScrollY);
+    }
+  }
+  els.detailDialog.addEventListener("close", unlockScroll);
+  els.lightboxDialog.addEventListener("close", unlockScroll);
+
+  function loadCols() {
+    var saved = 0;
+    try { saved = parseInt(localStorage.getItem("runout.cols"), 10); } catch (e) {}
+    return saved === 2 || saved === 3 ? saved : 3;
+  }
+  state.cols = loadCols();
+
+  var narrowMq = window.matchMedia("(max-width: 640px)");
+  function effectiveCols() {
+    return narrowMq.matches ? Math.min(state.cols, 2) : state.cols;
+  }
+  function applyCols() {
+    els.grid.style.setProperty("--cols", effectiveCols());
+    els.layoutBtns.forEach(function (btn) {
+      btn.classList.toggle("active", Number(btn.dataset.cols) === state.cols);
+    });
+  }
+  applyCols();
+  els.layoutBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      state.cols = Number(btn.dataset.cols);
+      applyCols();
+      try { localStorage.setItem("runout.cols", state.cols); } catch (e) {}
+    });
+  });
+  if (narrowMq.addEventListener) narrowMq.addEventListener("change", applyCols);
+  else if (narrowMq.addListener) narrowMq.addListener(applyCols);
+  window.addEventListener("orientationchange", function () { setTimeout(applyCols, 50); });
+  window.addEventListener("resize", applyCols);
+
+  els.langBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      state.lang = btn.dataset.lang;
+      try { localStorage.setItem("runout.lang", state.lang); } catch (e) {}
+      applyLang();
+    });
+  });
+
+  function applyLang() {
+    document.getElementById("brandName").textContent = t("brandName");
+    els.search.placeholder = t("searchPlaceholder");
+    els.sort.options[0].textContent = t("sortArtist");
+    els.sort.options[1].textContent = t("sortGenre");
+    els.sort.options[2].textContent = t("sortYear");
+    els.layoutBtns.forEach(function (btn) {
+      var label = t("layout" + btn.dataset.cols);
+      btn.title = label;
+      btn.setAttribute("aria-label", label);
+    });
+    var layoutGroup = document.querySelector(".layout-toggle");
+    if (layoutGroup) layoutGroup.setAttribute("aria-label", t("layoutGroupLabel"));
+    els.langBtns.forEach(function (b) { b.classList.toggle("active", b.dataset.lang === state.lang); });
+    render();
+  }
+
+  function filteredSorted() {
+    var q = state.search.trim().toLowerCase();
+    var list = records.filter(function (r) {
+      if (state.genre && genreGroupKey(r.genre) !== state.genre) return false;
+      if (state.rarity && r.rarity !== state.rarity) return false;
+      if (!q) return true;
+      return (r.artist || "").toLowerCase().indexOf(q) !== -1 ||
+             (r.album || "").toLowerCase().indexOf(q) !== -1;
+    });
+    list.sort(function (a, b) {
+      if (state.sort === "genre") {
+        return genreGroup(a.genre).localeCompare(genreGroup(b.genre)) || compareNames(a.artist, b.artist);
+      }
+      if (state.sort === "year") {
+        return (b.year || 0) - (a.year || 0);
+      }
+      return compareNames(a.artist, b.artist) || compareNames(a.album, b.album);
+    });
+    return list;
+  }
+
+  function renderChips() {
+    var groups = {};
+    records.forEach(function (r) { if (r.genre) groups[genreGroupKey(r.genre)] = true; });
+    var keys = Object.keys(groups).sort(function (a, b) { return t(a).localeCompare(t(b)); });
+    els.chips.innerHTML = "";
+    keys.forEach(function (key) {
+      var active = state.genre === key;
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip" + (active ? " active" : "");
+      chip.style.color = active ? genreColor(key) : "";
+      chip.innerHTML = '<span class="dot" style="background:' + genreColor(key) + '"></span>' + t(key);
+      chip.addEventListener("click", function () {
+        state.genre = active ? null : key;
+        render();
+      });
+      els.chips.appendChild(chip);
+    });
+  }
+
+  var RARITY_ORDER = ["limited", "rare"];
+  function renderRarityChips() {
+    var present = {};
+    records.forEach(function (r) { if (r.rarity) present[r.rarity] = true; });
+    var keys = RARITY_ORDER.filter(function (k) { return present[k]; });
+    els.rarityChips.hidden = !keys.length;
+    els.rarityChips.innerHTML = "";
+    keys.forEach(function (key) {
+      var active = state.rarity === key;
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip" + (active ? " active" : "");
+      chip.textContent = t("rarity" + (key === "limited" ? "Limited" : "Rare"));
+      chip.addEventListener("click", function () {
+        state.rarity = active ? null : key;
+        render();
+      });
+      els.rarityChips.appendChild(chip);
+    });
+  }
+
+  function renderStats() {
+    if (!records.length) { els.stats.innerHTML = ""; return; }
+    var artists = {};
+    records.forEach(function (r) { if (r.artist) artists[r.artist] = true; });
+    var total = 0, priced = 0;
+    records.forEach(function (r) {
+      var v = parsePrice(r.price);
+      if (v !== null) { total += v; priced++; }
+    });
+    var years = records.map(function (r) { return r.year; }).filter(Boolean);
+    var yearRange = years.length ? (Math.min.apply(null, years) + "–" + Math.max.apply(null, years)) : "—";
+    var valueLabel = t("statValue") + (priced < records.length ? " (" + priced + " " + t("countConnector") + " " + records.length + ")" : "");
+    var tiles = [
+      { value: records.length, label: t("statRecords") },
+      { value: Object.keys(artists).length, label: t("statArtists") },
+      { value: yearRange, label: t("statYears") },
+      { value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel, accent: true }
+    ];
+    els.stats.innerHTML = tiles.map(function (tile) {
+      return '<div class="stat-tile"><div class="stat-value' + (tile.accent ? " accent" : "") + '">' + tile.value + "</div>" +
+        '<div class="stat-label">' + tile.label + "</div></div>";
+    }).join("");
+  }
+
+  function coverUrl(r) { return r.coverFile || null; }
+
+  function altText(album) {
+    return state.lang === "ru" ? "обложка " + album : album + " cover";
+  }
+
+  function renderGrid() {
+    var list = filteredSorted();
+    els.count.textContent = records.length ? (list.length + " " + t("countConnector") + " " + records.length) : "";
+    if (!list.length) {
+      els.grid.innerHTML = '<div class="empty-state"><h2>' + t("noMatchesTitle") + '</h2><p>' + t("noMatchesBody") + '</p></div>';
+      return;
+    }
+    var frag = document.createDocumentFragment();
+    list.forEach(function (r) {
+      var card = document.createElement("div");
+      card.className = "card";
+      var url = coverUrl(r);
+      var coverInner = url
+        ? '<img src="' + url + '" alt="' + altText(r.album || "").replace(/"/g, "&quot;") + '" loading="lazy">'
+        : '<div class="cover-placeholder"><span>' + t("noCover") + '</span></div>';
+      var subBits = [];
+      if (r.genre) subBits.push(r.genre);
+      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push(r.year + " → " + r.pressingYear);
+      else if (r.year) subBits.push(r.year);
+      if (r.price) subBits.push(r.price);
+      var editionBadge = "";
+      if (r.year) {
+        var isReissue = !!(r.pressingYear && r.pressingYear !== r.year);
+        editionBadge = '<span class="edition-badge">' +
+          (isReissue ? t("reissueEdition") : t("originalEdition")) + "</span>";
+      }
+      var vinylIcon = "";
+      if (r.vinylColor) {
+        var vinylTitle = r.vinylColor + " " + t("vinylWord");
+        vinylIcon = '<span class="vinyl-icon" style="color:' + vinylColorToCss(r.vinylColor) + '" title="' +
+          escapeHtml(vinylTitle) + '">' + VINYL_ICON_SVG + "</span>";
+      }
+      var tagsHtml = (vinylIcon || editionBadge) ? ('<div class="card-tags">' + vinylIcon + editionBadge + "</div>") : "";
+      card.innerHTML =
+        '<div class="cover-wrap">' + coverInner + '<span class="cover-hint">' + EXPAND_ICON_SVG + "</span></div>" +
+        '<div class="card-meta">' +
+        '<div class="card-artist">' + escapeHtml(r.artist) + "</div>" +
+        '<div class="card-album">' + escapeHtml(r.album) + "</div>" +
+        '<div class="card-sub">' + subBits.join(" · ") + "</div>" +
+        tagsHtml +
+        "</div>";
+      card.addEventListener("click", function () { openDetail(r); });
+      frag.appendChild(card);
+    });
+    els.grid.innerHTML = "";
+    els.grid.appendChild(frag);
+  }
+
+  function escapeHtml(s) {
+    return (s || "").replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function render() { renderStats(); renderChips(); renderRarityChips(); renderGrid(); }
+
+  function groupTracksBySide(tracks) {
+    var order = [], sides = {};
+    (tracks || []).forEach(function (tr) {
+      var m = /^([A-Za-z]+)/.exec(tr.position || "");
+      var side = m ? m[1].toUpperCase() : "";
+      if (!(side in sides)) { sides[side] = []; order.push(side); }
+      sides[side].push(tr);
+    });
+    return order.map(function (s) { return { side: s, tracks: sides[s] }; });
+  }
+
+  function openDetail(r) {
+    var url = coverUrl(r);
+    var coverHtml = url
+      ? '<button type="button" class="detail-cover-btn" id="detailCoverBtn">' +
+          '<img class="detail-cover" src="' + url + '" alt="' + altText(r.album || "").replace(/"/g, "&quot;") + '">' +
+          '<span class="cover-hint">' + EXPAND_ICON_SVG + '</span>' +
+        '</button>'
+      : '<div class="detail-cover cover-placeholder"><span style="font-size:0.5rem;">' + t("noCover") + '</span></div>';
+    var subBits = [];
+    if (r.year) subBits.push(r.year);
+    if (r.label) subBits.push(escapeHtml(r.label));
+    if (r.genre) subBits.push(escapeHtml(r.genre));
+
+    var metaItems = [];
+    if (r.pressingYear && r.pressingYear !== r.year) metaItems.push([t("detailPressingYear"), String(r.pressingYear)]);
+    if (r.catalogNo) metaItems.push([t("detailCatalogNo"), escapeHtml(r.catalogNo)]);
+    if (r.barcode) metaItems.push([t("detailBarcode"), escapeHtml(r.barcode)]);
+    if (r.condition) metaItems.push([t("detailCondition"), escapeHtml(r.condition)]);
+    if (r.vinylColor) metaItems.push([t("detailVinylColor"), escapeHtml(r.vinylColor)]);
+    if (r.rarity === "limited" || r.rarity === "rare") {
+      metaItems.push([t("detailRarity"), t(r.rarity === "rare" ? "rarityRare" : "rarityLimited")]);
+    }
+    if (r.price) metaItems.push([t("detailPrice"), escapeHtml(r.price) + (r.priceNote ? " (" + escapeHtml(r.priceNote) + ")" : "")]);
+    var metaHtml = metaItems.length
+      ? '<div class="detail-meta-grid">' + metaItems.map(function (it) {
+          return '<div class="detail-meta-item"><div class="detail-meta-label">' + it[0] + '</div><div class="detail-meta-value">' + it[1] + '</div></div>';
+        }).join("") + '</div>'
+      : "";
+
+    var creditsHtml = r.credits
+      ? '<div class="detail-section-title">' + t("detailCreditsTitle") + '</div><div class="detail-credits">' + escapeHtml(r.credits) + '</div>'
+      : "";
+
+    var tracklistHtml = "";
+    if (r.tracklist && r.tracklist.length) {
+      var sides = groupTracksBySide(r.tracklist);
+      tracklistHtml = '<div class="detail-section-title">' + t("detailTracklistTitle") + '</div><div class="tracklist-sides">' +
+        sides.map(function (s) {
+          var heading = s.side ? (t("sideLabel") + " " + s.side) : "";
+          return '<div class="tracklist-side">' + (heading ? '<h4>' + heading + '</h4>' : "") +
+            s.tracks.map(function (tr) {
+              return '<div class="track-row"><span class="track-pos">' + escapeHtml(tr.position) + '</span><span class="track-title">' + escapeHtml(tr.title) + '</span></div>';
+            }).join("") + '</div>';
+        }).join("") + '</div>';
+    }
+
+    var hasExtra = metaItems.length || r.credits || (r.tracklist && r.tracklist.length);
+
+    els.detailBody.innerHTML =
+      '<div class="detail-head">' + coverHtml +
+        '<div class="detail-titles">' +
+          '<h2>' + escapeHtml(r.artist) + '</h2>' +
+          '<div class="detail-album">' + escapeHtml(r.album) + '</div>' +
+          '<div class="detail-sub">' + subBits.join(" · ") + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="detail-body">' + metaHtml + creditsHtml + tracklistHtml +
+        (hasExtra ? "" : '<div class="detail-empty">' + t("detailNoExtra") + '</div>') +
+      '</div>';
+
+    var coverBtn = document.getElementById("detailCoverBtn");
+    if (coverBtn) {
+      coverBtn.addEventListener("click", function () { openLightbox(url, altText(r.album || "")); });
+    }
+
+    lockScroll();
+    els.detailDialog.showModal();
+  }
+
+  function openLightbox(url, alt) {
+    els.lightboxImg.src = url;
+    els.lightboxImg.alt = alt;
+    lockScroll();
+    els.lightboxDialog.showModal();
+  }
+  els.lightboxDialog.addEventListener("click", function () { els.lightboxDialog.close(); });
+
+  els.detailCloseBtn.addEventListener("click", function () { els.detailDialog.close(); });
+  els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
+  els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderGrid(); });
+
+  applyLang();
+})();
+</script>
+</body>
+</html>
