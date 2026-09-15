@@ -351,6 +351,9 @@
       <button type="button" class="layout-btn" data-cols="3" title="3 в ряду" aria-label="3 в ряду">
         <svg viewBox="0 0 16 16"><rect x="1" y="3" width="3.6" height="10" rx="1.1"></rect><rect x="6.2" y="3" width="3.6" height="10" rx="1.1"></rect><rect x="11.4" y="3" width="3.6" height="10" rx="1.1"></rect></svg>
       </button>
+      <button type="button" class="layout-btn" data-cols="4" title="4 в ряду" aria-label="4 в ряду">
+        <svg viewBox="0 0 16 16"><rect x="0.6" y="3" width="2.7" height="10" rx="0.9"></rect><rect x="4.7" y="3" width="2.7" height="10" rx="0.9"></rect><rect x="8.8" y="3" width="2.7" height="10" rx="0.9"></rect><rect x="12.9" y="3" width="2.7" height="10" rx="0.9"></rect></svg>
+      </button>
     </div>
     <span class="count-tag" id="countTag"></span>
   </div>
@@ -417,6 +420,7 @@
     layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
     layout2: { ru: "2 в ряду", en: "2 per row" },
     layout3: { ru: "3 в ряду", en: "3 per row" },
+    layout4: { ru: "4 в ряду", en: "4 per row" },
     countConnector: { ru: "из", en: "of" },
     noMatchesTitle: { ru: "Ничего не найдено", en: "No matches" },
     noMatchesBody: { ru: "Попробуйте другой запрос или сбросьте фильтр по жанру.", en: "Try a different search or clear the genre filter." },
@@ -554,7 +558,7 @@
   function loadCols() {
     var saved = 0;
     try { saved = parseInt(localStorage.getItem("runout.cols"), 10); } catch (e) {}
-    return saved === 2 || saved === 3 ? saved : 3;
+    return saved === 2 || saved === 3 || saved === 4 ? saved : 3;
   }
   state.cols = loadCols();
 
