@@ -29,9 +29,9 @@
     --g-orange: #d8692b;
     --g-pink: #c0468a;
     --g-red: #d24a40;
-    --paper: #e3d8c4;
+    --paper: #b1a68f;
     --paper-ink: #1d1a16;
-    --paper-hot: #a83f14;
+    --paper-hot: #8c3210;
     --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --wide: "Krona One", "Eurostile", "Arial Black", Verdana, sans-serif;
     --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .88 0 0 0 0 .8 0 0 0 1.2 -.42'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -121,7 +121,10 @@
   .stats-strip:empty { display: none; }
   .scrap {
     padding: 30px 32px 28px;
-    background: var(--grain-dark), var(--paper);
+    background:
+      var(--grain-dark),
+      linear-gradient(180deg, rgba(20, 14, 6, 0.16), rgba(20, 14, 6, 0.02) 35%, rgba(20, 14, 6, 0.2)),
+      var(--paper);
     color: var(--paper-ink);
     clip-path: polygon(
       0 5px, 5% 1px, 10% 6px, 17% 2px, 25% 7px, 32% 3px, 40% 6px, 48% 0, 56% 5px, 63% 2px, 71% 7px, 79% 3px, 87% 6px, 94% 1px, 100% 5px,
