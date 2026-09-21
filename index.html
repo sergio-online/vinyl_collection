@@ -532,12 +532,6 @@
 (function () {
   var records = RECORDS;
 
-  var GENRE_COLORS = ["#5a5fd0", "#c25563", "#dc9b2c", "#d8692b", "#c0468a", "#d24a40"];
-  function genreColor(key) {
-    var h = 0;
-    for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-    return GENRE_COLORS[h % GENRE_COLORS.length];
-  }
 
   var GENRE_GROUP_RULES = [
     [/trip hop/, "groupTripHop"],
@@ -849,7 +843,6 @@
       var chip = document.createElement("button");
       chip.type = "button";
       chip.className = "chip" + (active ? " active" : "");
-      chip.style.setProperty("--chip-c", genreColor(key));
       chip.textContent = t(key);
       chip.addEventListener("click", function () {
         state.genre = active ? null : key;
