@@ -9,15 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ground: #322f2b;
-    --ground-2: #2a2825;
-    --well: #171716;
-    --ribs: repeating-linear-gradient(90deg, transparent 0 2px, #383632 2px 3px);
+    --ground: #0d0c0b;
+    --ground-2: #1b1a18;
+    --well: #050504;
     --cream: #e7ddcc;
     --cream-soft: #c4bba9;
     --cream-faint: #a29988;
-    --line: rgba(0, 0, 0, 0.38);
-    --line-strong: rgba(0, 0, 0, 0.55);
+    --line: rgba(255, 244, 225, 0.09);
+    --line-strong: rgba(255, 244, 225, 0.18);
     --orange: #e8763a;
     --orange-ink: #1a0e06;
     --indigo: #26236b;
@@ -42,7 +41,8 @@
     position: relative;
     overflow-x: hidden;
     background-color: var(--ground);
-    background-image: var(--ribs);
+    background-image: radial-gradient(90% 520px at 50% 0%, rgba(255, 240, 220, 0.075), transparent 75%);
+    background-repeat: no-repeat;
     color: var(--cream);
     font-family: var(--mono);
     font-size: 0.82rem;
@@ -162,7 +162,7 @@
   .search-box { position: relative; flex: 1 1 170px; }
   .search-box input {
     width: 100%; padding: 11px 12px 11px 30px; border-radius: 2px;
-    border: 1px solid #000; background: #0b0a09; color: #ffb547;
+    border: 1px solid #34312d; background: #0b0a09; color: #ffb547;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.08);
     font: 600 0.8rem var(--mono); letter-spacing: 0.06em; text-shadow: 0 0 8px rgba(255, 181, 71, 0.4);
   }
