@@ -87,50 +87,20 @@
   }
   .meta-row .lang-toggle { margin-left: auto; }
 
-  /* record-player control deck: the four totals are keys you can press */
+  /* the four totals: static read-outs shaped like the O in the wordmark */
   .stats-strip { position: relative; z-index: 1; }
   .stats-strip:empty { display: none; }
-  .deck {
-    position: relative; padding: 30px 26px 26px;
-    border: 1px solid var(--brass-dim);
-    background:
-      radial-gradient(circle at 12px 12px, #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
-      radial-gradient(circle at calc(100% - 12px) 12px, #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
-      radial-gradient(circle at 12px calc(100% - 12px), #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
-      radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
-      linear-gradient(180deg, #2b2926, #191816);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 18px 30px -10px rgba(0, 0, 0, 0.85);
+  .pills { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 14px; }
+  .pill {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    min-height: 86px; padding: 12px 22px; text-align: center;
+    border: 5px solid var(--cream); border-radius: 999px;
   }
-  .keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(132px, 100%), 1fr)); gap: 16px 14px; }
-  .key {
-    position: relative; display: flex; flex-direction: column; gap: 10px; text-align: left;
-    margin-bottom: 4px; padding: 24px 12px 12px;
-    border: 1px solid #0b0a09; border-radius: 4px; cursor: pointer;
-    background: linear-gradient(180deg, #45423d, #2a2824);
-    color: var(--cream-soft); font-family: var(--mono);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 4px 0 #0b0a09, 0 8px 10px rgba(0, 0, 0, 0.55);
-    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
-  }
-  .key:hover { background: linear-gradient(180deg, #4e4b46, #2f2d29); }
-  .key.is-on, .key:active {
-    transform: translateY(3px);
-    background: linear-gradient(180deg, #24221f, #2d2a26);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.65), 0 1px 0 #0b0a09, 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  .led {
-    position: absolute; top: 10px; right: 12px; width: 6px; height: 6px; border-radius: 50%;
-    background: #3d2a20; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.6);
-  }
-  .key.is-on .led { background: var(--orange); box-shadow: 0 0 8px 1px rgba(221, 106, 46, 0.85); }
-  .key-val {
-    display: block; padding: 7px 9px; border-radius: 2px; background: #0b0a09;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.07);
-    font-weight: 600; font-size: 1.08rem; letter-spacing: 0.04em; color: #a98650;
+  .pill-val {
+    color: var(--orange); font-weight: 600; font-size: 1.2rem; letter-spacing: 0.03em;
     font-variant-numeric: tabular-nums; white-space: nowrap;
   }
-  .key.is-on .key-val { color: #ffb547; text-shadow: 0 0 8px rgba(255, 181, 71, 0.5); }
-  .key-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft); line-height: 1.35; }
+  .pill-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft); line-height: 1.35; }
 
   .lang-toggle { display: inline-flex; gap: 8px; flex-shrink: 0; }
   .lang-btn {
@@ -142,9 +112,9 @@
   }
   .lang-btn:hover { background: linear-gradient(180deg, #4e4b46, #2f2d29); color: var(--cream); }
   .lang-btn.active, .lang-btn:active {
-    transform: translateY(2px); color: #ffb547;
+    color: #ffb547;
     background: linear-gradient(180deg, #24221f, #2d2a26);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 0 #0b0a09, 0 2px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 3px 0 #0b0a09, 0 5px 7px rgba(0, 0, 0, 0.5);
   }
 
   /* ---------- controls ---------- */
@@ -189,9 +159,9 @@
   }
   .layout-btn:hover { background: linear-gradient(180deg, #4e4b46, #2f2d29); color: var(--cream); }
   .layout-btn.active, .layout-btn:active {
-    transform: translateY(3px); color: #ffb547;
+    color: #ffb547;
     background: linear-gradient(180deg, #24221f, #2d2a26);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.65), 0 1px 0 #0b0a09, 0 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7), 0 4px 0 #0b0a09, 0 8px 10px rgba(0, 0, 0, 0.5);
   }
   .layout-btn.active svg { filter: drop-shadow(0 0 4px rgba(255, 181, 71, 0.55)); }
   .layout-btn svg { width: 15px; height: 15px; fill: currentColor; }
@@ -224,9 +194,9 @@
   }
   .chip:hover { background: linear-gradient(180deg, #4e4b46, #2f2d29); color: var(--cream); }
   .chip.active, .chip:active {
-    transform: translateY(2px); color: var(--cream);
+    color: var(--cream);
     background: linear-gradient(180deg, #24221f, #2d2a26);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 0 #0b0a09, 0 2px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 3px 0 #0b0a09, 0 6px 8px rgba(0, 0, 0, 0.5);
   }
   .chip.active::before { background: var(--chip-c); box-shadow: 0 0 7px 1px color-mix(in srgb, var(--chip-c) 85%, transparent); }
 
@@ -444,8 +414,8 @@
     .search-box { flex: 1 1 100%; max-width: none; order: 1; }
     .sort-select { flex: 1 1 auto; order: 2; }
     .layout-toggle { order: 3; }
-    .deck { padding: 26px 16px 22px; }
-    .key-val { font-size: 0.98rem; }
+    .pill { border-width: 4px; padding: 10px 14px; }
+    .pill-val { font-size: 1.05rem; }
     .field-row { flex-direction: column; gap: 0; }
     .modal-inner { padding: 22px 18px 18px; }
     .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
@@ -566,7 +536,6 @@
     sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
     sortAdded: { ru: "Сортировка: Дата добавления", en: "Sort: Recently added" },
     sortPrice: { ru: "Сортировка: Стоимость", en: "Sort: Value" },
-    keyReset: { ru: "Показать все пластинки", en: "Show all records" },
     layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
     layout2: { ru: "2 в ряду", en: "2 per row" },
     layout3: { ru: "3 в ряду", en: "3 per row" },
@@ -885,18 +854,15 @@
     var years = records.map(function (r) { return r.year; }).filter(Boolean);
     var yearRange = years.length ? (Math.min.apply(null, years) + "–" + Math.max.apply(null, years)) : "—";
     var valueLabel = t("statValue") + (priced < records.length ? " (" + priced + " " + t("countConnector") + " " + records.length + ")" : "");
-    var noFilters = !state.search.trim() && !state.genre && !state.rarity;
     var tiles = [
-      { key: "all", value: records.length, label: t("statRecords"), tip: t("keyReset"), on: noFilters },
-      { key: "artist", value: Object.keys(artists).length, label: t("statArtists"), tip: t("sortArtist"), on: state.sort === "artist" },
-      { key: "year", value: yearRange, label: t("statYears"), tip: t("sortYear"), on: state.sort === "year" },
-      { key: "price", value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel, tip: t("sortPrice"), on: state.sort === "price" }
+      { value: records.length, label: t("statRecords") },
+      { value: Object.keys(artists).length, label: t("statArtists") },
+      { value: yearRange, label: t("statYears") },
+      { value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel }
     ];
-    els.stats.innerHTML = '<div class="deck"><div class="keys">' + tiles.map(function (tile) {
-      return '<button type="button" class="key' + (tile.on ? " is-on" : "") + '" data-key="' + tile.key + '" aria-pressed="' + tile.on + '" title="' + escapeHtml(tile.tip) + '">' +
-        '<span class="led" aria-hidden="true"></span><span class="key-val">' + tile.value + '</span>' +
-        '<span class="key-label">' + tile.label + "</span></button>";
-    }).join("") + "</div></div>";
+    els.stats.innerHTML = '<div class="pills">' + tiles.map(function (tile) {
+      return '<div class="pill"><span class="pill-val">' + tile.value + '</span><span class="pill-label">' + tile.label + "</span></div>";
+    }).join("") + "</div>";
   }
 
   function coverUrl(r) { return r.coverFile || null; }
@@ -1060,8 +1026,8 @@
 
   els.detailCloseBtn.addEventListener("click", function () { els.detailDialog.close(); });
 
-  els.search.addEventListener("input", function () { state.search = els.search.value; renderStats(); renderGrid(); });
-  els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderStats(); renderGrid(); });
+  els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
+  els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderGrid(); });
 
   applyLang();
 })();
