@@ -407,6 +407,8 @@
   .detail-empty { font-size: 0.78rem; color: var(--cream-faint); }
 
   @media (max-width: 999px) {
+    .wrap { overflow-x: hidden; }
+    @supports (overflow-x: clip) { .wrap { overflow-x: clip; } }
     .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; }
     .wordmark { font-size: min(4.3rem, calc((100vw - 40px) / 10.4)); }
     .hero-disc { width: 360px; height: 360px; right: -120px; top: 104px; transform: none; }
