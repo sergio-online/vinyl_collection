@@ -81,7 +81,7 @@
   }
   .hero-disc {
     position: absolute; z-index: 0; pointer-events: none;
-    width: 400px; height: 400px; right: -96px; top: 50%; transform: translateY(-50%);
+    width: 350px; height: 350px; right: -90px; top: 40%; transform: translateY(-50%);
   }
   .hero-disc .disc { fill: var(--indigo); }
   .hero-disc .ring-text {
@@ -109,12 +109,6 @@
     font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft);
   }
   .meta-row .rpm { margin-left: auto; color: var(--orange); white-space: nowrap; }
-  .glyph-row {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 22px; padding: 18px clamp(4px, 5%, 40px);
-    border-block: 1px solid var(--line);
-  }
-  .glyph-row svg { width: 17px; height: 17px; fill: currentColor; display: block; }
 
   /* torn label holding the collection totals, read like a side-A/side-B track list */
   .stats-strip { position: relative; z-index: 1; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.55)); transform: rotate(-0.7deg); }
@@ -142,7 +136,7 @@
   .trk-val.hot { color: var(--paper-hot); }
 
   .lang-toggle {
-    display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line-strong); flex-shrink: 0;
+    display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line-strong); flex-shrink: 0; background: var(--ground);
   }
   .lang-btn {
     padding: 4px 9px; border: none; border-radius: 0; background: transparent;
@@ -414,7 +408,7 @@
     @supports (overflow-x: clip) { .wrap { overflow-x: clip; } }
     .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; }
     .wordmark { font-size: min(4.3rem, calc((100vw - 40px) / 10.4)); }
-    .hero-disc { width: 360px; height: 360px; right: -120px; top: 104px; transform: none; }
+    .hero-disc { width: 360px; height: 360px; right: -120px; top: 96px; transform: none; }
     .stats-strip { transform: rotate(-0.5deg); }
   }
   @media (max-width: 640px) {
@@ -429,7 +423,6 @@
     .sort-select { flex: 1 1 auto; order: 2; }
     .layout-toggle { order: 3; }
     .scrap { padding: 24px 20px 22px; }
-    .glyph-row { padding-inline: 4px; }
     .field-row { flex-direction: column; gap: 0; }
     .modal-inner { padding: 22px 18px 18px; }
     .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
@@ -466,14 +459,6 @@
           <button type="button" class="lang-btn" data-lang="en">EN</button>
           <button type="button" class="lang-btn" data-lang="ru">RU</button>
         </div>
-      </div>
-      <div class="glyph-row" aria-hidden="true">
-        <svg style="color:var(--g-blue)" viewBox="0 0 16 16"><use href="#g-playpause"></use></svg>
-        <svg style="color:var(--g-rose)" viewBox="0 0 16 16"><use href="#g-stop"></use></svg>
-        <svg style="color:var(--g-amber)" viewBox="0 0 16 16"><use href="#g-play"></use></svg>
-        <svg style="color:var(--g-pink)" viewBox="0 0 16 16"><use href="#g-pause"></use></svg>
-        <svg style="color:var(--g-orange)" viewBox="0 0 16 16"><use href="#g-ff"></use></svg>
-        <svg style="color:var(--g-red)" viewBox="0 0 16 16"><use href="#g-next"></use></svg>
       </div>
     </div>
 
