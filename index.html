@@ -29,13 +29,9 @@
     --g-orange: #d8692b;
     --g-pink: #c0468a;
     --g-red: #d24a40;
-    --paper: #b1a68f;
-    --paper-ink: #1d1a16;
-    --paper-hot: #8c3210;
     --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --wide: "Krona One", "Eurostile", "Arial Black", Verdana, sans-serif;
     --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .88 0 0 0 0 .8 0 0 0 1.2 -.42'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-    --grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .18 0 0 0 0 .1 0 0 0 1.1 -.4'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
     color-scheme: dark;
   }
 
@@ -108,38 +104,58 @@
     margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--line-strong);
     font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft);
   }
-  .meta-row .rpm { margin-left: auto; color: var(--orange); white-space: nowrap; }
+  .meta-row .lang-toggle { margin-left: auto; }
 
-  /* torn label holding the collection totals, read like a side-A/side-B track list */
-  .stats-strip { position: relative; z-index: 1; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.55)); transform: rotate(-0.7deg); }
+  /* record-player control deck: the four totals are keys you can press */
+  .stats-strip { position: relative; z-index: 1; }
   .stats-strip:empty { display: none; }
-  .scrap {
-    padding: 30px 32px 28px;
+  .deck {
+    position: relative; padding: 30px 26px 26px;
+    border: 1px solid var(--brass-dim);
     background:
-      var(--grain-dark),
-      linear-gradient(180deg, rgba(20, 14, 6, 0.16), rgba(20, 14, 6, 0.02) 35%, rgba(20, 14, 6, 0.2)),
-      var(--paper);
-    color: var(--paper-ink);
-    clip-path: polygon(
-      0 5px, 5% 1px, 10% 6px, 17% 2px, 25% 7px, 32% 3px, 40% 6px, 48% 0, 56% 5px, 63% 2px, 71% 7px, 79% 3px, 87% 6px, 94% 1px, 100% 5px,
-      99.4% 34%, 100% 66%, 99.5% calc(100% - 6px),
-      94% calc(100% - 1px), 87% calc(100% - 6px), 79% calc(100% - 2px), 71% calc(100% - 7px), 63% calc(100% - 3px), 55% calc(100% - 6px), 47% calc(100% - 1px), 39% calc(100% - 7px), 31% calc(100% - 2px), 23% calc(100% - 6px), 15% calc(100% - 1px), 8% calc(100% - 5px), 0 calc(100% - 2px),
-      0.5% 64%, 0 32%
-    );
+      radial-gradient(circle at 12px 12px, #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
+      radial-gradient(circle at calc(100% - 12px) 12px, #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
+      radial-gradient(circle at 12px calc(100% - 12px), #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
+      radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #7a746b 0 2px, #141311 2.6px 4px, transparent 4.5px),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
+      linear-gradient(180deg, #34312d, #1f1e1b);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 18px 30px -10px rgba(0, 0, 0, 0.85);
   }
-  .trk-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 8px 40px; }
-  .trk { display: flex; align-items: baseline; gap: 9px; padding: 4px 0; font-size: 1rem; }
-  .trk-pos { color: var(--paper-hot); font-weight: 600; font-size: 0.86rem; flex-shrink: 0; }
-  .trk-name { min-width: 0; }
-  .trk-dots { flex: 1 1 12px; min-width: 12px; border-bottom: 1px dotted rgba(29, 26, 22, 0.45); transform: translateY(-3px); }
-  .trk-val { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .trk-val.hot { color: var(--paper-hot); }
+  .keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(132px, 100%), 1fr)); gap: 16px 14px; }
+  .key {
+    position: relative; display: flex; flex-direction: column; gap: 10px; text-align: left;
+    margin-bottom: 4px; padding: 24px 12px 12px;
+    border: 1px solid #0b0a09; border-radius: 4px; cursor: pointer;
+    background: linear-gradient(180deg, #45423d, #2a2824);
+    color: var(--cream-soft); font-family: var(--mono);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 4px 0 #0b0a09, 0 8px 10px rgba(0, 0, 0, 0.55);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+  }
+  .key:hover { background: linear-gradient(180deg, #4e4b46, #2f2d29); }
+  .key.is-on, .key:active {
+    transform: translateY(3px);
+    background: linear-gradient(180deg, #24221f, #2d2a26);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.65), 0 1px 0 #0b0a09, 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  .led {
+    position: absolute; top: 10px; right: 12px; width: 6px; height: 6px; border-radius: 50%;
+    background: #3d2a20; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.6);
+  }
+  .key.is-on .led { background: var(--orange); box-shadow: 0 0 8px 1px rgba(221, 106, 46, 0.85); }
+  .key-val {
+    display: block; padding: 7px 9px; border-radius: 2px; background: #0b0a09;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.07);
+    font-weight: 600; font-size: 1.08rem; letter-spacing: 0.04em; color: #a98650;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .key.is-on .key-val { color: #ffb547; text-shadow: 0 0 8px rgba(255, 181, 71, 0.5); }
+  .key-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft); line-height: 1.35; }
 
   .lang-toggle {
     display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line-strong); flex-shrink: 0; background: var(--ground);
   }
   .lang-btn {
-    padding: 4px 9px; border: none; border-radius: 0; background: transparent;
+    padding: 4px 9px; border: none; border-radius: 0; background: var(--ground);
     color: var(--cream-faint); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; cursor: pointer;
     transition: background 0.12s ease, color 0.12s ease;
   }
@@ -408,8 +424,8 @@
     @supports (overflow-x: clip) { .wrap { overflow-x: clip; } }
     .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; }
     .wordmark { font-size: min(4.3rem, calc((100vw - 40px) / 10.4)); }
-    .hero-disc { width: 360px; height: 360px; right: -120px; top: 96px; transform: none; }
-    .stats-strip { transform: rotate(-0.5deg); }
+    .hero { margin-bottom: 58px; }
+    .hero-disc { width: 300px; height: 300px; right: -100px; top: 50px; transform: none; }
   }
   @media (max-width: 640px) {
     .grid { gap: 28px 14px; }
@@ -422,7 +438,8 @@
     .search-box { flex: 1 1 100%; max-width: none; order: 1; }
     .sort-select { flex: 1 1 auto; order: 2; }
     .layout-toggle { order: 3; }
-    .scrap { padding: 24px 20px 22px; }
+    .deck { padding: 26px 16px 22px; }
+    .key-val { font-size: 0.98rem; }
     .field-row { flex-direction: column; gap: 0; }
     .modal-inner { padding: 22px 18px 18px; }
     .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
@@ -454,7 +471,6 @@
       <h1 class="wordmark" aria-label="THE JUKEBOX"><span aria-hidden="true">THE JUKEB<span class="o"><svg viewBox="0 0 16 16"><use href="#g-ff"></use></svg></span>X</span></h1>
       <div class="meta-row">
         <span id="heroTag">коллекция винила</span>
-        <span class="rpm">33⅓ RPM</span>
         <div class="lang-toggle" role="group" aria-label="Language">
           <button type="button" class="lang-btn" data-lang="en">EN</button>
           <button type="button" class="lang-btn" data-lang="ru">RU</button>
@@ -473,6 +489,7 @@
       <option value="artist">Сортировка: Исполнитель А–Я</option>
       <option value="genre">Сортировка: Жанр</option>
       <option value="year">Сортировка: Год</option>
+      <option value="price">Сортировка: Стоимость</option>
     </select>
     <div class="layout-toggle" role="group" aria-label="Плиток в ряду">
       <button type="button" class="layout-btn" data-cols="2" title="2 в ряду" aria-label="2 в ряду">
@@ -560,6 +577,8 @@
     sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
     sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
     sortAdded: { ru: "Сортировка: Дата добавления", en: "Sort: Recently added" },
+    sortPrice: { ru: "Сортировка: Стоимость", en: "Sort: Value" },
+    keyReset: { ru: "Показать все пластинки", en: "Show all records" },
     layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
     layout2: { ru: "2 в ряду", en: "2 per row" },
     layout3: { ru: "3 в ряду", en: "3 per row" },
@@ -786,9 +805,8 @@
     document.getElementById("heroTag").textContent = t("heroTag");
     document.getElementById("footEnd").textContent = t("footEnd");
     els.search.placeholder = t("searchPlaceholder");
-    els.sort.options[0].textContent = t("sortArtist");
-    els.sort.options[1].textContent = t("sortGenre");
-    els.sort.options[2].textContent = t("sortYear");
+    var sortKeys = { artist: "sortArtist", genre: "sortGenre", year: "sortYear", added: "sortAdded", price: "sortPrice" };
+    Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(sortKeys[o.value]); });
     els.layoutBtns.forEach(function (btn) {
       var label = t("layout" + btn.dataset.cols);
       btn.title = label;
@@ -815,6 +833,9 @@
       }
       if (state.sort === "year") {
         return (b.year || 0) - (a.year || 0);
+      }
+      if (state.sort === "price") {
+        return (parsePrice(b.price) || 0) - (parsePrice(a.price) || 0) || compareNames(a.artist, b.artist);
       }
       if (state.sort === "added") {
         return (b.addedAt || "").localeCompare(a.addedAt || "");
@@ -877,15 +898,17 @@
     var years = records.map(function (r) { return r.year; }).filter(Boolean);
     var yearRange = years.length ? (Math.min.apply(null, years) + "–" + Math.max.apply(null, years)) : "—";
     var valueLabel = t("statValue") + (priced < records.length ? " (" + priced + " " + t("countConnector") + " " + records.length + ")" : "");
+    var noFilters = !state.search.trim() && !state.genre && !state.rarity;
     var tiles = [
-      { pos: "A1", value: records.length, label: t("statRecords") },
-      { pos: "A2", value: Object.keys(artists).length, label: t("statArtists") },
-      { pos: "B1", value: yearRange, label: t("statYears") },
-      { pos: "B2", value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel, accent: true }
+      { key: "all", value: records.length, label: t("statRecords"), tip: t("keyReset"), on: noFilters },
+      { key: "artist", value: Object.keys(artists).length, label: t("statArtists"), tip: t("sortArtist"), on: state.sort === "artist" },
+      { key: "year", value: yearRange, label: t("statYears"), tip: t("sortYear"), on: state.sort === "year" },
+      { key: "price", value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel, tip: t("sortPrice"), on: state.sort === "price" }
     ];
-    els.stats.innerHTML = '<div class="scrap"><div class="trk-cols">' + tiles.map(function (tile) {
-      return '<div class="trk"><span class="trk-pos">' + tile.pos + '</span><span class="trk-name">' + tile.label + "</span>" +
-        '<i class="trk-dots"></i><span class="trk-val' + (tile.accent ? " hot" : "") + '">' + tile.value + "</span></div>";
+    els.stats.innerHTML = '<div class="deck"><div class="keys">' + tiles.map(function (tile) {
+      return '<button type="button" class="key' + (tile.on ? " is-on" : "") + '" data-key="' + tile.key + '" aria-pressed="' + tile.on + '" title="' + escapeHtml(tile.tip) + '">' +
+        '<span class="led" aria-hidden="true"></span><span class="key-val">' + tile.value + '</span>' +
+        '<span class="key-label">' + tile.label + "</span></button>";
     }).join("") + "</div></div>";
   }
 
@@ -1050,8 +1073,8 @@
 
   els.detailCloseBtn.addEventListener("click", function () { els.detailDialog.close(); });
 
-  els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
-  els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderGrid(); });
+  els.search.addEventListener("input", function () { state.search = els.search.value; renderStats(); renderGrid(); });
+  els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderStats(); renderGrid(); });
 
   applyLang();
 })();
