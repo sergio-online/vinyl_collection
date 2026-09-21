@@ -65,15 +65,6 @@
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 430px);
     gap: 32px; align-items: center;
   }
-  .hero-disc {
-    position: absolute; z-index: 0; pointer-events: none;
-    width: 350px; height: 350px; right: -90px; top: 40%; transform: translateY(-50%);
-  }
-  .hero-disc .disc { fill: var(--indigo); }
-  .hero-disc .ring-text {
-    font-family: var(--mono); font-size: 14.5px; letter-spacing: 0.3em; fill: var(--cream-soft); opacity: 0.7;
-    text-transform: lowercase;
-  }
   .hero-main { position: relative; z-index: 1; min-width: 0; }
   .wordmark {
     font-family: var(--wide); font-weight: 400; color: var(--cream);
@@ -439,12 +430,8 @@
   .detail-empty { font-size: 0.78rem; color: var(--cream-faint); }
 
   @media (max-width: 999px) {
-    .wrap { overflow-x: hidden; }
-    @supports (overflow-x: clip) { .wrap { overflow-x: clip; } }
     .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; }
     .wordmark { font-size: min(4.3rem, calc((100vw - 40px) / 10.4)); }
-    .hero { margin-bottom: 58px; }
-    .hero-disc { width: 300px; height: 300px; right: -100px; top: 50px; transform: none; }
   }
   @media (max-width: 640px) {
     .grid { gap: 28px 14px; }
@@ -480,12 +467,6 @@
 
 <div class="wrap">
   <header class="hero">
-    <svg class="hero-disc" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
-      <defs><path id="ringPath" d="M300,300 m-268,0 a268,268 0 1,1 536,0 a268,268 0 1,1 -536,0"></path></defs>
-      <circle class="disc" cx="300" cy="300" r="212"></circle>
-      <text class="ring-text"><textPath href="#ringPath" textLength="1680" lengthAdjust="spacing">33⅓ rpm · side a · side b · 45 rpm · play · pause · skip · rewind · 33⅓ rpm · side a · side b · 45 rpm · play · pause · skip ·</textPath></text>
-    </svg>
-
     <div class="hero-main">
       <h1 class="wordmark" aria-label="THE JUKEBOX"><span aria-hidden="true">THE JUKEB<span class="o"><svg viewBox="0 0 16 16"><use href="#g-ff"></use></svg></span>X</span></h1>
       <div class="meta-row">
