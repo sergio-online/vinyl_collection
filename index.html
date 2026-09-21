@@ -3,163 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Коллекция винила</title>
+<title>THE JUKEBOX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Krona+One&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f2ead9;
-    --paper-raised: #fbf7ee;
-    --ink: #241d15;
-    --ink-soft: #7a6d59;
-    --ink-faint: #a89a82;
-    --line: #ddcfb3;
-    --accent: #c9631f;
-    --accent-strong: #a04f16;
-    --accent-ink: #fff7ec;
-    --accent2: #2c6b64;
-    --shadow: rgba(48, 34, 12, 0.16);
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper: #171310;
-      --paper-raised: #221c15;
-      --ink: #f1e6d3;
-      --ink-soft: #b6a688;
-      --ink-faint: #7d715c;
-      --line: #3b3225;
-      --accent: #e08a3e;
-      --accent-strong: #f2a15b;
-      --accent-ink: #201004;
-      --accent2: #5aa89f;
-      --shadow: rgba(0, 0, 0, 0.55);
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --paper: #171310;
-    --paper-raised: #221c15;
-    --ink: #f1e6d3;
-    --ink-soft: #b6a688;
-    --ink-faint: #7d715c;
-    --line: #3b3225;
-    --accent: #e08a3e;
-    --accent-strong: #f2a15b;
-    --accent-ink: #201004;
-    --accent2: #5aa89f;
-    --shadow: rgba(0, 0, 0, 0.55);
+    --ground: #171716;
+    --ground-2: #1f1e1c;
+    --cream: #e7ddcc;
+    --cream-soft: #b0a797;
+    --cream-faint: #857d6f;
+    --line: #2f2c28;
+    --line-strong: #4a463e;
+    --orange: #dd6a2e;
+    --orange-ink: #1a0e06;
+    --indigo: #26236b;
+    --brass: #b58a4c;
+    --brass-dim: #7d5f33;
+    --danger: #e0574a;
+    --danger-ink: #1c0906;
+    --g-blue: #5a5fd0;
+    --g-rose: #c25563;
+    --g-amber: #dc9b2c;
+    --g-orange: #d8692b;
+    --g-pink: #c0468a;
+    --g-red: #d24a40;
+    --paper: #e3d8c4;
+    --paper-ink: #1d1a16;
+    --paper-hot: #a83f14;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --wide: "Krona One", "Eurostile", "Arial Black", Verdana, sans-serif;
+    --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .88 0 0 0 0 .8 0 0 0 1.2 -.42'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    --grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .18 0 0 0 0 .1 0 0 0 1.1 -.4'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
     color-scheme: dark;
   }
 
   * { box-sizing: border-box; }
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Work Sans", system-ui, sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    background: var(--ground);
+    color: var(--cream);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    line-height: 1.5;
     min-height: 100vh;
   }
-  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; }
-  ::selection { background: var(--accent); color: var(--accent-ink); }
+  /* poster stock: fold creases + paper grain, printed once over the whole page height */
+  body::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(120% 50% at 50% 0%, rgba(255, 244, 225, 0.05), transparent 70%),
+      linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, 0.045) calc(50% - 0.5px), rgba(0, 0, 0, 0.4) calc(50% + 0.5px), transparent calc(50% + 2px)),
+      linear-gradient(180deg, transparent calc(34% - 1px), rgba(255, 255, 255, 0.04) 34%, rgba(0, 0, 0, 0.35) calc(34% + 1.5px), transparent calc(34% + 3px)),
+      linear-gradient(180deg, transparent calc(72% - 1px), rgba(255, 255, 255, 0.035) 72%, rgba(0, 0, 0, 0.35) calc(72% + 1.5px), transparent calc(72% + 3px));
+  }
+  body::after {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: var(--grain-light); opacity: 0.1;
+  }
+  h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
+  ::selection { background: var(--orange); color: var(--orange-ink); }
   button { font-family: inherit; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  :focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 64px; }
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 30px 24px 56px; }
 
-  header.top {
+  /* ---------- hero: wordmark, media-key row, torn label ---------- */
+  .hero {
+    position: relative; z-index: 0; margin-bottom: 44px;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 430px);
+    gap: 32px; align-items: center;
+  }
+  .hero-disc {
+    position: absolute; z-index: 0; pointer-events: none;
+    width: 400px; height: 400px; right: -96px; top: 50%; transform: translateY(-50%);
+  }
+  .hero-disc .disc { fill: var(--indigo); }
+  .hero-disc .ring-text {
+    font-family: var(--mono); font-size: 14.5px; letter-spacing: 0.3em; fill: var(--cream-soft); opacity: 0.7;
+    text-transform: lowercase;
+  }
+  .hero-main { position: relative; z-index: 1; min-width: 0; }
+  .wordmark {
+    font-family: var(--wide); font-weight: 400; color: var(--cream);
+    font-size: min(4.3rem, calc((min(100vw, 1180px) - 510px) / 10.2)); line-height: 1.05;
+    letter-spacing: 0.04em; word-spacing: 0.18em; white-space: nowrap;
+  }
+  .wordmark .o {
+    position: relative; display: inline-block; vertical-align: baseline;
+    width: 1.3em; height: 0.74em; margin: 0 0.05em;
+    border: 0.12em solid var(--cream); border-radius: 999px;
+  }
+  .wordmark .o svg {
+    position: absolute; left: 50%; top: 50%; width: 0.5em; height: 0.34em;
+    transform: translate(-50%, -50%); fill: var(--orange);
+  }
+  .meta-row {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--line-strong);
+    font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft);
+  }
+  .meta-row .rpm { margin-left: auto; color: var(--orange); white-space: nowrap; }
+  .glyph-row {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 20px; flex-wrap: wrap;
-    padding-bottom: 22px; margin-bottom: 22px;
-    border-bottom: 1px solid var(--line);
+    margin-top: 22px; padding: 18px clamp(4px, 5%, 40px);
+    border-block: 1px solid var(--line);
   }
-  .brand { display: flex; align-items: center; gap: 14px; }
-  .label-badge {
-    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
-    background:
-      radial-gradient(circle at 50% 50%, var(--paper) 0 4px, transparent 4.5px),
-      conic-gradient(from 90deg, var(--accent-strong), var(--accent) 40%, var(--accent-strong) 75%, var(--accent));
-    box-shadow: 0 2px 6px var(--shadow);
-  }
-  .brand h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: 0.015em; }
+  .glyph-row svg { width: 17px; height: 17px; fill: currentColor; display: block; }
 
-  .controls {
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    margin-bottom: 18px;
+  /* torn label holding the collection totals, read like a side-A/side-B track list */
+  .stats-strip { position: relative; z-index: 1; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.55)); transform: rotate(-0.7deg); }
+  .stats-strip:empty { display: none; }
+  .scrap {
+    padding: 30px 32px 28px;
+    background: var(--grain-dark), var(--paper);
+    color: var(--paper-ink);
+    clip-path: polygon(
+      0 5px, 5% 1px, 10% 6px, 17% 2px, 25% 7px, 32% 3px, 40% 6px, 48% 0, 56% 5px, 63% 2px, 71% 7px, 79% 3px, 87% 6px, 94% 1px, 100% 5px,
+      99.4% 34%, 100% 66%, 99.5% calc(100% - 6px),
+      94% calc(100% - 1px), 87% calc(100% - 6px), 79% calc(100% - 2px), 71% calc(100% - 7px), 63% calc(100% - 3px), 55% calc(100% - 6px), 47% calc(100% - 1px), 39% calc(100% - 7px), 31% calc(100% - 2px), 23% calc(100% - 6px), 15% calc(100% - 1px), 8% calc(100% - 5px), 0 calc(100% - 2px),
+      0.5% 64%, 0 32%
+    );
   }
-  .search-box {
-    position: relative; flex: 0 1 170px; max-width: 200px;
+  .trk-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 8px 40px; }
+  .trk { display: flex; align-items: baseline; gap: 9px; padding: 4px 0; font-size: 1rem; }
+  .trk-pos { color: var(--paper-hot); font-weight: 600; font-size: 0.86rem; flex-shrink: 0; }
+  .trk-name { min-width: 0; }
+  .trk-dots { flex: 1 1 12px; min-width: 12px; border-bottom: 1px dotted rgba(29, 26, 22, 0.45); transform: translateY(-3px); }
+  .trk-val { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .trk-val.hot { color: var(--paper-hot); }
+
+  .lang-toggle {
+    display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line-strong); flex-shrink: 0;
   }
+  .lang-btn {
+    padding: 4px 9px; border: none; border-radius: 0; background: transparent;
+    color: var(--cream-faint); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .lang-btn:hover { color: var(--cream); }
+  .lang-btn.active { background: var(--cream); color: var(--ground); }
+
+  /* ---------- controls ---------- */
+  .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
+  .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .search-box { position: relative; flex: 1 1 170px; }
   .search-box input {
-    width: 100%; padding: 8px 12px 8px 30px; border-radius: 7px;
-    border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink);
-    font-size: 0.88rem;
+    width: 100%; padding: 10px 12px 10px 30px; border-radius: 0;
+    border: 1px solid var(--line-strong); background: rgba(0, 0, 0, 0.22); color: var(--cream);
+    font: 500 0.78rem var(--mono); letter-spacing: 0.05em;
   }
+  .search-box input::placeholder { color: var(--cream-faint); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.7rem; }
+  .search-box input:focus { border-color: var(--orange); outline: none; }
   .search-box::before {
-    content: "⌕"; position: absolute; left: 11px; top: 50%; transform: translateY(-52%);
-    color: var(--ink-faint); font-size: 1rem; pointer-events: none;
+    content: "/"; position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    color: var(--orange); font-weight: 600; pointer-events: none;
   }
   select.sort-select {
-    padding: 9px 12px; border-radius: 7px; border: 1px solid var(--line);
-    background: var(--paper-raised); color: var(--ink); font-size: 0.88rem;
+    flex: 1 1 170px; appearance: none; -webkit-appearance: none; border-radius: 0;
+    padding: 10px 32px 10px 12px; border: 1px solid var(--line-strong); color: var(--cream);
+    background: rgba(0, 0, 0, 0.22) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23b0a797'/%3E%3C/svg%3E") no-repeat right 12px center;
+    font: 500 0.7rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase;
   }
-  .count-tag {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.75rem; color: var(--ink-faint);
-    margin-left: auto;
-  }
-
-  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
-  #genreChips { margin-bottom: 14px; }
-  #rarityChips { border-top: 1px solid var(--line); padding-top: 14px; }
-  .chip {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line);
-    background: var(--paper-raised); color: var(--ink-soft);
-    font-size: 0.8rem; cursor: pointer; user-select: none;
-    transition: border-color 0.12s ease, color 0.12s ease;
-  }
-  .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
-  .chip.active { color: var(--ink); border-color: currentColor; font-weight: 500; }
-  .chip:hover { border-color: var(--ink-faint); }
-
-  .grid {
-    display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr);
-    gap: 22px 18px;
-  }
-  .layout-toggle {
-    display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px;
-    border: 1px solid var(--line); background: var(--paper-raised);
-  }
+  select.sort-select:focus { border-color: var(--orange); outline: none; }
+  select option { background: var(--ground-2); color: var(--cream); }
+  .layout-toggle { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line-strong); background: var(--ground); }
   .layout-btn {
-    width: 32px; height: 28px; display: flex; align-items: center; justify-content: center;
-    border: none; border-radius: 5px; background: transparent; color: var(--ink-faint);
+    width: 34px; height: 30px; display: flex; align-items: center; justify-content: center;
+    border: none; border-radius: 0; background: transparent; color: var(--cream-faint);
     cursor: pointer; transition: background 0.12s ease, color 0.12s ease;
   }
-  .layout-btn:hover { color: var(--ink-soft); }
-  .layout-btn.active { background: var(--paper); color: var(--accent); box-shadow: inset 0 0 0 1px var(--line); }
+  .layout-btn:hover { color: var(--cream); }
+  .layout-btn.active { background: var(--cream); color: var(--ground); }
   .layout-btn svg { width: 15px; height: 15px; fill: currentColor; }
   @media (max-width: 640px) {
     .layout-toggle { display: none; }
   }
-  .card {
-    position: relative; display: flex; flex-direction: column; cursor: pointer;
+  .count-tag {
+    display: block; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cream-faint); text-align: right; margin-bottom: 22px; font-variant-numeric: tabular-nums;
   }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  #genreChips { margin-bottom: 14px; }
+  #rarityChips { border-top: 1px dashed var(--line-strong); padding-top: 14px; margin-bottom: 16px; }
+  .chip {
+    --chip-c: var(--orange);
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 11px; border: 1px solid var(--line-strong); border-radius: 0;
+    background: transparent; color: var(--cream-soft);
+    font: 500 0.66rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; user-select: none;
+    transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+  }
+  .chip .glyph { width: 11px; height: 11px; fill: var(--chip-c); flex-shrink: 0; }
+  .chip:hover { border-color: var(--cream-faint); color: var(--cream); }
+  .chip.active {
+    color: var(--cream); border-color: var(--chip-c);
+    background: color-mix(in srgb, var(--chip-c) 16%, transparent);
+  }
+
+  /* ---------- record grid ---------- */
+  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 36px 22px; }
+  .card { position: relative; display: flex; flex-direction: column; cursor: pointer; }
   .cover-wrap {
-    position: relative; aspect-ratio: 1 / 1; border-radius: 7px; overflow: hidden;
-    border: 1px solid var(--line); background: var(--paper-raised);
-    box-shadow: 0 3px 10px var(--shadow);
+    position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 1px;
+    border: 1px solid var(--line-strong); background: var(--ground-2);
+    box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.85);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
   }
+  .card:hover .cover-wrap { transform: translateY(-3px); border-color: var(--brass); box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.9); }
   .cover-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cover-hint {
     position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    background: color-mix(in srgb, var(--paper-raised) 70%, transparent);
-    border: 1px solid var(--line); box-shadow: 0 2px 6px var(--shadow);
-    color: var(--ink-soft); opacity: 0; transition: opacity 0.15s ease;
-    pointer-events: none;
+    background: color-mix(in srgb, var(--ground) 70%, transparent);
+    border: 1px solid var(--line-strong);
+    color: var(--cream); opacity: 0; transition: opacity 0.15s ease; pointer-events: none;
   }
   .card:hover .cover-hint, .card:focus-visible .cover-hint { opacity: 1; }
   .cover-hint svg { width: 14px; height: 14px; }
@@ -169,171 +234,246 @@
   .cover-placeholder {
     width: 100%; height: 100%;
     background:
-      radial-gradient(circle at 50% 50%, var(--paper) 0 6%, transparent 6.5%),
-      repeating-radial-gradient(circle at 50% 50%, var(--line) 0 1.5px, transparent 1.5px 9px);
+      radial-gradient(circle at 50% 50%, var(--ground) 0 6%, transparent 6.5%),
+      repeating-radial-gradient(circle at 50% 50%, var(--line-strong) 0 1px, transparent 1px 8px);
     display: flex; align-items: center; justify-content: center;
   }
   .cover-placeholder span {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.62rem; color: var(--ink-faint);
-    background: var(--paper-raised); padding: 3px 8px; border-radius: 4px;
-    border: 1px solid var(--line);
+    font-size: 0.58rem; letter-spacing: 0.12em; color: var(--cream-faint);
+    background: var(--ground-2); padding: 3px 8px; border: 1px solid var(--line-strong);
   }
-  .card-tags { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+
+  .card-meta { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .card-artist {
+    font-size: 0.78rem; font-weight: 600; line-height: 1.35; letter-spacing: 0.07em;
+    text-transform: uppercase; overflow-wrap: anywhere;
+  }
+  .card-album { font-size: 0.8rem; color: var(--cream-soft); margin-top: 2px; overflow-wrap: anywhere; }
+  .card-sub {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 0 7px; margin-top: 8px;
+    font-size: 0.66rem; color: var(--cream-faint); letter-spacing: 0.04em;
+  }
+  .card-sub span + span::before { content: "·"; margin-right: 7px; color: var(--line-strong); }
+  .card-sub .px { color: var(--orange); }
+  .card-tags { display: flex; align-items: center; gap: 7px; margin-top: 8px; }
   .edition-badge {
-    display: inline-block;
-    font-family: "IBM Plex Mono", monospace; font-size: 0.58rem; font-weight: 500;
-    letter-spacing: 0.04em; text-transform: uppercase;
-    padding: 3px 7px; border-radius: 4px; line-height: 1.3;
-    background: var(--paper-raised); border: 1px solid var(--line); color: var(--ink-faint);
+    display: inline-block; font-size: 0.56rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 7px; border: 1px solid var(--line-strong); color: var(--cream-faint); line-height: 1.3;
   }
   .vinyl-icon { display: inline-flex; flex-shrink: 0; cursor: default; }
   .vinyl-icon svg { display: block; }
-
-  .card-meta { padding: 10px 2px 0; }
-  .card-artist { font-size: 1rem; font-weight: 600; line-height: 1.25; }
-  .card-album { font-size: 0.86rem; font-style: italic; color: var(--ink-soft); margin-top: 1px; }
-  .card-sub {
-    display: flex; align-items: center; gap: 7px; margin-top: 6px;
-    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--ink-faint);
-    letter-spacing: 0.02em;
-  }
 
   .empty-state {
     grid-column: 1 / -1;
     display: flex; flex-direction: column; align-items: center; text-align: center;
     padding: 70px 20px; gap: 16px;
   }
-  .empty-state h2 { font-size: 1.5rem; font-weight: 600; }
-  .empty-state p { max-width: 380px; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.5; }
+  .empty-badge {
+    position: relative; width: 110px; height: 110px; border-radius: 50%; background: var(--indigo);
+  }
+  .empty-badge::after {
+    content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-30%, -50%);
+    border-left: 24px solid var(--orange); border-block: 14px solid transparent;
+  }
+  .empty-state h2 { font-size: 0.95rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .empty-state p { max-width: 400px; color: var(--cream-soft); font-size: 0.82rem; line-height: 1.6; margin: 0; }
 
+  .banner {
+    border: 1px dashed var(--orange); padding: 12px 16px; font-size: 0.78rem;
+    color: var(--cream-soft); margin-bottom: 20px;
+  }
+
+  .foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-top: 56px; padding-top: 12px; border-top: 1px solid var(--line-strong);
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-faint);
+  }
+  .foot .end { display: inline-flex; align-items: center; gap: 9px; color: var(--cream-soft); }
+  .foot .end svg { width: 12px; height: 12px; fill: var(--g-red); }
+
+  /* ---------- dialogs: black body, brass trim ---------- */
   dialog.modal {
-    border: none; border-radius: 12px; padding: 0; width: min(460px, 92vw);
-    background: var(--paper-raised); color: var(--ink);
-    box-shadow: 0 18px 50px var(--shadow);
+    border: 1px solid var(--brass-dim); border-radius: 0; padding: 0; width: min(480px, 92vw);
+    background: var(--ground-2); color: var(--cream);
+    box-shadow: 0 0 0 3px var(--ground), 0 0 0 4px var(--brass-dim), 0 30px 90px rgba(0, 0, 0, 0.8);
   }
-  dialog.modal::backdrop { background: rgba(20, 14, 6, 0.45); }
+  dialog.modal::backdrop { background: rgba(8, 8, 7, 0.78); }
+  .modal-inner { padding: 26px 26px 22px; }
+  .modal-inner h2 {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.86rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .modal-inner h2::before {
+    content: ""; flex-shrink: 0; border-left: 9px solid var(--orange); border-block: 5.5px solid transparent;
+  }
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--cream-faint); margin-bottom: 6px;
+  }
+  .field input[type="text"], .field input[type="number"], .field select, .field textarea {
+    width: 100%; padding: 9px 11px; border-radius: 0; border: 1px solid var(--line-strong);
+    background: var(--ground); color: var(--cream); font: 400 0.84rem var(--mono);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--orange); outline: none; }
+  .field textarea { resize: vertical; line-height: 1.5; }
+  .field-row { display: flex; gap: 12px; }
+  .field-row .field { flex: 1; }
+  .file-row { display: flex; align-items: center; gap: 10px; }
+  .file-row input[type="file"] { font: 400 0.76rem var(--mono); color: var(--cream-soft); flex: 1; min-width: 0; }
+  .cover-preview { width: 46px; height: 46px; object-fit: cover; border: 1px solid var(--line-strong); flex-shrink: 0; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+  .btn-ghost, .btn-primary {
+    padding: 10px 16px; border-radius: 0; cursor: pointer;
+    font: 600 0.68rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .btn-ghost { background: transparent; border: 1px solid var(--line-strong); color: var(--cream-soft); }
+  .btn-ghost:hover { color: var(--cream); border-color: var(--cream-faint); }
+  .btn-primary { background: var(--orange); color: var(--orange-ink); border: 1px solid var(--orange); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-primary:disabled { opacity: 0.6; cursor: default; }
+  .btn-danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, transparent); }
+  .btn-danger-solid { background: var(--danger); border-color: var(--danger); color: var(--danger-ink); }
+  .confirm-dialog { width: min(380px, 90vw); }
+  .confirm-message { font-size: 0.8rem; color: var(--cream-soft); line-height: 1.6; margin: 0; }
+  .required-hint { font-size: 0.66rem; color: var(--cream-faint); margin-top: 6px; }
 
-  .stats-strip {
-    display: flex; flex-wrap: wrap;
-    border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
-    background: var(--paper-raised); box-shadow: 0 2px 8px var(--shadow);
-    margin-bottom: 24px;
-  }
-  .stat-tile {
-    flex: 1 1 150px; padding: 13px 18px;
-    border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  }
-  .stat-tile:last-child { border-right: none; }
-  .stat-value {
-    font-family: "Fraunces", Georgia, serif; font-weight: 600;
-    font-size: 1.55rem; line-height: 1.15; font-variant-numeric: tabular-nums;
-  }
-  .stat-value.accent { color: var(--accent); }
-  .stat-label {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; text-transform: uppercase;
-    letter-spacing: 0.07em; color: var(--ink-faint); margin-top: 3px;
-  }
-
-  .lang-toggle {
-    display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px;
-    border: 1px solid var(--line); background: var(--paper-raised); flex-shrink: 0;
-  }
-  .lang-btn {
-    padding: 5px 10px; border: none; border-radius: 5px; background: transparent;
-    color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
-    font-weight: 500; letter-spacing: 0.03em; cursor: pointer;
-    transition: background 0.12s ease, color 0.12s ease;
-  }
-  .lang-btn:hover { color: var(--ink-soft); }
-  .lang-btn.active { background: var(--paper); color: var(--accent); box-shadow: inset 0 0 0 1px var(--line); }
-
-  .detail-dialog { width: min(640px, 94vw); max-height: 86vh; padding: 0; }
+  .detail-dialog { width: min(660px, 94vw); max-height: 86vh; padding: 0; }
   .detail-inner { display: flex; flex-direction: column; max-height: 86vh; position: relative; }
   .detail-close {
-    position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 7px;
-    border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft);
-    cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
-    z-index: 1;
+    position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 0;
+    border: 1px solid var(--line-strong); background: var(--ground); color: var(--cream-soft);
+    cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; z-index: 1;
   }
-  .detail-close:hover { color: var(--ink); border-color: var(--ink-faint); }
-  .detail-head { display: flex; gap: 16px; padding: 26px 52px 18px 26px; border-bottom: 1px solid var(--line); }
+  .detail-close:hover { color: var(--cream); border-color: var(--cream-faint); }
+  .detail-head { display: flex; gap: 18px; padding: 26px 56px 20px 26px; border-bottom: 1px solid var(--line-strong); }
   .detail-cover-btn {
-    position: relative; width: 92px; height: 92px; flex-shrink: 0; padding: 0; border: none;
-    background: none; cursor: pointer; border-radius: 8px;
+    position: relative; width: 104px; height: 104px; flex-shrink: 0; padding: 0; border: none;
+    background: none; cursor: pointer;
   }
   .detail-cover {
-    width: 92px; height: 92px; border-radius: 8px; object-fit: cover; display: block;
-    border: 1px solid var(--line); background: var(--paper);
+    width: 104px; height: 104px; object-fit: cover; display: block;
+    border: 1px solid var(--brass-dim); background: var(--ground);
   }
   .detail-cover-btn .cover-hint { opacity: 0; }
   .detail-cover-btn:hover .cover-hint, .detail-cover-btn:focus-visible .cover-hint { opacity: 1; }
-  dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 0; max-width: 90vw; max-height: 90vh; }
-  dialog.lightbox::backdrop { background: rgba(10, 7, 3, 0.72); }
+  dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 8px; max-width: 92vw; max-height: 92vh; }
+  dialog.lightbox::backdrop { background: rgba(6, 6, 5, 0.85); }
   dialog.lightbox img {
-    display: block; max-width: 90vw; max-height: 90vh; border-radius: 10px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    display: block; max-width: calc(92vw - 16px); max-height: calc(92vh - 16px);
+    border: 1px solid var(--brass-dim);
+    box-shadow: 0 0 0 4px var(--ground), 0 0 0 5px var(--brass-dim), 0 30px 80px rgba(0, 0, 0, 0.7);
   }
   .detail-titles { min-width: 0; }
-  .detail-titles h2 { font-size: 1.3rem; font-weight: 600; font-style: italic; line-height: 1.2; }
-  .detail-album { font-size: 0.95rem; color: var(--ink-soft); font-style: italic; margin-top: 2px; }
-  .detail-sub {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; color: var(--ink-faint);
-    margin-top: 9px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  .detail-titles h2 {
+    font-size: 1.02rem; line-height: 1.3; letter-spacing: 0.07em; text-transform: uppercase; overflow-wrap: anywhere;
   }
-  .detail-body { padding: 20px 26px 28px; overflow-y: auto; }
+  .detail-album { font-size: 0.9rem; color: var(--cream-soft); margin-top: 3px; overflow-wrap: anywhere; }
+  .detail-sub {
+    font-size: 0.66rem; color: var(--cream-faint); letter-spacing: 0.04em;
+    margin-top: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .detail-edit-link {
+    margin-top: 12px; background: none; border: none; color: var(--orange); cursor: pointer; padding: 0;
+    font: 600 0.64rem var(--mono); letter-spacing: 0.14em; text-transform: uppercase;
+    border-bottom: 1px solid color-mix(in srgb, var(--orange) 50%, transparent);
+  }
+  .detail-body { padding: 22px 26px 28px; overflow-y: auto; }
   .detail-meta-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 14px 18px; margin-bottom: 20px;
+    gap: 16px 20px; margin-bottom: 24px;
   }
   .detail-meta-label {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.6rem; text-transform: uppercase;
-    letter-spacing: 0.07em; color: var(--ink-faint); margin-bottom: 3px;
+    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--cream-faint); margin-bottom: 4px;
   }
-  .detail-meta-value { font-size: 0.87rem; font-variant-numeric: tabular-nums; }
-  .detail-credits { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.55; margin-bottom: 22px; white-space: pre-line; }
+  .detail-meta-value { font-size: 0.84rem; font-variant-numeric: tabular-nums; }
+  .detail-credits { font-size: 0.78rem; color: var(--cream-soft); line-height: 1.7; margin-bottom: 24px; white-space: pre-line; }
   .detail-section-title {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; text-transform: uppercase;
-    letter-spacing: 0.08em; color: var(--ink-faint); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--cream-faint); margin-bottom: 12px;
   }
-  .tracklist-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+  .detail-section-title::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
+  .tracklist-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
   .tracklist-side h4 {
-    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; color: var(--accent);
-    margin-bottom: 6px; letter-spacing: 0.04em; font-weight: 500;
+    font-size: 0.62rem; color: var(--orange); margin-bottom: 6px; letter-spacing: 0.14em;
+    font-weight: 600; text-transform: uppercase;
   }
-  .track-row { display: flex; gap: 9px; padding: 5px 0; font-size: 0.85rem; border-bottom: 1px dashed var(--line); }
+  .track-row { display: flex; gap: 10px; padding: 5px 0; font-size: 0.78rem; border-bottom: 1px dashed var(--line); }
   .track-row:last-child { border-bottom: none; }
-  .track-pos { font-family: "IBM Plex Mono", monospace; color: var(--ink-faint); width: 24px; flex-shrink: 0; }
-  .detail-empty { font-size: 0.85rem; color: var(--ink-faint); font-style: italic; }
+  .track-pos { color: var(--orange); width: 26px; flex-shrink: 0; font-size: 0.7rem; padding-top: 1px; }
+  .detail-empty { font-size: 0.78rem; color: var(--cream-faint); }
 
+  @media (max-width: 999px) {
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+    .wordmark { font-size: min(4.3rem, calc((100vw - 40px) / 10.4)); }
+    .hero-disc { width: 360px; height: 360px; right: -120px; top: 104px; transform: none; }
+    .stats-strip { transform: rotate(-0.5deg); }
+  }
+  @media (max-width: 640px) {
+    .grid { gap: 28px 14px; }
+    .card-artist { font-size: 0.72rem; letter-spacing: 0.05em; }
+    .card-album { font-size: 0.76rem; }
+  }
   @media (max-width: 560px) {
-    .wrap { padding: 20px 16px 48px; }
-    header.top { gap: 12px; }
+    .wrap { padding: 22px 16px 44px; }
     .controls { align-items: stretch; }
     .search-box { flex: 1 1 100%; max-width: none; order: 1; }
     .sort-select { flex: 1 1 auto; order: 2; }
     .layout-toggle { order: 3; }
-    .count-tag { order: 4; margin-left: 0; width: 100%; }
-    .stat-tile { flex: 1 1 50%; }
-    .detail-head { padding: 22px 46px 16px 18px; }
-    .detail-body { padding: 16px 18px 22px; }
+    .scrap { padding: 24px 20px 22px; }
+    .glyph-row { padding-inline: 4px; }
+    .field-row { flex-direction: column; gap: 0; }
+    .modal-inner { padding: 22px 18px 18px; }
+    .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
+    .detail-cover-btn, .detail-cover { width: 88px; height: 88px; }
+    .detail-body { padding: 18px 18px 24px; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header class="top">
-    <div class="brand">
-      <div class="label-badge"></div>
-      <h1 id="brandName">Коллекция винила</h1>
-    </div>
-    <div class="lang-toggle" role="group" aria-label="Language">
-      <button type="button" class="lang-btn" data-lang="en">EN</button>
-      <button type="button" class="lang-btn" data-lang="ru">RU</button>
-    </div>
-  </header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="g-play" viewBox="0 0 16 16"><path d="M3 2v12l11-6z"/></symbol>
+  <symbol id="g-stop" viewBox="0 0 16 16"><rect x="3" y="3" width="10" height="10"/></symbol>
+  <symbol id="g-pause" viewBox="0 0 16 16"><rect x="3" y="2.5" width="3.6" height="11"/><rect x="9.4" y="2.5" width="3.6" height="11"/></symbol>
+  <symbol id="g-ff" viewBox="0 0 16 16"><path d="M0.5 3v10l7-5zM8 3v10l7.5-5z"/></symbol>
+  <symbol id="g-next" viewBox="0 0 16 16"><path d="M1.5 2.5v11l9-5.5z"/><rect x="11.5" y="2.5" width="3" height="11"/></symbol>
+  <symbol id="g-playpause" viewBox="0 0 16 16"><path d="M0.5 2.5v11l8-5.5z"/><rect x="10.2" y="3" width="2" height="10"/><rect x="13.4" y="3" width="2" height="10"/></symbol>
+</svg>
 
-  <div class="stats-strip" id="statsStrip"></div>
+<div class="wrap">
+  <header class="hero">
+    <svg class="hero-disc" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
+      <defs><path id="ringPath" d="M300,300 m-268,0 a268,268 0 1,1 536,0 a268,268 0 1,1 -536,0"></path></defs>
+      <circle class="disc" cx="300" cy="300" r="212"></circle>
+      <text class="ring-text"><textPath href="#ringPath" textLength="1680" lengthAdjust="spacing">33⅓ rpm · side a · side b · 45 rpm · play · pause · skip · rewind · 33⅓ rpm · side a · side b · 45 rpm · play · pause · skip ·</textPath></text>
+    </svg>
+
+    <div class="hero-main">
+      <h1 class="wordmark" aria-label="THE JUKEBOX"><span aria-hidden="true">THE JUKEB<span class="o"><svg viewBox="0 0 16 16"><use href="#g-ff"></use></svg></span>X</span></h1>
+      <div class="meta-row">
+        <span id="heroTag">коллекция винила</span>
+        <span class="rpm">33⅓ RPM</span>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+          <button type="button" class="lang-btn" data-lang="ru">RU</button>
+        </div>
+      </div>
+      <div class="glyph-row" aria-hidden="true">
+        <svg style="color:var(--g-blue)" viewBox="0 0 16 16"><use href="#g-playpause"></use></svg>
+        <svg style="color:var(--g-rose)" viewBox="0 0 16 16"><use href="#g-stop"></use></svg>
+        <svg style="color:var(--g-amber)" viewBox="0 0 16 16"><use href="#g-play"></use></svg>
+        <svg style="color:var(--g-pink)" viewBox="0 0 16 16"><use href="#g-pause"></use></svg>
+        <svg style="color:var(--g-orange)" viewBox="0 0 16 16"><use href="#g-ff"></use></svg>
+        <svg style="color:var(--g-red)" viewBox="0 0 16 16"><use href="#g-next"></use></svg>
+      </div>
+    </div>
+
+    <div class="stats-strip" id="statsStrip"></div>
+  </header>
 
   <div class="controls">
     <div class="search-box">
@@ -346,22 +486,27 @@
     </select>
     <div class="layout-toggle" role="group" aria-label="Плиток в ряду">
       <button type="button" class="layout-btn" data-cols="2" title="2 в ряду" aria-label="2 в ряду">
-        <svg viewBox="0 0 16 16"><rect x="1.5" y="3" width="5.3" height="10" rx="1.3"></rect><rect x="9.2" y="3" width="5.3" height="10" rx="1.3"></rect></svg>
+        <svg viewBox="0 0 16 16"><rect x="1.5" y="3" width="5.3" height="10"></rect><rect x="9.2" y="3" width="5.3" height="10"></rect></svg>
       </button>
       <button type="button" class="layout-btn" data-cols="3" title="3 в ряду" aria-label="3 в ряду">
-        <svg viewBox="0 0 16 16"><rect x="1" y="3" width="3.6" height="10" rx="1.1"></rect><rect x="6.2" y="3" width="3.6" height="10" rx="1.1"></rect><rect x="11.4" y="3" width="3.6" height="10" rx="1.1"></rect></svg>
+        <svg viewBox="0 0 16 16"><rect x="1" y="3" width="3.6" height="10"></rect><rect x="6.2" y="3" width="3.6" height="10"></rect><rect x="11.4" y="3" width="3.6" height="10"></rect></svg>
       </button>
       <button type="button" class="layout-btn" data-cols="4" title="4 в ряду" aria-label="4 в ряду">
-        <svg viewBox="0 0 16 16"><rect x="0.6" y="3" width="2.7" height="10" rx="0.9"></rect><rect x="4.7" y="3" width="2.7" height="10" rx="0.9"></rect><rect x="8.8" y="3" width="2.7" height="10" rx="0.9"></rect><rect x="12.9" y="3" width="2.7" height="10" rx="0.9"></rect></svg>
+        <svg viewBox="0 0 16 16"><rect x="0.6" y="3" width="2.7" height="10"></rect><rect x="4.7" y="3" width="2.7" height="10"></rect><rect x="8.8" y="3" width="2.7" height="10"></rect><rect x="12.9" y="3" width="2.7" height="10"></rect></svg>
       </button>
     </div>
-    <span class="count-tag" id="countTag"></span>
   </div>
 
   <div class="chips" id="genreChips"></div>
   <div class="chips" id="rarityChips"></div>
+  <span class="count-tag" id="countTag"></span>
 
   <div id="gridHost" class="grid"></div>
+
+  <footer class="foot">
+    <span>© 2026 THE JUKEBOX</span>
+    <span class="end"><span id="footEnd">конец стороны</span><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-next"></use></svg></span>
+  </footer>
 </div>
 
 <dialog class="modal detail-dialog" id="detailDialog">
@@ -380,7 +525,13 @@
 (function () {
   var records = RECORDS;
 
-  var GENRE_COLORS = ["#b5482c", "#2c6b64", "#8a6d1d", "#4c5c8f", "#7a3b69", "#4f7a3a", "#a03e53", "#39708a"];
+  var GENRE_COLORS = ["#5a5fd0", "#c25563", "#dc9b2c", "#d8692b", "#c0468a", "#d24a40"];
+  var GENRE_GLYPHS = ["play", "stop", "pause", "ff", "next", "playpause"];
+  function genreGlyph(key) {
+    var h = 7;
+    for (var i = 0; i < key.length; i++) h = (h * 17 + key.charCodeAt(i)) >>> 0;
+    return GENRE_GLYPHS[h % GENRE_GLYPHS.length];
+  }
   function genreColor(key) {
     var h = 0;
     for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
@@ -412,22 +563,69 @@
   }
 
   var STRINGS = {
-    brandName: { ru: "Коллекция винила", en: "Vinyl Collection" },
+    heroTag: { ru: "коллекция винила", en: "vinyl record collection" },
+    footEnd: { ru: "конец стороны", en: "end of side" },
     searchPlaceholder: { ru: "Поиск", en: "Search" },
     sortArtist: { ru: "Сортировка: Исполнитель А–Я", en: "Sort: Artist A–Z" },
     sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
     sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
+    sortAdded: { ru: "Сортировка: Дата добавления", en: "Sort: Recently added" },
     layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
     layout2: { ru: "2 в ряду", en: "2 per row" },
     layout3: { ru: "3 в ряду", en: "3 per row" },
     layout4: { ru: "4 в ряду", en: "4 per row" },
     countConnector: { ru: "из", en: "of" },
+    emptyTitle: { ru: "Крейт пока пуст", en: "Your crate is empty" },
+    emptyBody: { ru: "Добавьте первую пластинку — исполнитель, альбом, жанр и обложка, если есть. Сортировка и фильтры включатся, как только записей станет больше.", en: "Add your first record — artist, album, genre and a cover if you have one. Sort and filter unlock once a few are in." },
     noMatchesTitle: { ru: "Ничего не найдено", en: "No matches" },
     noMatchesBody: { ru: "Попробуйте другой запрос или сбросьте фильтр по жанру.", en: "Try a different search or clear the genre filter." },
     noCover: { ru: "НЕТ ОБЛОЖКИ", en: "NO COVER" },
+    editRecordTitle: { ru: "Редактировать пластинку", en: "Edit record" },
+    fieldArtist: { ru: "Исполнитель", en: "Artist" },
+    fieldYear: { ru: "Год оригинального издания", en: "Original release year" },
+    fieldPressingYear: { ru: "Год этого экземпляра", en: "Year of this pressing" },
+    fieldAlbum: { ru: "Альбом", en: "Album" },
+    fieldGenre: { ru: "Жанр", en: "Genre" },
+    fieldCondition: { ru: "Состояние", en: "Condition" },
+    fieldLabel: { ru: "Лейбл", en: "Label" },
+    fieldPrice: { ru: "Примерная стоимость", en: "Estimated value" },
+    fieldPriceNote: { ru: "Примечание к цене", en: "Price note" },
+    priceNotePlaceholder: { ru: "Редкий прессинг, лимитированное издание…", en: "Rare pressing, limited edition…" },
+    fieldVinylColor: { ru: "Цвет винила", en: "Vinyl color" },
+    fieldRarity: { ru: "Редкость", en: "Rarity" },
     rarityLimited: { ru: "Ограниченный тираж", en: "Limited edition" },
     rarityRare: { ru: "Редкая", en: "Rare" },
+    vinylColorPlaceholder: { ru: "Розовый, прозрачный, чёрный с блёстками…", en: "Pink, clear, black with glitter…" },
     vinylWord: { ru: "винил", en: "vinyl" },
+    fieldCover: { ru: "Обложка", en: "Cover art" },
+    fieldCatalogNo: { ru: "Каталожный номер", en: "Catalog no." },
+    fieldBarcode: { ru: "Штрихкод", en: "Barcode" },
+    fieldCredits: { ru: "Авторы / выходные данные", en: "Credits" },
+    fieldTracklist: { ru: "Треклист", en: "Tracklist" },
+    tracklistHint: { ru: "Одна дорожка на строку: «A1 - Название»", en: "One track per line: “A1 - Track Name”" },
+    labelPlaceholder: { ru: "Blue Note, Мелодия…", en: "Blue Note, Motown…" },
+    creditsPlaceholder: { ru: "Составитель, продюсер, арт-дирекшн…", en: "Compiled by, producer, art direction…" },
+    condM: { ru: "M — Mint (идеальное)", en: "M — Mint" },
+    condNM: { ru: "NM — Near Mint (почти новая)", en: "NM — Near Mint" },
+    condVGP: { ru: "VG+ — Very Good Plus (хорошее+)", en: "VG+ — Very Good Plus" },
+    condVG: { ru: "VG — Very Good (хорошее)", en: "VG — Very Good" },
+    condG: { ru: "G — Good (удовлетворительное)", en: "G — Good" },
+    condP: { ru: "P — Poor (плохое)", en: "P — Poor" },
+    deleteRecord: { ru: "Удалить пластинку", en: "Delete record" },
+    cancel: { ru: "Отмена", en: "Cancel" },
+    save: { ru: "Сохранить", en: "Save" },
+    saving: { ru: "Сохранение…", en: "Saving…" },
+    confirmDelete: { ru: "Удалить эту пластинку из каталога? Отменить будет нельзя.", en: "Delete this record from your catalog? This can't be undone." },
+    confirmDeleteTitle: { ru: "Удалить пластинку?", en: "Delete record?" },
+    yes: { ru: "Да", en: "Yes" },
+    no: { ru: "Нет", en: "No" },
+    bannerDeleteFail: { ru: "Не удалось удалить пластинку", en: "Couldn't delete that record" },
+    bannerNoDb: { ru: "Каталог сейчас не подключён — попробуйте перезагрузить страницу.", en: "Catalog isn't connected right now — try reloading the page." },
+    bannerSaveFail: { ru: "Не удалось сохранить пластинку", en: "Couldn't save that record" },
+    bannerRetry: { ru: "Попробуйте ещё раз.", en: "Try again." },
+    bannerNoDbInit: { ru: "Каталог не может подключиться к хранилищу в этом окне. Перезагрузите страницу или откройте её через claude.ai.", en: "This catalog can't connect to storage in this view. Reload the page, or open it from claude.ai." },
+    bannerLostConnection: { ru: "Связь с каталогом потеряна", en: "Lost the live connection to your catalog" },
+    bannerReconnect: { ru: "Перезагрузите страницу, чтобы переподключиться.", en: "Reload to reconnect." },
     groupHipHopSoul: { ru: "Хип-хоп / Соул", en: "Hip-Hop / Soul" },
     groupSynthPop: { ru: "Синти-поп / Нью-вейв", en: "Synth-pop / New Wave" },
     groupTripHop: { ru: "Трип-хоп", en: "Trip Hop" },
@@ -495,11 +693,11 @@
     for (var i = 0; i < VINYL_COLOR_RULES.length; i++) {
       if (VINYL_COLOR_RULES[i][0].test(s)) return VINYL_COLOR_RULES[i][1];
     }
-    return "var(--ink-faint)";
+    return "var(--cream-faint)";
   }
   var VINYL_ICON_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">' +
     '<circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.88"></circle>' +
-    '<circle cx="8" cy="8" r="2.6" fill="var(--paper-raised)"></circle>' +
+    '<circle cx="8" cy="8" r="2.6" fill="var(--ground-2)"></circle>' +
     '<circle cx="8" cy="8" r="1" fill="currentColor"></circle></svg>';
   var EXPAND_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -552,8 +750,9 @@
       window.scrollTo(0, savedScrollY);
     }
   }
-  els.detailDialog.addEventListener("close", unlockScroll);
-  els.lightboxDialog.addEventListener("close", unlockScroll);
+  [els.detailDialog, els.lightboxDialog].forEach(function (d) {
+    d.addEventListener("close", unlockScroll);
+  });
 
   function loadCols() {
     var saved = 0;
@@ -594,7 +793,8 @@
   });
 
   function applyLang() {
-    document.getElementById("brandName").textContent = t("brandName");
+    document.getElementById("heroTag").textContent = t("heroTag");
+    document.getElementById("footEnd").textContent = t("footEnd");
     els.search.placeholder = t("searchPlaceholder");
     els.sort.options[0].textContent = t("sortArtist");
     els.sort.options[1].textContent = t("sortGenre");
@@ -626,6 +826,9 @@
       if (state.sort === "year") {
         return (b.year || 0) - (a.year || 0);
       }
+      if (state.sort === "added") {
+        return (b.addedAt || "").localeCompare(a.addedAt || "");
+      }
       return compareNames(a.artist, b.artist) || compareNames(a.album, b.album);
     });
     return list;
@@ -641,8 +844,8 @@
       var chip = document.createElement("button");
       chip.type = "button";
       chip.className = "chip" + (active ? " active" : "");
-      chip.style.color = active ? genreColor(key) : "";
-      chip.innerHTML = '<span class="dot" style="background:' + genreColor(key) + '"></span>' + t(key);
+      chip.style.setProperty("--chip-c", genreColor(key));
+      chip.innerHTML = '<svg class="glyph" viewBox="0 0 16 16" aria-hidden="true"><use href="#g-' + genreGlyph(key) + '"></use></svg>' + t(key);
       chip.addEventListener("click", function () {
         state.genre = active ? null : key;
         render();
@@ -685,15 +888,15 @@
     var yearRange = years.length ? (Math.min.apply(null, years) + "–" + Math.max.apply(null, years)) : "—";
     var valueLabel = t("statValue") + (priced < records.length ? " (" + priced + " " + t("countConnector") + " " + records.length + ")" : "");
     var tiles = [
-      { value: records.length, label: t("statRecords") },
-      { value: Object.keys(artists).length, label: t("statArtists") },
-      { value: yearRange, label: t("statYears") },
-      { value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel, accent: true }
+      { pos: "A1", value: records.length, label: t("statRecords") },
+      { pos: "A2", value: Object.keys(artists).length, label: t("statArtists") },
+      { pos: "B1", value: yearRange, label: t("statYears") },
+      { pos: "B2", value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel, accent: true }
     ];
-    els.stats.innerHTML = tiles.map(function (tile) {
-      return '<div class="stat-tile"><div class="stat-value' + (tile.accent ? " accent" : "") + '">' + tile.value + "</div>" +
-        '<div class="stat-label">' + tile.label + "</div></div>";
-    }).join("");
+    els.stats.innerHTML = '<div class="scrap"><div class="trk-cols">' + tiles.map(function (tile) {
+      return '<div class="trk"><span class="trk-pos">' + tile.pos + '</span><span class="trk-name">' + tile.label + "</span>" +
+        '<i class="trk-dots"></i><span class="trk-val' + (tile.accent ? " hot" : "") + '">' + tile.value + "</span></div>";
+    }).join("") + "</div></div>";
   }
 
   function coverUrl(r) { return r.coverFile || null; }
@@ -705,6 +908,15 @@
   function renderGrid() {
     var list = filteredSorted();
     els.count.textContent = records.length ? (list.length + " " + t("countConnector") + " " + records.length) : "";
+    if (!records.length) {
+      els.grid.innerHTML =
+        '<div class="empty-state">' +
+        '<div class="empty-badge"></div>' +
+        "<h2>" + t("emptyTitle") + "</h2>" +
+        "<p>" + t("emptyBody") + "</p>" +
+        "</div>";
+      return;
+    }
     if (!list.length) {
       els.grid.innerHTML = '<div class="empty-state"><h2>' + t("noMatchesTitle") + '</h2><p>' + t("noMatchesBody") + '</p></div>';
       return;
@@ -718,10 +930,10 @@
         ? '<img src="' + url + '" alt="' + altText(r.album || "").replace(/"/g, "&quot;") + '" loading="lazy">'
         : '<div class="cover-placeholder"><span>' + t("noCover") + '</span></div>';
       var subBits = [];
-      if (r.genre) subBits.push(r.genre);
-      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push(r.year + " → " + r.pressingYear);
-      else if (r.year) subBits.push(r.year);
-      if (r.price) subBits.push(r.price);
+      if (r.genre) subBits.push("<span>" + escapeHtml(r.genre) + "</span>");
+      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + " → " + r.pressingYear + "</span>");
+      else if (r.year) subBits.push("<span>" + r.year + "</span>");
+      if (r.price) subBits.push('<span class="px">' + escapeHtml(r.price) + "</span>");
       var editionBadge = "";
       if (r.year) {
         var isReissue = !!(r.pressingYear && r.pressingYear !== r.year);
@@ -740,7 +952,7 @@
         '<div class="card-meta">' +
         '<div class="card-artist">' + escapeHtml(r.artist) + "</div>" +
         '<div class="card-album">' + escapeHtml(r.album) + "</div>" +
-        '<div class="card-sub">' + subBits.join(" · ") + "</div>" +
+        '<div class="card-sub">' + subBits.join("") + "</div>" +
         tagsHtml +
         "</div>";
       card.addEventListener("click", function () { openDetail(r); });
@@ -847,11 +1059,13 @@
   els.lightboxDialog.addEventListener("click", function () { els.lightboxDialog.close(); });
 
   els.detailCloseBtn.addEventListener("click", function () { els.detailDialog.close(); });
+
   els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
   els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderGrid(); });
 
   applyLang();
 })();
 </script>
+
 </body>
 </html>
