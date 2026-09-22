@@ -134,9 +134,9 @@
   .search-box input {
     width: 100%; height: var(--ctrl-h); padding: 0 16px 0 42px; border-radius: 8px;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream);
-    font: 700 0.9rem var(--body);
+    font: 400 0.9rem var(--body);
   }
-  .search-box input::placeholder { color: var(--cream-faint); font-weight: 700; }
+  .search-box input::placeholder { color: var(--cream-faint); font-weight: 400; }
   .search-box input:focus { outline: none; border-color: var(--orange); }
   .search-icon {
     position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
@@ -149,7 +149,7 @@
     appearance: none; -webkit-appearance: none; border-radius: 8px; cursor: pointer;
     accent-color: var(--orange); width: 116px; height: var(--ctrl-h); text-align: left;
     padding: 0 20px; border: 1px solid var(--line-strong); background: var(--ground-2); color: transparent;
-    font: 700 0.86rem var(--body);
+    font: 400 0.86rem var(--body);
     transition: border-color 0.12s ease;
   }
   select.sort-select:hover { border-color: var(--cream-faint); }
@@ -157,7 +157,7 @@
   select option { background: var(--ground-2); color: var(--cream); }
   .sort-label {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    pointer-events: none; color: var(--cream); font: 700 0.86rem var(--body); white-space: nowrap;
+    pointer-events: none; color: var(--cream); font: 400 0.86rem var(--body); white-space: nowrap;
   }
   select option:checked, select option:hover, select option:focus {
     background: color-mix(in srgb, var(--orange) 30%, var(--ground-2)); color: var(--cream);
@@ -179,7 +179,7 @@
     .layout-toggle { display: none; }
   }
   .count-tag {
-    font-family: var(--display); font-weight: 600; font-size: 0.8rem;
+    font-family: var(--display); font-weight: 500; font-size: 0.8rem;
     color: var(--cream-faint); white-space: nowrap; font-variant-numeric: tabular-nums;
   }
 
@@ -225,7 +225,7 @@
     position: relative; display: inline-flex; align-items: center; gap: 6px;
     height: var(--chip-h); padding: 0 13px; border-radius: 999px; margin-right: 10px;
     border: 1px solid var(--line-strong); background: transparent; color: var(--cream-soft);
-    font: 600 0.72rem var(--display);
+    font: 500 0.72rem var(--display);
     cursor: pointer; user-select: none; white-space: nowrap; overflow: hidden;
     max-width: 260px;
     transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease,
