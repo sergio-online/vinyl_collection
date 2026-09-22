@@ -85,7 +85,7 @@
   /* ---------- stats: plain read-outs, no chrome ---------- */
   .stats-strip { position: relative; z-index: 1; margin: 30px 0 28px; }
   .stats-strip:empty { display: none; }
-  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); }
   .stat-item {
     display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0;
     padding-right: 20px; border-right: 1px solid var(--line-strong);
@@ -932,13 +932,10 @@
       var v = parsePrice(r.price);
       if (v !== null) { total += v; priced++; }
     });
-    var years = records.map(function (r) { return r.year; }).filter(Boolean);
-    var yearRange = years.length ? (Math.min.apply(null, years) + "–" + Math.max.apply(null, years)) : "—";
     var valueLabel = t("statValue") + (priced < records.length ? " (" + priced + " " + t("countConnector") + " " + records.length + ")" : "");
     var tiles = [
       { value: records.length, label: t("statRecords") },
       { value: Object.keys(artists).length, label: t("statArtists") },
-      { value: yearRange, label: t("statYears") },
       { value: "€" + Math.round(total).toLocaleString("en-US"), label: valueLabel }
     ];
     els.stats.innerHTML = '<div class="stats-row">' + tiles.map(function (tile) {
