@@ -174,7 +174,24 @@
   }
 
   .chips { display: flex; gap: 12px 10px; flex-wrap: wrap; }
-  #genreChips { margin-bottom: 14px; }
+  /* genre chips: one swipeable strip instead of a wrapped grid */
+  .chip-scroll { position: relative; margin-bottom: 14px; }
+  .chip-scroll::before, .chip-scroll::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 30px; pointer-events: none; z-index: 2;
+    opacity: 0; transition: opacity 0.15s ease;
+  }
+  .chip-scroll::before { left: 0; background: linear-gradient(90deg, var(--ground), transparent); }
+  .chip-scroll::after { right: 0; background: linear-gradient(270deg, var(--ground), transparent); }
+  .chip-scroll.can-scroll-left::before { opacity: 1; }
+  .chip-scroll.can-scroll-right::after { opacity: 1; }
+  #genreChips {
+    margin-bottom: 0; flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; -ms-overflow-style: none;
+    padding-bottom: 2px; margin: 0 -2px; padding-inline: 2px;
+  }
+  #genreChips::-webkit-scrollbar { display: none; }
+  #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
   #rarityChips { border-top: 1px dashed var(--line-strong); padding-top: 14px; margin-bottom: 16px; }
   /* filter chips are small keys from the same control deck */
   .chip {
@@ -478,7 +495,7 @@
     </div>
   </div>
 
-  <div class="chips" id="genreChips"></div>
+  <div class="chip-scroll" id="genreChipsWrap"><div class="chips" id="genreChips"></div></div>
   <div class="chips" id="rarityChips"></div>
   <span class="count-tag" id="countTag"></span>
 
@@ -686,6 +703,7 @@
     stats: document.getElementById("statsStrip"),
     grid: document.getElementById("gridHost"),
     chips: document.getElementById("genreChips"),
+    chipsWrap: document.getElementById("genreChipsWrap"),
     rarityChips: document.getElementById("rarityChips"),
     search: document.getElementById("searchInput"),
     sort: document.getElementById("sortSelect"),
@@ -823,7 +841,17 @@
       });
       els.chips.appendChild(chip);
     });
+    updateChipFade();
   }
+
+  function updateChipFade() {
+    var el = els.chips, wrap = els.chipsWrap;
+    if (!el || !wrap) return;
+    wrap.classList.toggle("can-scroll-left", el.scrollLeft > 2);
+    wrap.classList.toggle("can-scroll-right", el.scrollWidth - el.clientWidth - el.scrollLeft > 2);
+  }
+  els.chips.addEventListener("scroll", updateChipFade);
+  window.addEventListener("resize", updateChipFade);
 
   var RARITY_ORDER = ["limited", "rare"];
   function renderRarityChips() {
