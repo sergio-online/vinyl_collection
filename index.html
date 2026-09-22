@@ -184,8 +184,8 @@
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .chip-nav:hover { color: var(--cream); border-color: var(--cream-faint); }
-  .chip-nav.prev { left: -2px; }
-  .chip-nav.next { right: -2px; }
+  .chip-nav.prev { left: 2px; }
+  .chip-nav.next { right: 2px; }
   @media (min-width: 641px) {
     .chip-scroll.can-scroll-left .chip-nav.prev,
     .chip-scroll.can-scroll-right .chip-nav.next { display: flex; }
@@ -198,6 +198,10 @@
   }
   #genreChips::-webkit-scrollbar { display: none; }
   #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
+  @media (min-width: 641px) {
+    /* reserve real empty space at each end so the arrow never sits over a live chip */
+    #genreChips { padding-inline: 38px; }
+  }
   .filter-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 14px; margin-bottom: 22px; }
   .count-rule { flex: 1 1 40px; min-width: 24px; height: 1px; background: var(--line-strong); }
   /* filter chips: flat outline pills, orange when active */
