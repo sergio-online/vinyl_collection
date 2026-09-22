@@ -8,7 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  html { font-size: 113%; }
+  /* overflow-x:hidden on body alone doesn't reliably stop the outer viewport from scrolling
+     sideways if a descendant briefly computes wider than the page (e.g. during an iOS rotation,
+     which sweeps through many transient widths) - set it on html too as a hard backstop, since
+     nothing on this page is meant to scroll horizontally at the document level anyway */
+  html { font-size: 113%; overflow-x: hidden; }
   @media (max-width: 640px) {
     html { font-size: 119%; }
   }
@@ -191,6 +195,14 @@
   .chips { display: flex; row-gap: 10px; flex-wrap: wrap; }
   /* genre chips: one swipeable strip instead of a wrapped grid */
   .chip-scroll { position: relative; margin-bottom: 10px; }
+  /* same "collapse when there's nothing in it" rule as .stats-strip:empty above, just needing
+     :has() since this wrapper always has its (hidden) prev/next nav buttons as children even
+     when #genreChips itself has no chips - otherwise an empty catalog leaves this row's own
+     margin floating above the empty-state message with nothing in it.
+     .filter-foot can't use the same trick: #rarityChips sits empty whenever no record happens
+     to be tagged rare/limited, which is the common case with records still in the grid, not
+     just the true empty-catalog case - so that row is toggled from JS instead, see renderGrid(). */
+  .chip-scroll:has(#genreChips:empty) { display: none; }
   .chip-scroll::before, .chip-scroll::after {
     content: ""; position: absolute; top: 0; bottom: 0; width: 54px; pointer-events: none; z-index: 2;
     opacity: 0; transition: opacity 0.15s ease;
@@ -223,6 +235,7 @@
   #genreChips::-webkit-scrollbar { display: none; }
   #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
   .filter-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px; }
+  .filter-foot[hidden] { display: none; }
   .count-rule { flex: 1 1 40px; min-width: 24px; height: 1px; background: var(--line-strong); }
   /* filter chips: flat outline pills, orange when active */
   .chip {
@@ -326,7 +339,7 @@
     padding: 70px 20px; gap: 16px;
   }
   .empty-badge {
-    position: relative; width: 110px; height: 110px; border-radius: 50%; background: var(--indigo);
+    position: relative; width: 110px; height: 110px; border-radius: 50%; background: var(--ground-2);
   }
   .empty-badge::after {
     content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-30%, -50%);
@@ -797,6 +810,7 @@
     chipsPrev: document.getElementById("genreChipsPrev"),
     chipsNext: document.getElementById("genreChipsNext"),
     rarityChips: document.getElementById("rarityChips"),
+    filterFoot: document.querySelector(".filter-foot"),
     search: document.getElementById("searchInput"),
     sort: document.getElementById("sortSelect"),
     sortLabel: document.getElementById("sortLabel"),
@@ -1047,6 +1061,7 @@
   function renderGrid() {
     var list = filteredSorted();
     els.count.textContent = records.length ? (list.length + " " + t("countConnector") + " " + records.length) : "";
+    els.filterFoot.hidden = !records.length;
     if (!records.length) {
       els.grid.innerHTML =
         '<div class="empty-state">' +
