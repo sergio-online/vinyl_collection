@@ -84,17 +84,26 @@
   /* ---------- stats: plain read-outs, no chrome ---------- */
   .stats-strip { position: relative; z-index: 1; margin: 30px 0 28px; }
   .stats-strip:empty { display: none; }
-  .stats-row { display: flex; align-items: stretch; flex-wrap: wrap; gap: 18px 0; }
-  .stat-item { display: flex; flex-direction: column; justify-content: center; gap: 5px; }
-  .stat-div { width: 1px; background: var(--line-strong); margin: 2px 28px; flex-shrink: 0; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat-item {
+    display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0;
+    padding-right: 20px; border-right: 1px solid var(--line-strong);
+  }
+  .stat-item:not(:first-child) { padding-left: 20px; }
+  .stat-item:last-child { border-right: none; padding-right: 0; }
   .stat-val {
     color: var(--orange); font-weight: 600; font-size: 1.5rem; letter-spacing: 0.01em;
-    font-variant-numeric: tabular-nums; white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
   .stat-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-faint); }
   @media (max-width: 640px) {
-    .stats-row { gap: 20px 26px; }
-    .stat-div { display: none; }
+    .stat-item { padding-inline: 8px; }
+    .stat-item:first-child { padding-left: 0; }
+    .stat-val { font-size: 1rem; }
+    .stat-label { font-size: 0.54rem; letter-spacing: 0.06em; }
+  }
+  @media (max-width: 420px) {
+    .stat-val { font-size: 0.86rem; }
   }
 
   .lang-toggle { display: inline-flex; gap: 8px; }
@@ -405,7 +414,6 @@
     .search-box { flex: 1 1 100%; max-width: none; order: 1; }
     .sort-select { flex: 1 1 auto; order: 2; }
     .layout-toggle { order: 3; }
-    .stat-val { font-size: 1.2rem; }
     .field-row { flex-direction: column; gap: 0; }
     .modal-inner { padding: 22px 18px 18px; }
     .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
@@ -874,7 +882,7 @@
     ];
     els.stats.innerHTML = '<div class="stats-row">' + tiles.map(function (tile) {
       return '<div class="stat-item"><span class="stat-val">' + tile.value + '</span><span class="stat-label">' + tile.label + "</span></div>";
-    }).join('<span class="stat-div" aria-hidden="true"></span>') + "</div>";
+    }).join("") + "</div>";
   }
 
   function coverUrl(r) { return r.coverFile || null; }
