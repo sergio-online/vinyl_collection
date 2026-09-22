@@ -834,12 +834,6 @@
     records.forEach(function (r) { if (r.genre) groups[genreGroupKey(r.genre)] = true; });
     var keys = Object.keys(groups).sort(function (a, b) { return t(a).localeCompare(t(b)); });
     els.chips.innerHTML = "";
-    var allChip = document.createElement("button");
-    allChip.type = "button";
-    allChip.className = "chip" + (state.genre === null ? " active" : "");
-    allChip.textContent = t("allGenres");
-    allChip.addEventListener("click", function () { state.genre = null; render(); });
-    els.chips.appendChild(allChip);
     keys.forEach(function (key) {
       var active = state.genre === key;
       var chip = document.createElement("button");
