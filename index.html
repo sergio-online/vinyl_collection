@@ -322,8 +322,6 @@
     margin-top: 56px; padding-top: 12px; border-top: 1px solid var(--line-strong);
     font-family: var(--display); font-weight: 600; font-size: 0.68rem; color: var(--cream-faint);
   }
-  .foot .end { display: inline-flex; align-items: center; gap: 9px; color: var(--cream-soft); }
-  .foot .end svg { width: 12px; height: 12px; fill: var(--g-red); }
 
   /* ---------- dialogs: flat rounded card ---------- */
   dialog.modal {
@@ -518,7 +516,6 @@
 
   <footer class="foot">
     <span>© 2026 THE JUKEBOX</span>
-    <span class="end"><span id="footEnd">конец стороны</span><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#g-next"></use></svg></span>
   </footer>
 </div>
 
@@ -802,7 +799,6 @@
 
   function applyLang() {
     document.getElementById("heroTag").textContent = t("heroTag");
-    document.getElementById("footEnd").textContent = t("footEnd");
     els.search.placeholder = t("searchPlaceholder");
     var sortKeys = { artist: "sortArtist", genre: "sortGenre", year: "sortYear", added: "sortAdded", price: "sortPrice" };
     Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(sortKeys[o.value]); });
@@ -874,6 +870,7 @@
     });
     if (state.genre) {
       appendClearButton(els.chips, function () { state.genre = null; render(); });
+      els.chips.scrollLeft = 0;
     }
     updateChipFade();
     setTimeout(updateChipFade, 240);
