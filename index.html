@@ -8,10 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* reserve the vertical scrollbar's gutter permanently, so opening/closing a dialog (which takes
-     body out of flow via position:fixed and makes the page's own scrollbar disappear) doesn't
-     change the viewport's content width and yank everything sideways */
-  html { font-size: 113%; overflow-y: scroll; scrollbar-gutter: stable; }
+  html { font-size: 113%; }
   @media (max-width: 640px) {
     html { font-size: 119%; }
   }
@@ -815,10 +812,15 @@
     if (lockedDialogs.indexOf(dlg) !== -1) return;
     if (lockedDialogs.length === 0) {
       savedScrollY = window.scrollY || window.pageYOffset || 0;
+      // measure the real scrollbar width (0 if the page doesn't currently overflow, so nothing
+      // to compensate for) before taking body out of flow, then pad it back in on the right so
+      // removing the scrollbar for the lock doesn't shift the page's content sideways
+      var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.position = "fixed";
       document.body.style.top = "-" + savedScrollY + "px";
       document.body.style.left = "0";
       document.body.style.right = "0";
+      if (scrollbarWidth > 0) document.body.style.paddingRight = scrollbarWidth + "px";
     }
     lockedDialogs.push(dlg);
   }
@@ -831,6 +833,7 @@
       document.body.style.top = "";
       document.body.style.left = "";
       document.body.style.right = "";
+      document.body.style.paddingRight = "";
       window.scrollTo(0, savedScrollY);
     }
   }
