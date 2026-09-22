@@ -8,7 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  html { font-size: 113%; }
+  /* reserve the vertical scrollbar's gutter permanently, so opening/closing a dialog (which takes
+     body out of flow via position:fixed and makes the page's own scrollbar disappear) doesn't
+     change the viewport's content width and yank everything sideways */
+  html { font-size: 113%; overflow-y: scroll; scrollbar-gutter: stable; }
   @media (max-width: 640px) {
     html { font-size: 119%; }
   }
