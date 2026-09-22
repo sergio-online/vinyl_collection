@@ -184,8 +184,8 @@
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .chip-nav:hover { color: var(--cream); border-color: var(--cream-faint); }
-  .chip-nav.prev { left: 2px; }
-  .chip-nav.next { right: 2px; }
+  .chip-nav.prev { left: 0; }
+  .chip-nav.next { right: 0; }
   @media (min-width: 641px) {
     .chip-scroll.can-scroll-left .chip-nav.prev,
     .chip-scroll.can-scroll-right .chip-nav.next { display: flex; }
@@ -194,7 +194,7 @@
     margin-bottom: 0; flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
     scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
     scrollbar-width: none; -ms-overflow-style: none;
-    padding-bottom: 2px; margin: 0 -2px; padding-inline: 2px;
+    padding-bottom: 2px;
   }
   #genreChips::-webkit-scrollbar { display: none; }
   #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
