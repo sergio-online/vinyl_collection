@@ -58,10 +58,11 @@
   .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 30px 24px 56px; }
 
   /* ---------- hero: wordmark + tagline rule ---------- */
-  .hero { position: relative; z-index: 0; }
+  .hero { position: relative; z-index: 0; container-type: inline-size; }
   .wordmark {
     font-family: var(--display); font-weight: 800; color: var(--cream);
-    font-size: min(4rem, calc(100vw / 19.5)); line-height: 1.05;
+    /* sized so the wordmark's own width reaches the stats row's halfway divider, never past it */
+    font-size: min(4.75rem, 5.9cqw); line-height: 1.05;
     letter-spacing: -0.01em; white-space: nowrap;
   }
   .wordmark .o {
@@ -457,7 +458,7 @@
   <header class="hero">
     <h1 class="wordmark" aria-label="THE JUKEBOX"><span aria-hidden="true">THE JUKEB<span class="o"><svg viewBox="0 0 16 16"><use href="#g-ff"></use></svg></span>X</span></h1>
     <div class="meta-row">
-      <span id="heroTag">коллекция винила</span>
+      <span id="heroTag">Коллекция винила</span>
       <span class="rule" aria-hidden="true"></span>
       <div class="lang-toggle" role="group" aria-label="Language">
         <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -550,7 +551,7 @@
   }
 
   var STRINGS = {
-    heroTag: { ru: "коллекция винила", en: "vinyl record collection" },
+    heroTag: { ru: "Коллекция винила", en: "Vinyl record collection" },
     footEnd: { ru: "конец стороны", en: "end of side" },
     searchPlaceholder: { ru: "Поиск по коллекции…", en: "Search the collection…" },
     allGenres: { ru: "Все", en: "All" },
