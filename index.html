@@ -14,6 +14,7 @@
   }
   :root {
     --ctrl-h: 38px;
+    --chip-h: 30px;
     --ground: #161310;
     --ground-2: #211c17;
     --well: #0a0807;
@@ -196,9 +197,9 @@
   /* click arrows to page through genres with a mouse - hidden on touch/narrow, where swipe already works */
   .chip-nav {
     display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
-    width: var(--ctrl-h); height: var(--ctrl-h); border-radius: 999px; align-items: center; justify-content: center;
+    width: var(--chip-h); height: var(--chip-h); border-radius: 999px; align-items: center; justify-content: center;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream-soft);
-    font-family: var(--body); font-size: 1.2rem; font-weight: 700; line-height: 0; padding: 0; cursor: pointer;
+    font-family: var(--body); font-size: 1.05rem; font-weight: 700; line-height: 0; padding: 0; cursor: pointer;
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .chip-nav:hover { color: var(--cream); border-color: var(--cream-faint); }
@@ -221,10 +222,10 @@
   /* filter chips: flat outline pills, orange when active */
   .chip {
     --chip-c: var(--orange);
-    position: relative; display: inline-flex; align-items: center; gap: 8px;
-    height: var(--ctrl-h); padding: 0 16px; border-radius: 999px; margin-right: 10px;
+    position: relative; display: inline-flex; align-items: center; gap: 6px;
+    height: var(--chip-h); padding: 0 13px; border-radius: 999px; margin-right: 10px;
     border: 1px solid var(--line-strong); background: transparent; color: var(--cream-soft);
-    font: 600 0.82rem var(--display);
+    font: 600 0.72rem var(--display);
     cursor: pointer; user-select: none; white-space: nowrap; overflow: hidden;
     max-width: 260px;
     transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease,
@@ -243,16 +244,16 @@
   }
   /* every chip carries a status dot; it lights up in the chip's own color when active */
   .chip::before {
-    content: ""; width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%;
+    content: ""; width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%;
     background: var(--line-strong);
   }
   .chip.active::before { background: var(--chip-c); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--chip-c) 80%, transparent); }
   /* the clear button that appears next to an active chip */
   .chip-clear {
     display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
-    width: var(--ctrl-h); height: var(--ctrl-h); border-radius: 999px; padding: 0;
+    width: var(--chip-h); height: var(--chip-h); border-radius: 999px; padding: 0;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream-soft);
-    font-size: 1rem; line-height: 0; cursor: pointer;
+    font-size: 0.88rem; line-height: 0; cursor: pointer;
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .chip-clear:hover { color: var(--cream); border-color: var(--cream-faint); }
