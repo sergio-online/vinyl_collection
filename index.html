@@ -123,31 +123,35 @@
   /* ---------- controls ---------- */
   .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
   .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-  .search-box { position: relative; flex: 1 1 200px; }
+  .search-box { position: relative; flex: 1 1 auto; }
   .search-box input {
-    width: 100%; padding: 12px 16px 12px 40px; border-radius: 999px;
+    width: 100%; padding: 12px 16px 12px 42px; border-radius: 999px;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream);
-    font: 500 0.86rem var(--body);
+    font: 700 0.9rem var(--body);
   }
-  .search-box input::placeholder { color: var(--cream-faint); font-weight: 400; }
+  .search-box input::placeholder { color: var(--cream-faint); font-weight: 700; }
   .search-box input:focus { outline: none; border-color: var(--orange); }
   .search-icon {
-    position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-    width: 15px; height: 15px; fill: var(--cream-faint); pointer-events: none;
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    width: 17px; height: 17px; fill: var(--cream-faint); pointer-events: none;
   }
+  /* sort: a compact pill that always reads "Sort" - the real <select> sits underneath,
+     fully functional, with its own chosen-option text hidden so our fixed label shows instead */
+  .sort-wrap { position: relative; flex: 0 0 auto; }
   select.sort-select {
-    flex: 1 1 190px; appearance: none; -webkit-appearance: none; border-radius: 999px; cursor: pointer;
-    accent-color: var(--orange);
-    padding: 12px 34px 12px 16px; border: 1px solid var(--line-strong); color: var(--cream);
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23a29988'/%3E%3C/svg%3E") no-repeat right 14px center,
-      var(--ground-2);
-    font: 500 0.86rem var(--body);
+    appearance: none; -webkit-appearance: none; border-radius: 999px; cursor: pointer;
+    accent-color: var(--orange); width: 116px; text-align: center;
+    padding: 12px 20px; border: 1px solid var(--line-strong); background: var(--ground-2); color: transparent;
+    font: 700 0.86rem var(--body);
     transition: border-color 0.12s ease;
   }
   select.sort-select:hover { border-color: var(--cream-faint); }
   select.sort-select:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
   select option { background: var(--ground-2); color: var(--cream); }
+  .sort-label {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    pointer-events: none; color: var(--cream); font: 700 0.86rem var(--body); white-space: nowrap;
+  }
   select option:checked, select option:hover, select option:focus {
     background: color-mix(in srgb, var(--orange) 30%, var(--ground-2)); color: var(--cream);
   }
@@ -445,7 +449,7 @@
     .wrap { padding: 22px 16px 44px; }
     .controls { align-items: stretch; }
     .search-box { flex: 1 1 100%; max-width: none; order: 1; }
-    .sort-select { flex: 1 1 auto; order: 2; }
+    .sort-wrap { order: 2; }
     .layout-toggle { order: 3; }
     .field-row { flex-direction: column; gap: 0; }
     .modal-inner { padding: 22px 18px 18px; }
@@ -487,12 +491,15 @@
       <svg class="search-icon" aria-hidden="true"><use href="#g-search"></use></svg>
       <input type="text" id="searchInput" placeholder="Поиск" autocomplete="off">
     </div>
-    <select class="sort-select" id="sortSelect">
-      <option value="artist">Сортировка: Исполнитель А–Я</option>
-      <option value="genre">Сортировка: Жанр</option>
-      <option value="year">Сортировка: Год</option>
-      <option value="price">Сортировка: Стоимость</option>
-    </select>
+    <div class="sort-wrap">
+      <select class="sort-select" id="sortSelect">
+        <option value="artist">Сортировка: Исполнитель А–Я</option>
+        <option value="genre">Сортировка: Жанр</option>
+        <option value="year">Сортировка: Год</option>
+        <option value="price">Сортировка: Стоимость</option>
+        </select>
+      <span class="sort-label" id="sortLabel" aria-hidden="true">Сортировка</span>
+    </div>
     <div class="layout-toggle" role="group" aria-label="Плиток в ряду">
       <button type="button" class="layout-btn" data-cols="3" title="3 в ряду" aria-label="3 в ряду">
         <svg viewBox="0 0 16 16"><rect x="1" y="3" width="3.6" height="10"></rect><rect x="6.2" y="3" width="3.6" height="10"></rect><rect x="11.4" y="3" width="3.6" height="10"></rect></svg>
@@ -564,7 +571,8 @@
 
   var STRINGS = {
     heroTag: { ru: "Коллекция винила", en: "Vinyl record collection" },
-    searchPlaceholder: { ru: "Поиск по коллекции…", en: "Search the collection…" },
+    searchPlaceholder: { ru: "Поиск", en: "Search" },
+    sortLabel: { ru: "Сортировка", en: "Sort" },
     clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
     sortArtist: { ru: "Сортировка: Исполнитель А–Я", en: "Sort: Artist A–Z" },
     sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
@@ -763,6 +771,7 @@
     rarityChips: document.getElementById("rarityChips"),
     search: document.getElementById("searchInput"),
     sort: document.getElementById("sortSelect"),
+    sortLabel: document.getElementById("sortLabel"),
     count: document.getElementById("countTag"),
     layoutBtns: Array.prototype.slice.call(document.querySelectorAll(".layout-btn")),
     langBtns: Array.prototype.slice.call(document.querySelectorAll(".lang-btn")),
@@ -845,8 +854,9 @@
   function applyLang() {
     document.getElementById("heroTag").textContent = t("heroTag");
     els.search.placeholder = t("searchPlaceholder");
-    var sortKeys = { artist: "sortArtist", genre: "sortGenre", year: "sortYear", added: "sortAdded", price: "sortPrice" };
-    Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(sortKeys[o.value]); });
+    Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(SORT_KEYS[o.value]); });
+    els.sortLabel.textContent = t("sortLabel");
+    els.sort.setAttribute("aria-label", t(SORT_KEYS[els.sort.value]));
     els.layoutBtns.forEach(function (btn) {
       var label = t("layout" + btn.dataset.cols);
       btn.title = label;
@@ -938,6 +948,7 @@
   els.chipsPrev.addEventListener("click", function () { els.chips.scrollBy({ left: -220, behavior: "smooth" }); });
   els.chipsNext.addEventListener("click", function () { els.chips.scrollBy({ left: 220, behavior: "smooth" }); });
 
+  var SORT_KEYS = { artist: "sortArtist", genre: "sortGenre", year: "sortYear", added: "sortAdded", price: "sortPrice" };
   var RARITY_ORDER = ["limited", "rare"];
   function renderRarityChips() {
     var present = {};
@@ -1150,7 +1161,11 @@
   els.detailCloseBtn.addEventListener("click", function () { closeDialog(els.detailDialog); });
 
   els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
-  els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderGrid(); });
+  els.sort.addEventListener("change", function () {
+    state.sort = els.sort.value;
+    els.sort.setAttribute("aria-label", t(SORT_KEYS[els.sort.value]));
+    renderGrid();
+  });
 
   applyLang();
 })();
