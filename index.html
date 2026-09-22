@@ -118,10 +118,10 @@
 
   .lang-toggle { display: inline-flex; gap: 10px; }
   .lang-btn {
-    height: var(--ctrl-h); padding: 0 13px; display: inline-flex; align-items: center; justify-content: center;
+    height: var(--chip-h); padding: 0 13px; display: inline-flex; align-items: center; justify-content: center;
     border-radius: 999px; border: 1px solid var(--line-strong);
     background: transparent; color: var(--cream-faint);
-    font-family: var(--display); font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    font-family: var(--display); font-size: 0.72rem; font-weight: 500; cursor: pointer;
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .lang-btn:hover { color: var(--cream); border-color: var(--cream-faint); }
@@ -129,7 +129,7 @@
 
   /* ---------- controls ---------- */
   .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
-  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
   .search-box { position: relative; flex: 1 1 auto; }
   .search-box input {
     width: 100%; height: var(--ctrl-h); padding: 0 16px 0 42px; border-radius: 8px;
@@ -229,7 +229,8 @@
     cursor: pointer; user-select: none; white-space: nowrap; overflow: hidden;
     max-width: 260px;
     transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease,
-      max-width 0.22s ease, margin-right 0.22s ease, padding 0.22s ease, opacity 0.18s ease;
+      max-width 0.22s ease, margin-right 0.22s ease, padding 0.22s ease, opacity 0.18s ease,
+      border-width 0.22s ease;
   }
   .chip:last-child { margin-right: 0; }
   .chip:hover { border-color: var(--cream-faint); color: var(--cream); }
@@ -237,10 +238,14 @@
     color: var(--chip-c); border-color: var(--chip-c);
     background: color-mix(in srgb, var(--chip-c) 10%, transparent);
   }
-  /* when a row has an active filter, its other chips slide shut instead of just sitting dim */
+  /* when a row has an active filter, its other chips slide shut instead of just sitting dim.
+     border-width must also go to 0, not just max-width - a collapsed chip otherwise keeps its
+     2px border box regardless of max-width, and with many collapsed siblings ahead of it that
+     residual adds up, pushing the one visible (active) chip further right the later it sits in
+     the list (looked like the active pill "drifting" depending on which genre was picked) */
   .chip.collapsed {
     max-width: 0; padding-left: 0; padding-right: 0; margin-right: 0;
-    border-color: transparent; opacity: 0; pointer-events: none;
+    border-width: 0; border-color: transparent; opacity: 0; pointer-events: none;
   }
   /* every chip carries a status dot; it lights up in the chip's own color when active */
   .chip::before {
