@@ -95,8 +95,8 @@
   .stats-strip:empty { display: none; }
   .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); }
   .stat-item {
-    display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
-    gap: 5px; min-width: 0; text-align: right;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+    gap: 5px; min-width: 0; text-align: left;
     padding-right: 20px; border-right: 1px solid var(--line-strong);
   }
   .stat-item:not(:first-child) { padding-left: 20px; }
@@ -661,7 +661,7 @@
     groupPop: { ru: "Поп", en: "Pop" },
     statRecords: { ru: "Пластинок", en: "Records" },
     statArtists: { ru: "Исполнителей", en: "Artists" },
-    statValue: { ru: "Стоимость коллекции", en: "Collection value" },
+    statValue: { ru: "Стоимость", en: "Value" },
     detailEdition: { ru: "Издание", en: "Edition" },
     detailPressingYear: { ru: "Год этого экземпляра", en: "Year of this pressing" },
     originalEdition: { ru: "Оригинальное издание", en: "Original edition" },
