@@ -8,8 +8,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  html { font-size: 113%; }
+  @media (max-width: 640px) {
+    html { font-size: 119%; }
+  }
   :root {
-    --ctrl-h: 34px;
+    --ctrl-h: 38px;
     --ground: #161310;
     --ground-2: #211c17;
     --well: #0a0807;
@@ -63,8 +67,8 @@
   .wordmark {
     font-family: var(--display); font-weight: 800; color: var(--cream);
     /* sized so the wordmark's own width reaches the stats row's halfway divider, never past it */
-    font-size: min(4.75rem, calc(100vw / 16.6));
-    font-size: min(4.75rem, 5.9cqw);
+    font-size: min(5.3rem, calc(100vw / 15));
+    font-size: min(5.3rem, 6.6cqw);
     line-height: 1.05;
     letter-spacing: -0.01em; white-space: nowrap;
   }
@@ -100,15 +104,15 @@
     font-family: var(--display); color: var(--orange); font-weight: 700; font-size: 1.9rem;
     font-variant-numeric: tabular-nums;
   }
-  .stat-label { font-size: 0.7rem; color: var(--cream-faint); }
+  .stat-label { font-size: 0.78rem; color: var(--cream-faint); }
   @media (max-width: 640px) {
     .stat-item { padding-inline: 8px; }
     .stat-item:first-child { padding-left: 0; }
-    .stat-val { font-size: 1.25rem; }
-    .stat-label { font-size: 0.6rem; }
+    .stat-val { font-size: 1.4rem; }
+    .stat-label { font-size: 0.7rem; }
   }
   @media (max-width: 420px) {
-    .stat-val { font-size: 1.05rem; }
+    .stat-val { font-size: 1.2rem; }
   }
 
   .lang-toggle { display: inline-flex; gap: 10px; }
@@ -116,7 +120,7 @@
     height: var(--ctrl-h); padding: 0 13px; display: inline-flex; align-items: center; justify-content: center;
     border-radius: 999px; border: 1px solid var(--line-strong);
     background: transparent; color: var(--cream-faint);
-    font-family: var(--display); font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    font-family: var(--display); font-size: 0.8rem; font-weight: 600; cursor: pointer;
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .lang-btn:hover { color: var(--cream); border-color: var(--cream-faint); }
@@ -174,7 +178,7 @@
     .layout-toggle { display: none; }
   }
   .count-tag {
-    font-family: var(--display); font-weight: 600; font-size: 0.72rem;
+    font-family: var(--display); font-weight: 600; font-size: 0.8rem;
     color: var(--cream-faint); white-space: nowrap; font-variant-numeric: tabular-nums;
   }
 
@@ -220,7 +224,7 @@
     position: relative; display: inline-flex; align-items: center; gap: 8px;
     height: var(--ctrl-h); padding: 0 16px; border-radius: 999px; margin-right: 10px;
     border: 1px solid var(--line-strong); background: transparent; color: var(--cream-soft);
-    font: 600 0.76rem var(--display);
+    font: 600 0.82rem var(--display);
     cursor: pointer; user-select: none; white-space: nowrap; overflow: hidden;
     max-width: 260px;
     transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease,
@@ -286,7 +290,7 @@
     display: flex; align-items: center; justify-content: center;
   }
   .cover-placeholder span {
-    font-family: var(--display); font-weight: 600; font-size: 0.64rem; color: var(--cream-faint);
+    font-family: var(--display); font-weight: 600; font-size: 0.72rem; color: var(--cream-faint);
     background: var(--ground-2); padding: 3px 8px; border: 1px solid var(--line-strong);
   }
 
@@ -298,7 +302,7 @@
   .card-album { font-size: 0.82rem; color: var(--cream-soft); margin-top: 2px; overflow-wrap: anywhere; }
   .card-sub {
     display: flex; align-items: center; flex-wrap: wrap; gap: 0 7px; margin-top: 4px;
-    font-size: 0.72rem; color: var(--cream-faint);
+    font-size: 0.8rem; color: var(--cream-faint);
   }
   .card-sub span + span::before { content: "·"; margin-right: 7px; color: var(--line-strong); }
   .card-sub .px { color: var(--orange); }
@@ -328,7 +332,7 @@
   .foot {
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
     margin-top: 56px; padding-top: 12px; border-top: 1px solid var(--line-strong);
-    font-family: var(--display); font-weight: 600; font-size: 0.68rem; color: var(--cream-faint);
+    font-family: var(--display); font-weight: 600; font-size: 0.76rem; color: var(--cream-faint);
   }
 
   /* ---------- dialogs: flat rounded card ---------- */
@@ -345,7 +349,7 @@
   }
   .field { margin-bottom: 14px; }
   .field label {
-    display: block; font-family: var(--display); font-weight: 600; font-size: 0.68rem;
+    display: block; font-family: var(--display); font-weight: 600; font-size: 0.76rem;
     color: var(--cream-faint); margin-bottom: 6px;
   }
   .field input[type="text"], .field input[type="number"], .field select, .field textarea {
@@ -373,7 +377,7 @@
   .btn-danger-solid { background: var(--danger); border-color: var(--danger); color: var(--danger-ink); }
   .confirm-dialog { width: min(380px, 90vw); }
   .confirm-message { font-size: 0.8rem; color: var(--cream-soft); line-height: 1.6; margin: 0; }
-  .required-hint { font-size: 0.66rem; color: var(--cream-faint); margin-top: 6px; }
+  .required-hint { font-size: 0.74rem; color: var(--cream-faint); margin-top: 6px; }
 
   .detail-dialog { width: min(660px, 94vw); max-height: 86vh; padding: 0; }
   .detail-inner { display: flex; flex-direction: column; max-height: 86vh; position: relative; }
@@ -407,12 +411,12 @@
   }
   .detail-album { font-size: 0.94rem; color: var(--cream-soft); margin-top: 3px; overflow-wrap: anywhere; }
   .detail-sub {
-    font-size: 0.72rem; color: var(--cream-faint);
+    font-size: 0.8rem; color: var(--cream-faint);
     margin-top: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
   }
   .detail-edit-link {
     margin-top: 12px; background: none; border: none; color: var(--orange); cursor: pointer; padding: 0;
-    font: 600 0.72rem var(--display);
+    font: 600 0.8rem var(--display);
     border-bottom: 1px solid color-mix(in srgb, var(--orange) 50%, transparent);
   }
   .detail-body { padding: 22px 26px 28px; overflow-y: auto; }
@@ -421,31 +425,31 @@
     gap: 16px 20px; margin-bottom: 24px;
   }
   .detail-meta-label {
-    font-family: var(--display); font-weight: 600; font-size: 0.66rem;
+    font-family: var(--display); font-weight: 600; font-size: 0.74rem;
     color: var(--cream-faint); margin-bottom: 4px;
   }
-  .detail-meta-value { font-size: 0.88rem; font-variant-numeric: tabular-nums; }
-  .detail-credits { font-size: 0.82rem; color: var(--cream-soft); line-height: 1.7; margin-bottom: 24px; white-space: pre-line; }
+  .detail-meta-value { font-size: 0.94rem; font-variant-numeric: tabular-nums; }
+  .detail-credits { font-size: 0.88rem; color: var(--cream-soft); line-height: 1.7; margin-bottom: 24px; white-space: pre-line; }
   .detail-section-title {
     display: flex; align-items: center; gap: 12px;
-    font-family: var(--display); font-weight: 600; font-size: 0.7rem;
+    font-family: var(--display); font-weight: 600; font-size: 0.78rem;
     color: var(--cream-faint); margin-bottom: 12px;
   }
   .detail-section-title::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
   .tracklist-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
   .tracklist-side h4 {
-    font-family: var(--display); font-size: 0.7rem; color: var(--orange); margin-bottom: 6px;
+    font-family: var(--display); font-size: 0.78rem; color: var(--orange); margin-bottom: 6px;
     font-weight: 700;
   }
-  .track-row { display: flex; gap: 10px; padding: 5px 0; font-size: 0.78rem; border-bottom: 1px dashed var(--line); }
+  .track-row { display: flex; gap: 10px; padding: 5px 0; font-size: 0.84rem; border-bottom: 1px dashed var(--line); }
   .track-row:last-child { border-bottom: none; }
-  .track-pos { color: var(--orange); width: 26px; flex-shrink: 0; font-size: 0.7rem; padding-top: 1px; }
-  .detail-empty { font-size: 0.78rem; color: var(--cream-faint); }
+  .track-pos { color: var(--orange); width: 26px; flex-shrink: 0; font-size: 0.78rem; padding-top: 1px; }
+  .detail-empty { font-size: 0.84rem; color: var(--cream-faint); }
 
   @media (max-width: 640px) {
     .grid { gap: 28px 14px; }
-    .card-artist { font-size: 0.78rem; }
-    .card-album { font-size: 0.76rem; }
+    .card-artist { font-size: 0.86rem; }
+    .card-album { font-size: 0.84rem; }
   }
   @media (max-width: 560px) {
     .wrap { padding: 22px 16px 44px; }
@@ -550,13 +554,15 @@
   var GENRE_GROUP_RULES = [
     [/trip hop/, "groupTripHop"],
     [/jazz/, "groupJazz"],
-    [/hip hop/, "groupHipHopSoul"],
-    [/soul/, "groupHipHopSoul"],
-    [/r&b/, "groupHipHopSoul"],
-    [/synth-pop|new wave/, "groupSynthPop"],
+    [/hip hop/, "groupHipHop"],
+    [/soul/, "groupSoul"],
+    [/r&b/, "groupSoul"],
+    [/synth-pop/, "groupSynthPop"],
+    [/new wave/, "groupNewWave"],
     [/downtempo/, "groupDowntempo"],
     [/balearic/, "groupDowntempo"],
     [/ambient/, "groupDowntempo"],
+    [/electronic/, "groupElectronic"],
     [/techno/, "groupElectronic"],
     [/deep house/, "groupDowntempo"],
     [/house/, "groupElectronic"],
@@ -636,12 +642,14 @@
     bannerNoDbInit: { ru: "Каталог не может подключиться к хранилищу в этом окне. Перезагрузите страницу или откройте её через claude.ai.", en: "This catalog can't connect to storage in this view. Reload the page, or open it from claude.ai." },
     bannerLostConnection: { ru: "Связь с каталогом потеряна", en: "Lost the live connection to your catalog" },
     bannerReconnect: { ru: "Перезагрузите страницу, чтобы переподключиться.", en: "Reload to reconnect." },
-    groupHipHopSoul: { ru: "Хип-хоп / Соул", en: "Hip-Hop / Soul" },
-    groupSynthPop: { ru: "Синти-поп / Нью-вейв", en: "Synth-pop / New Wave" },
+    groupHipHop: { ru: "Хип-хоп", en: "Hip-Hop" },
+    groupSoul: { ru: "Соул", en: "Soul" },
+    groupSynthPop: { ru: "Синти-поп", en: "Synth-pop" },
+    groupNewWave: { ru: "Нью-вейв", en: "New Wave" },
     groupTripHop: { ru: "Трип-хоп", en: "Trip Hop" },
     groupJazz: { ru: "Джаз", en: "Jazz" },
-    groupDowntempo: { ru: "Даунтемпо / Чилаут", en: "Downtempo / Chillout" },
-    groupElectronic: { ru: "Электроника / Танцевальная", en: "Electronic / Dance" },
+    groupDowntempo: { ru: "Даунтемпо", en: "Downtempo" },
+    groupElectronic: { ru: "Электроника", en: "Electronic" },
     groupRock: { ru: "Рок", en: "Rock" },
     groupPop: { ru: "Поп", en: "Pop" },
     statRecords: { ru: "Пластинок", en: "Records" },
@@ -755,12 +763,18 @@
     return isNaN(n) ? null : n;
   }
 
-  // price is free-typed catalog data (usually in Russian); swap its leading "от"/"from" to match the UI language
+  // price is free-typed catalog data (usually in Russian); fold its "~"/"от"/"from" prefixes into one
+  // canonical "starting from" form, then swap that word to match the UI language
   function localizePrice(p) {
-    var s = p || "";
-    return state.lang === "en"
-      ? s.replace(/^от\.?\s*/i, "from ")
-      : s.replace(/^from\s*/i, "от ");
+    var s = String(p || "").trim();
+    s = s.replace(/^~\s*/, "от ").replace(/^from\s*/i, "от ").replace(/^от\.?\s*/i, "от ");
+    return state.lang === "en" ? s.replace(/^от\s*/i, "from ") : s;
+  }
+
+  // mini-card price: bare "€NN" with no "от"/"~"/"from" prefix - full context lives in the detail dialog
+  function cardPriceText(p) {
+    var m = String(p || "").match(/[€$]\s?[\d,]+(?:\.\d+)?/);
+    return m ? m[0].replace(/\s+/g, "") : "";
   }
 
   var els = {
@@ -1039,7 +1053,7 @@
       var subBits = [];
       if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + " → " + r.pressingYear + "</span>");
       else if (r.year) subBits.push("<span>" + r.year + "</span>");
-      if (r.price) subBits.push('<span class="px">' + escapeHtml(localizePrice(r.price)) + "</span>");
+      if (r.price) subBits.push('<span class="px">' + escapeHtml(cardPriceText(r.price)) + "</span>");
       var vinylIcon = "";
       if (r.vinylColor) {
         var vinylTitle = localizeVinylColor(r.vinylColor) + " " + t("vinylWord");
