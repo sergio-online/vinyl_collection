@@ -86,7 +86,7 @@
   .meta-row .lang-toggle { flex-shrink: 0; }
 
   /* ---------- stats: plain read-outs, no chrome ---------- */
-  .stats-strip { position: relative; z-index: 1; margin: 30px 0 28px; }
+  .stats-strip { position: relative; z-index: 1; margin: 30px 0 18px; }
   .stats-strip:empty { display: none; }
   .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); }
   .stat-item {
@@ -111,7 +111,7 @@
     .stat-val { font-size: 1.05rem; }
   }
 
-  .lang-toggle { display: inline-flex; gap: 8px; }
+  .lang-toggle { display: inline-flex; gap: 10px; }
   .lang-btn {
     height: var(--ctrl-h); padding: 0 13px; display: inline-flex; align-items: center; justify-content: center;
     border-radius: 999px; border: 1px solid var(--line-strong);
@@ -124,7 +124,7 @@
 
   /* ---------- controls ---------- */
   .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
-  .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
   .search-box { position: relative; flex: 1 1 auto; }
   .search-box input {
     width: 100%; height: var(--ctrl-h); padding: 0 16px 0 42px; border-radius: 999px;
@@ -157,7 +157,7 @@
   select option:checked, select option:hover, select option:focus {
     background: color-mix(in srgb, var(--orange) 30%, var(--ground-2)); color: var(--cream);
   }
-  .layout-toggle { display: inline-flex; gap: 8px; }
+  .layout-toggle { display: inline-flex; gap: 10px; }
   .layout-btn {
     width: var(--ctrl-h); height: var(--ctrl-h); display: flex; align-items: center; justify-content: center;
     border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer;
@@ -180,7 +180,7 @@
 
   .chips { display: flex; row-gap: 10px; flex-wrap: wrap; }
   /* genre chips: one swipeable strip instead of a wrapped grid */
-  .chip-scroll { position: relative; margin-bottom: 14px; }
+  .chip-scroll { position: relative; margin-bottom: 10px; }
   .chip-scroll::before, .chip-scroll::after {
     content: ""; position: absolute; top: 0; bottom: 0; width: 54px; pointer-events: none; z-index: 2;
     opacity: 0; transition: opacity 0.15s ease;
@@ -212,7 +212,7 @@
   }
   #genreChips::-webkit-scrollbar { display: none; }
   #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
-  .filter-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 14px; margin-bottom: 22px; }
+  .filter-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px; }
   .count-rule { flex: 1 1 40px; min-width: 24px; height: 1px; background: var(--line-strong); }
   /* filter chips: flat outline pills, orange when active */
   .chip {
