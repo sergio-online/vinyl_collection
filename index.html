@@ -6,7 +6,7 @@
 <title>THE JUKEBOX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Krona+One&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --ground: #161310;
@@ -30,8 +30,8 @@
     --g-orange: #d8692b;
     --g-pink: #c0468a;
     --g-red: #d24a40;
-    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    --wide: "Krona One", "Eurostile", "Arial Black", Verdana, sans-serif;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Work Sans", "Helvetica Neue", Arial, sans-serif;
     --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .88 0 0 0 0 .8 0 0 0 1.2 -.42'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
     color-scheme: dark;
   }
@@ -42,12 +42,12 @@
     overflow-x: hidden;
     background-color: var(--ground);
     color: var(--cream);
-    font-family: var(--mono);
-    font-size: 0.82rem;
+    font-family: var(--body);
+    font-size: 0.88rem;
     line-height: 1.5;
     min-height: 100vh;
   }
-  h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
+  h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 600; text-wrap: balance; }
   ::selection { background: var(--orange); color: var(--orange-ink); }
   button { font-family: inherit; }
   :focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
@@ -60,9 +60,9 @@
   /* ---------- hero: wordmark + tagline rule ---------- */
   .hero { position: relative; z-index: 0; }
   .wordmark {
-    font-family: var(--wide); font-weight: 400; color: var(--cream);
-    font-size: min(4.3rem, calc((100vw - 48px) / 10.4)); line-height: 1.05;
-    letter-spacing: 0.04em; word-spacing: 0.18em; white-space: nowrap;
+    font-family: var(--display); font-weight: 800; color: var(--cream);
+    font-size: min(4rem, calc((100vw - 48px) / 9.8)); line-height: 1.05;
+    letter-spacing: -0.01em; white-space: nowrap;
   }
   .wordmark .o {
     position: relative; display: inline-block; vertical-align: baseline;
@@ -76,7 +76,7 @@
   .meta-row {
     display: flex; align-items: center; gap: 18px;
     margin-top: 14px;
-    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft);
+    font-family: var(--display); font-weight: 600; font-size: 0.78rem; color: var(--cream-soft);
   }
   .meta-row .rule { flex: 1 1 auto; height: 1px; min-width: 24px; background: var(--line-strong); }
   .meta-row .lang-toggle { flex-shrink: 0; }
@@ -92,15 +92,15 @@
   .stat-item:not(:first-child) { padding-left: 20px; }
   .stat-item:last-child { border-right: none; padding-right: 0; }
   .stat-val {
-    color: var(--orange); font-weight: 600; font-size: 1.5rem; letter-spacing: 0.01em;
+    font-family: var(--display); color: var(--orange); font-weight: 700; font-size: 1.5rem;
     font-variant-numeric: tabular-nums;
   }
-  .stat-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-faint); }
+  .stat-label { font-size: 0.68rem; color: var(--cream-faint); }
   @media (max-width: 640px) {
     .stat-item { padding-inline: 8px; }
     .stat-item:first-child { padding-left: 0; }
     .stat-val { font-size: 1rem; }
-    .stat-label { font-size: 0.54rem; letter-spacing: 0.06em; }
+    .stat-label { font-size: 0.58rem; }
   }
   @media (max-width: 420px) {
     .stat-val { font-size: 0.86rem; }
@@ -110,7 +110,7 @@
   .lang-btn {
     padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line-strong);
     background: transparent; color: var(--cream-faint);
-    font-size: 0.64rem; font-weight: 500; letter-spacing: 0.1em; cursor: pointer;
+    font-family: var(--display); font-size: 0.72rem; font-weight: 600; cursor: pointer;
     transition: border-color 0.12s ease, color 0.12s ease;
   }
   .lang-btn:hover { color: var(--cream); border-color: var(--cream-faint); }
@@ -123,7 +123,7 @@
   .search-box input {
     width: 100%; padding: 12px 16px 12px 40px; border-radius: 999px;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream);
-    font: 500 0.78rem var(--mono); letter-spacing: 0.02em;
+    font: 500 0.86rem var(--body);
   }
   .search-box input::placeholder { color: var(--cream-faint); font-weight: 400; }
   .search-box input:focus { outline: none; border-color: var(--orange); }
@@ -137,7 +137,7 @@
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23a29988'/%3E%3C/svg%3E") no-repeat right 14px center,
       var(--ground-2);
-    font: 500 0.68rem var(--mono); letter-spacing: 0.09em; text-transform: uppercase;
+    font: 600 0.76rem var(--display);
     transition: border-color 0.12s ease;
   }
   select.sort-select:hover { border-color: var(--cream-faint); }
@@ -160,7 +160,7 @@
     .layout-toggle { display: none; }
   }
   .count-tag {
-    font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+    font-family: var(--display); font-weight: 600; font-size: 0.72rem;
     color: var(--cream-faint); white-space: nowrap; font-variant-numeric: tabular-nums;
   }
 
@@ -210,7 +210,7 @@
     position: relative; display: inline-flex; align-items: center; gap: 8px;
     padding: 9px 16px; border-radius: 999px;
     border: 1px solid var(--line-strong); background: transparent; color: var(--cream-soft);
-    font: 500 0.68rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
+    font: 600 0.76rem var(--display);
     cursor: pointer; user-select: none; white-space: nowrap;
     transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
   }
@@ -258,26 +258,25 @@
     display: flex; align-items: center; justify-content: center;
   }
   .cover-placeholder span {
-    font-size: 0.58rem; letter-spacing: 0.12em; color: var(--cream-faint);
+    font-family: var(--display); font-weight: 600; font-size: 0.64rem; color: var(--cream-faint);
     background: var(--ground-2); padding: 3px 8px; border: 1px solid var(--line-strong);
   }
 
   .card-meta { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
   .card-artist {
-    font-size: 0.78rem; font-weight: 600; line-height: 1.35; letter-spacing: 0.07em;
-    text-transform: uppercase; overflow-wrap: anywhere;
+    font-family: var(--display); font-size: 0.84rem; font-weight: 700; line-height: 1.35;
+    overflow-wrap: anywhere;
   }
-  .card-album { font-size: 0.8rem; color: var(--cream-soft); margin-top: 2px; overflow-wrap: anywhere; }
+  .card-album { font-size: 0.82rem; color: var(--cream-soft); margin-top: 2px; overflow-wrap: anywhere; }
   .card-sub {
     display: flex; align-items: center; flex-wrap: wrap; gap: 0 7px; margin-top: 8px;
-    font-size: 0.66rem; color: var(--cream-faint); letter-spacing: 0.04em;
+    font-size: 0.72rem; color: var(--cream-faint);
   }
   .card-sub span + span::before { content: "·"; margin-right: 7px; color: var(--line-strong); }
   .card-sub .px { color: var(--orange); }
   .card-tags { display: flex; align-items: center; gap: 7px; margin-top: 8px; }
   .edition-badge {
-    display: inline-block; font-size: 0.56rem; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase;
+    display: inline-block; font-family: var(--display); font-size: 0.62rem; font-weight: 600;
     padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--cream-faint); line-height: 1.3;
   }
   .vinyl-icon { display: inline-flex; flex-shrink: 0; cursor: default; }
@@ -295,7 +294,7 @@
     content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-30%, -50%);
     border-left: 24px solid var(--orange); border-block: 14px solid transparent;
   }
-  .empty-state h2 { font-size: 0.95rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .empty-state h2 { font-size: 1.1rem; }
   .empty-state p { max-width: 400px; color: var(--cream-soft); font-size: 0.82rem; line-height: 1.6; margin: 0; }
 
   .banner {
@@ -306,7 +305,7 @@
   .foot {
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
     margin-top: 56px; padding-top: 12px; border-top: 1px solid var(--line-strong);
-    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-faint);
+    font-family: var(--display); font-weight: 600; font-size: 0.68rem; color: var(--cream-faint);
   }
   .foot .end { display: inline-flex; align-items: center; gap: 9px; color: var(--cream-soft); }
   .foot .end svg { width: 12px; height: 12px; fill: var(--g-red); }
@@ -321,28 +320,28 @@
   dialog.modal::backdrop { background: rgba(8, 8, 7, 0.78); }
   .modal-inner { padding: 26px 26px 22px; }
   .modal-inner h2 {
-    font-size: 0.86rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+    font-size: 1rem; font-weight: 700; color: var(--orange); margin-bottom: 20px;
   }
   .field { margin-bottom: 14px; }
   .field label {
-    display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em;
+    display: block; font-family: var(--display); font-weight: 600; font-size: 0.68rem;
     color: var(--cream-faint); margin-bottom: 6px;
   }
   .field input[type="text"], .field input[type="number"], .field select, .field textarea {
     width: 100%; padding: 9px 12px; border-radius: 9px; border: 1px solid var(--line-strong);
-    background: var(--well); color: var(--cream); font: 400 0.84rem var(--mono);
+    background: var(--well); color: var(--cream); font: 400 0.88rem var(--body);
   }
   .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--orange); outline: none; }
   .field textarea { resize: vertical; line-height: 1.5; }
   .field-row { display: flex; gap: 12px; }
   .field-row .field { flex: 1; }
   .file-row { display: flex; align-items: center; gap: 10px; }
-  .file-row input[type="file"] { font: 400 0.76rem var(--mono); color: var(--cream-soft); flex: 1; min-width: 0; }
+  .file-row input[type="file"] { font: 400 0.8rem var(--body); color: var(--cream-soft); flex: 1; min-width: 0; }
   .cover-preview { width: 46px; height: 46px; border-radius: 8px; object-fit: cover; border: 1px solid var(--line-strong); flex-shrink: 0; }
   .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
   .btn-ghost, .btn-primary {
     padding: 10px 18px; border-radius: 999px; cursor: pointer;
-    font: 600 0.68rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+    font: 600 0.76rem var(--display);
   }
   .btn-ghost { background: transparent; border: 1px solid var(--line-strong); color: var(--cream-soft); }
   .btn-ghost:hover { color: var(--cream); border-color: var(--cream-faint); }
@@ -383,16 +382,16 @@
   }
   .detail-titles { min-width: 0; }
   .detail-titles h2 {
-    font-size: 1.02rem; line-height: 1.3; letter-spacing: 0.07em; text-transform: uppercase; overflow-wrap: anywhere;
+    font-size: 1.15rem; line-height: 1.3; overflow-wrap: anywhere;
   }
-  .detail-album { font-size: 0.9rem; color: var(--cream-soft); margin-top: 3px; overflow-wrap: anywhere; }
+  .detail-album { font-size: 0.94rem; color: var(--cream-soft); margin-top: 3px; overflow-wrap: anywhere; }
   .detail-sub {
-    font-size: 0.66rem; color: var(--cream-faint); letter-spacing: 0.04em;
+    font-size: 0.72rem; color: var(--cream-faint);
     margin-top: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
   }
   .detail-edit-link {
     margin-top: 12px; background: none; border: none; color: var(--orange); cursor: pointer; padding: 0;
-    font: 600 0.64rem var(--mono); letter-spacing: 0.14em; text-transform: uppercase;
+    font: 600 0.72rem var(--display);
     border-bottom: 1px solid color-mix(in srgb, var(--orange) 50%, transparent);
   }
   .detail-body { padding: 22px 26px 28px; overflow-y: auto; }
@@ -401,21 +400,21 @@
     gap: 16px 20px; margin-bottom: 24px;
   }
   .detail-meta-label {
-    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.14em;
+    font-family: var(--display); font-weight: 600; font-size: 0.66rem;
     color: var(--cream-faint); margin-bottom: 4px;
   }
-  .detail-meta-value { font-size: 0.84rem; font-variant-numeric: tabular-nums; }
-  .detail-credits { font-size: 0.78rem; color: var(--cream-soft); line-height: 1.7; margin-bottom: 24px; white-space: pre-line; }
+  .detail-meta-value { font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+  .detail-credits { font-size: 0.82rem; color: var(--cream-soft); line-height: 1.7; margin-bottom: 24px; white-space: pre-line; }
   .detail-section-title {
     display: flex; align-items: center; gap: 12px;
-    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em;
+    font-family: var(--display); font-weight: 600; font-size: 0.7rem;
     color: var(--cream-faint); margin-bottom: 12px;
   }
   .detail-section-title::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
   .tracklist-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
   .tracklist-side h4 {
-    font-size: 0.62rem; color: var(--orange); margin-bottom: 6px; letter-spacing: 0.14em;
-    font-weight: 600; text-transform: uppercase;
+    font-family: var(--display); font-size: 0.7rem; color: var(--orange); margin-bottom: 6px;
+    font-weight: 700;
   }
   .track-row { display: flex; gap: 10px; padding: 5px 0; font-size: 0.78rem; border-bottom: 1px dashed var(--line); }
   .track-row:last-child { border-bottom: none; }
@@ -424,7 +423,7 @@
 
   @media (max-width: 640px) {
     .grid { gap: 28px 14px; }
-    .card-artist { font-size: 0.72rem; letter-spacing: 0.05em; }
+    .card-artist { font-size: 0.78rem; }
     .card-album { font-size: 0.76rem; }
   }
   @media (max-width: 560px) {
