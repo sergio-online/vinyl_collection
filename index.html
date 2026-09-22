@@ -946,6 +946,17 @@
     return state.lang === "ru" ? "обложка " + album : album + " cover";
   }
 
+  function shortAlbumTitle(album) {
+    var s = (album || "").trim();
+    var m;
+    while ((m = s.match(/^(.*?)\s*\([^()]*\)\s*$/))) {
+      var next = m[1].trim();
+      if (!next) break;
+      s = next;
+    }
+    return s;
+  }
+
   function renderGrid() {
     var list = filteredSorted();
     els.count.textContent = records.length ? (list.length + " " + t("countConnector") + " " + records.length) : "";
@@ -984,7 +995,7 @@
         '<div class="cover-wrap">' + coverInner + '<span class="cover-hint">' + EXPAND_ICON_SVG + "</span></div>" +
         '<div class="card-meta">' +
         '<div class="card-artist">' + escapeHtml(r.artist) + "</div>" +
-        '<div class="card-album">' + vinylIcon + escapeHtml(r.album) + "</div>" +
+        '<div class="card-album">' + vinylIcon + escapeHtml(shortAlbumTitle(r.album)) + "</div>" +
         '<div class="card-sub">' + subBits.join("") + "</div>" +
         "</div>";
       card.addEventListener("click", function () { openDetail(r); });
