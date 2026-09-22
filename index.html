@@ -168,11 +168,11 @@
   /* genre chips: one swipeable strip instead of a wrapped grid */
   .chip-scroll { position: relative; margin-bottom: 14px; }
   .chip-scroll::before, .chip-scroll::after {
-    content: ""; position: absolute; top: 0; bottom: 0; width: 30px; pointer-events: none; z-index: 2;
+    content: ""; position: absolute; top: 0; bottom: 0; width: 54px; pointer-events: none; z-index: 2;
     opacity: 0; transition: opacity 0.15s ease;
   }
-  .chip-scroll::before { left: 0; background: linear-gradient(90deg, var(--ground), transparent); }
-  .chip-scroll::after { right: 0; background: linear-gradient(270deg, var(--ground), transparent); }
+  .chip-scroll::before { left: 0; background: linear-gradient(90deg, var(--ground) 40%, transparent); }
+  .chip-scroll::after { right: 0; background: linear-gradient(270deg, var(--ground) 40%, transparent); }
   .chip-scroll.can-scroll-left::before { opacity: 1; }
   .chip-scroll.can-scroll-right::after { opacity: 1; }
   /* click arrows to page through genres with a mouse - hidden on touch/narrow, where swipe already works */
@@ -198,10 +198,6 @@
   }
   #genreChips::-webkit-scrollbar { display: none; }
   #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
-  @media (min-width: 641px) {
-    /* reserve real empty space at each end so the arrow never sits over a live chip */
-    #genreChips { padding-inline: 38px; }
-  }
   .filter-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 14px; margin-bottom: 22px; }
   .count-rule { flex: 1 1 40px; min-width: 24px; height: 1px; background: var(--line-strong); }
   /* filter chips: flat outline pills, orange when active */
