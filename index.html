@@ -130,7 +130,12 @@
   /* ---------- controls ---------- */
   .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
   .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-  .search-box { position: relative; flex: 1 1 0; min-width: 0; }
+  /* basis:0 keeps flex-wrap's line-breaking decision from seeing a large hypothetical size (that
+     caused it to wrap early before - see the max-width comment below); grow:1 fills available
+     space up to max-width, which caps it at 2/3 of the row (minus half the 10px gap) so its right
+     edge lines up with the divider between the 2nd and 3rd stat columns above. On narrow screens
+     there's less free space than that cap, so it just fills what's there and can still shrink. */
+  .search-box { position: relative; flex: 1 1 0; min-width: 0; max-width: calc(66.6667% - 5px); }
   .search-box input {
     width: 100%; height: var(--ctrl-h); padding: 0 16px 0 42px; border-radius: 8px;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream);
