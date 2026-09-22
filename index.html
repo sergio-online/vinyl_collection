@@ -289,7 +289,7 @@
   }
   .card-album { font-size: 0.82rem; color: var(--cream-soft); margin-top: 2px; overflow-wrap: anywhere; }
   .card-sub {
-    display: flex; align-items: center; flex-wrap: wrap; gap: 0 7px; margin-top: 8px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 0 7px; margin-top: 4px;
     font-size: 0.72rem; color: var(--cream-faint);
   }
   .card-sub span + span::before { content: "·"; margin-right: 7px; color: var(--line-strong); }
@@ -979,7 +979,7 @@
         ? '<img src="' + url + '" alt="' + altText(r.album || "").replace(/"/g, "&quot;") + '" loading="lazy">'
         : '<div class="cover-placeholder"><span>' + t("noCover") + '</span></div>';
       var subBits = [];
-      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + " > " + r.pressingYear + "</span>");
+      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + " → " + r.pressingYear + "</span>");
       else if (r.year) subBits.push("<span>" + r.year + "</span>");
       if (r.price) subBits.push('<span class="px">' + escapeHtml(r.price) + "</span>");
       var vinylIcon = "";
