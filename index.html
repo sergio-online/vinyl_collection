@@ -130,7 +130,7 @@
   /* ---------- controls ---------- */
   .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
   .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-  .search-box { position: relative; flex: 1 1 auto; }
+  .search-box { position: relative; flex: 1 1 0; min-width: 0; }
   .search-box input {
     width: 100%; height: var(--ctrl-h); padding: 0 16px 0 42px; border-radius: 8px;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream);
@@ -457,10 +457,6 @@
   }
   @media (max-width: 560px) {
     .wrap { padding: 22px 16px 44px; }
-    .controls { align-items: stretch; }
-    .search-box { flex: 1 1 100%; max-width: none; order: 1; }
-    .sort-wrap { order: 2; }
-    .layout-toggle { order: 3; }
     .field-row { flex-direction: column; gap: 0; }
     .modal-inner { padding: 22px 18px 18px; }
     .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
