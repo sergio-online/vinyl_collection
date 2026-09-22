@@ -199,6 +199,10 @@
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 3px 0 #0b0a09, 0 6px 8px rgba(0, 0, 0, 0.5);
   }
   .chip.active::before { background: var(--chip-c); box-shadow: 0 0 7px 1px color-mix(in srgb, var(--chip-c) 85%, transparent); }
+  /* rarity lamps glow CD-display blue */
+  #rarityChips .chip { --chip-c: #4fd3ff; }
+  #rarityChips .chip::before { background: #1c2e38; }
+  #rarityChips .chip.active::before { background: var(--chip-c); box-shadow: 0 0 7px 1px color-mix(in srgb, var(--chip-c) 85%, transparent); }
 
   /* ---------- record grid ---------- */
   .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 36px 22px; }
