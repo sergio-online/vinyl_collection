@@ -23,10 +23,8 @@
     --cream-faint: #a29988;
     --line: rgba(255, 244, 225, 0.08);
     --line-strong: rgba(255, 244, 225, 0.16);
-    /* still named --orange (touches too many rules to rename safely for a trial swap) but now holds a blue -
-       halfway between the calmer #4f8fe8 blue and the rarity chips' #4fd3ff cyan */
-    --orange: #4fb1f4;
-    --orange-ink: #061e2f;
+    --orange: #e8763a;
+    --orange-ink: #1a0e06;
     --indigo: #26236b;
     --brass: #b58a4c;
     --brass-dim: #7d5f33;
@@ -313,7 +311,7 @@
     font-size: 0.72rem; color: var(--cream-faint);
   }
   .card-sub span + span::before { content: "·"; margin-right: 7px; color: var(--line-strong); }
-  .card-sub .px { color: var(--cream); }
+  .card-sub .px { color: var(--orange); }
   .vinyl-icon { display: inline-flex; flex-shrink: 0; cursor: default; margin-right: 6px; vertical-align: -1px; }
   .vinyl-icon svg { display: block; }
 
@@ -446,12 +444,12 @@
   .detail-section-title::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
   .tracklist-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
   .tracklist-side h4 {
-    font-family: var(--display); font-size: 0.78rem; color: var(--cream); margin-bottom: 6px;
+    font-family: var(--display); font-size: 0.78rem; color: var(--orange); margin-bottom: 6px;
     font-weight: 700;
   }
   .track-row { display: flex; gap: 10px; padding: 5px 0; font-size: 0.84rem; border-bottom: 1px dashed var(--line); }
   .track-row:last-child { border-bottom: none; }
-  .track-pos { color: var(--cream); width: 26px; flex-shrink: 0; font-size: 0.78rem; padding-top: 1px; }
+  .track-pos { color: var(--orange); width: 26px; flex-shrink: 0; font-size: 0.78rem; padding-top: 1px; }
   .detail-empty { font-size: 0.84rem; color: var(--cream-faint); }
 
   @media (max-width: 640px) {
