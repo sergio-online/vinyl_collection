@@ -62,7 +62,9 @@
   .wordmark {
     font-family: var(--display); font-weight: 800; color: var(--cream);
     /* sized so the wordmark's own width reaches the stats row's halfway divider, never past it */
-    font-size: min(4.75rem, 5.9cqw); line-height: 1.05;
+    font-size: min(4.75rem, calc(100vw / 16.6));
+    font-size: min(4.75rem, 5.9cqw);
+    line-height: 1.05;
     letter-spacing: -0.01em; white-space: nowrap;
   }
   .wordmark .o {
@@ -562,9 +564,7 @@
 
   var STRINGS = {
     heroTag: { ru: "Коллекция винила", en: "Vinyl record collection" },
-    footEnd: { ru: "конец стороны", en: "end of side" },
     searchPlaceholder: { ru: "Поиск по коллекции…", en: "Search the collection…" },
-    allGenres: { ru: "Все", en: "All" },
     clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
     sortArtist: { ru: "Сортировка: Исполнитель А–Я", en: "Sort: Artist A–Z" },
     sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
@@ -572,7 +572,6 @@
     sortAdded: { ru: "Сортировка: Дата добавления", en: "Sort: Recently added" },
     sortPrice: { ru: "Сортировка: Стоимость", en: "Sort: Value" },
     layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
-    layout2: { ru: "2 в ряду", en: "2 per row" },
     layout3: { ru: "3 в ряду", en: "3 per row" },
     layout4: { ru: "4 в ряду", en: "4 per row" },
     countConnector: { ru: "из", en: "of" },
@@ -637,7 +636,6 @@
     groupPop: { ru: "Поп", en: "Pop" },
     statRecords: { ru: "Пластинок", en: "Records" },
     statArtists: { ru: "Исполнителей", en: "Artists" },
-    statYears: { ru: "Годы выпуска", en: "Years spanned" },
     statValue: { ru: "Стоимость коллекции", en: "Collection value" },
     detailEdition: { ru: "Издание", en: "Edition" },
     detailPressingYear: { ru: "Год этого экземпляра", en: "Year of this pressing" },
@@ -697,6 +695,39 @@
     }
     return "var(--cream-faint)";
   }
+  // color names are catalogued in Russian; swap the recognized words to English for the EN view
+  var CYR = "[а-яёА-ЯЁ]*";
+  var VINYL_COLOR_EN_WORDS = [
+    [new RegExp("серебр" + CYR, "gi"), "silver"],
+    [new RegExp("(чёрн|черн)" + CYR, "gi"), "black"],
+    [new RegExp("непрозрачн" + CYR, "gi"), "opaque"],
+    [new RegExp("прозрачн" + CYR, "gi"), "transparent"],
+    [new RegExp("бел" + CYR, "gi"), "white"],
+    [new RegExp("розов" + CYR, "gi"), "pink"],
+    [new RegExp("красн" + CYR, "gi"), "red"],
+    [new RegExp("оранж" + CYR, "gi"), "orange"],
+    [new RegExp("(жёлт|желт)" + CYR, "gi"), "yellow"],
+    [new RegExp("золот" + CYR, "gi"), "gold"],
+    [new RegExp("(зелен|зелён)" + CYR, "gi"), "green"],
+    [new RegExp("голуб" + CYR, "gi"), "light blue"],
+    [new RegExp("син" + CYR, "gi"), "blue"],
+    [new RegExp("(фиолет|пурпур)" + CYR, "gi"), "purple"],
+    [new RegExp("сер" + CYR, "gi"), "grey"],
+    [new RegExp("коричнев" + CYR, "gi"), "brown"],
+    [new RegExp("мрамор" + CYR, "gi"), "marbled"],
+    [new RegExp("(сплэттер|сплаттер)" + CYR, "gi"), "splatter"],
+    [new RegExp("(блёстк|блестк)" + CYR, "gi"), "glitter"],
+    [new RegExp("двухцветн" + CYR, "gi"), "two-tone"],
+    [/\bс\b/g, "with"]
+  ];
+  function localizeVinylColor(text) {
+    var s = text || "";
+    if (state.lang !== "en") return s;
+    for (var i = 0; i < VINYL_COLOR_EN_WORDS.length; i++) {
+      s = s.replace(VINYL_COLOR_EN_WORDS[i][0], VINYL_COLOR_EN_WORDS[i][1]);
+    }
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
   var VINYL_ICON_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">' +
     '<circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.88"></circle>' +
     '<circle cx="8" cy="8" r="2.6" fill="var(--ground-2)"></circle>' +
@@ -742,20 +773,25 @@
     lightboxImg: document.getElementById("lightboxImg")
   };
 
-  var scrollLockCount = 0, savedScrollY = 0;
-  function lockScroll() {
-    if (scrollLockCount === 0) {
+  // tracked per-dialog (not a bare counter) so a close that the browser's own
+  // "close" event fails to report - some hosts swallow it - can't double-unlock
+  var lockedDialogs = [], savedScrollY = 0;
+  function lockScroll(dlg) {
+    if (lockedDialogs.indexOf(dlg) !== -1) return;
+    if (lockedDialogs.length === 0) {
       savedScrollY = window.scrollY || window.pageYOffset || 0;
       document.body.style.position = "fixed";
       document.body.style.top = "-" + savedScrollY + "px";
       document.body.style.left = "0";
       document.body.style.right = "0";
     }
-    scrollLockCount++;
+    lockedDialogs.push(dlg);
   }
-  function unlockScroll() {
-    scrollLockCount = Math.max(0, scrollLockCount - 1);
-    if (scrollLockCount === 0) {
+  function unlockScroll(dlg) {
+    var i = lockedDialogs.indexOf(dlg);
+    if (i === -1) return;
+    lockedDialogs.splice(i, 1);
+    if (lockedDialogs.length === 0) {
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.left = "";
@@ -763,8 +799,9 @@
       window.scrollTo(0, savedScrollY);
     }
   }
+  function closeDialog(dlg) { dlg.close(); unlockScroll(dlg); }
   [els.detailDialog, els.lightboxDialog].forEach(function (d) {
-    d.addEventListener("close", unlockScroll);
+    d.addEventListener("close", function () { unlockScroll(d); });
   });
 
   function loadCols() {
@@ -992,7 +1029,7 @@
       if (r.price) subBits.push('<span class="px">' + escapeHtml(localizePrice(r.price)) + "</span>");
       var vinylIcon = "";
       if (r.vinylColor) {
-        var vinylTitle = r.vinylColor + " " + t("vinylWord");
+        var vinylTitle = localizeVinylColor(r.vinylColor) + " " + t("vinylWord");
         vinylIcon = '<span class="vinyl-icon" style="color:' + vinylColorToCss(r.vinylColor) + '" title="' +
           escapeHtml(vinylTitle) + '">' + VINYL_ICON_SVG + "</span>";
       }
@@ -1051,7 +1088,7 @@
     if (r.catalogNo) metaItems.push([t("detailCatalogNo"), escapeHtml(r.catalogNo)]);
     if (r.barcode) metaItems.push([t("detailBarcode"), escapeHtml(r.barcode)]);
     if (r.condition) metaItems.push([t("detailCondition"), escapeHtml(r.condition)]);
-    if (r.vinylColor) metaItems.push([t("detailVinylColor"), escapeHtml(r.vinylColor)]);
+    if (r.vinylColor) metaItems.push([t("detailVinylColor"), escapeHtml(localizeVinylColor(r.vinylColor))]);
     if (r.rarity === "limited" || r.rarity === "rare") {
       metaItems.push([t("detailRarity"), t(r.rarity === "rare" ? "rarityRare" : "rarityLimited")]);
     }
@@ -1098,19 +1135,19 @@
       coverBtn.addEventListener("click", function () { openLightbox(url, altText(r.album || "")); });
     }
 
-    lockScroll();
+    lockScroll(els.detailDialog);
     els.detailDialog.showModal();
   }
 
   function openLightbox(url, alt) {
     els.lightboxImg.src = url;
     els.lightboxImg.alt = alt;
-    lockScroll();
+    lockScroll(els.lightboxDialog);
     els.lightboxDialog.showModal();
   }
-  els.lightboxDialog.addEventListener("click", function () { els.lightboxDialog.close(); });
+  els.lightboxDialog.addEventListener("click", function () { closeDialog(els.lightboxDialog); });
 
-  els.detailCloseBtn.addEventListener("click", function () { els.detailDialog.close(); });
+  els.detailCloseBtn.addEventListener("click", function () { closeDialog(els.detailDialog); });
 
   els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
   els.sort.addEventListener("change", function () { state.sort = els.sort.value; renderGrid(); });
