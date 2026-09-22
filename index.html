@@ -140,7 +140,7 @@
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23a29988'/%3E%3C/svg%3E") no-repeat right 14px center,
       var(--ground-2);
-    font: 600 0.76rem var(--display);
+    font: 500 0.86rem var(--body);
     transition: border-color 0.12s ease;
   }
   select.sort-select:hover { border-color: var(--cream-faint); }
@@ -714,6 +714,14 @@
     return isNaN(n) ? null : n;
   }
 
+  // price is free-typed catalog data (usually in Russian); swap its leading "от"/"from" to match the UI language
+  function localizePrice(p) {
+    var s = p || "";
+    return state.lang === "en"
+      ? s.replace(/^от\.?\s*/i, "from ")
+      : s.replace(/^from\s*/i, "от ");
+  }
+
   var els = {
     stats: document.getElementById("statsStrip"),
     grid: document.getElementById("gridHost"),
@@ -981,7 +989,7 @@
       var subBits = [];
       if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + " → " + r.pressingYear + "</span>");
       else if (r.year) subBits.push("<span>" + r.year + "</span>");
-      if (r.price) subBits.push('<span class="px">' + escapeHtml(r.price) + "</span>");
+      if (r.price) subBits.push('<span class="px">' + escapeHtml(localizePrice(r.price)) + "</span>");
       var vinylIcon = "";
       if (r.vinylColor) {
         var vinylTitle = r.vinylColor + " " + t("vinylWord");
@@ -1047,7 +1055,7 @@
     if (r.rarity === "limited" || r.rarity === "rare") {
       metaItems.push([t("detailRarity"), t(r.rarity === "rare" ? "rarityRare" : "rarityLimited")]);
     }
-    if (r.price) metaItems.push([t("detailPrice"), escapeHtml(r.price) + (r.priceNote ? " (" + escapeHtml(r.priceNote) + ")" : "")]);
+    if (r.price) metaItems.push([t("detailPrice"), escapeHtml(localizePrice(r.price)) + (r.priceNote ? " (" + escapeHtml(r.priceNote) + ")" : "")]);
     var metaHtml = metaItems.length
       ? '<div class="detail-meta-grid">' + metaItems.map(function (it) {
           return '<div class="detail-meta-item"><div class="detail-meta-label">' + it[0] + '</div><div class="detail-meta-value">' + it[1] + '</div></div>';
