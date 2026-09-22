@@ -219,13 +219,14 @@
     color: var(--chip-c); border-color: var(--chip-c);
     background: color-mix(in srgb, var(--chip-c) 10%, transparent);
   }
-  /* rarity chips keep a small status dot; lamp glows CD-display blue when active */
-  #rarityChips .chip { --chip-c: #4fd3ff; }
-  #rarityChips .chip::before {
+  /* every chip carries a status dot; it lights up in the chip's own color when active */
+  .chip::before {
     content: ""; width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%;
     background: var(--line-strong);
   }
-  #rarityChips .chip.active::before { background: var(--chip-c); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--chip-c) 80%, transparent); }
+  .chip.active::before { background: var(--chip-c); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--chip-c) 80%, transparent); }
+  /* rarity chips glow CD-display blue instead of orange */
+  #rarityChips .chip { --chip-c: #4fd3ff; }
 
   /* ---------- record grid ---------- */
   .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 36px 22px; }
