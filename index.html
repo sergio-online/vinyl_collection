@@ -175,6 +175,21 @@
   .chip-scroll::after { right: 0; background: linear-gradient(270deg, var(--ground), transparent); }
   .chip-scroll.can-scroll-left::before { opacity: 1; }
   .chip-scroll.can-scroll-right::after { opacity: 1; }
+  /* click arrows to page through genres with a mouse - hidden on touch/narrow, where swipe already works */
+  .chip-nav {
+    display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 28px; height: 28px; border-radius: 999px; align-items: center; justify-content: center;
+    border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream-soft);
+    font-size: 1rem; line-height: 1; cursor: pointer;
+    transition: border-color 0.12s ease, color 0.12s ease;
+  }
+  .chip-nav:hover { color: var(--cream); border-color: var(--cream-faint); }
+  .chip-nav.prev { left: -2px; }
+  .chip-nav.next { right: -2px; }
+  @media (min-width: 641px) {
+    .chip-scroll.can-scroll-left .chip-nav.prev,
+    .chip-scroll.can-scroll-right .chip-nav.next { display: flex; }
+  }
   #genreChips {
     margin-bottom: 0; flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
     scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
@@ -473,7 +488,11 @@
     </div>
   </div>
 
-  <div class="chip-scroll" id="genreChipsWrap"><div class="chips" id="genreChips"></div></div>
+  <div class="chip-scroll" id="genreChipsWrap">
+    <button type="button" class="chip-nav prev" id="genreChipsPrev" aria-label="←">‹</button>
+    <div class="chips" id="genreChips"></div>
+    <button type="button" class="chip-nav next" id="genreChipsNext" aria-label="→">›</button>
+  </div>
   <div class="filter-foot">
     <div class="chips" id="rarityChips"></div>
     <span class="count-rule" aria-hidden="true"></span>
@@ -686,6 +705,8 @@
     grid: document.getElementById("gridHost"),
     chips: document.getElementById("genreChips"),
     chipsWrap: document.getElementById("genreChipsWrap"),
+    chipsPrev: document.getElementById("genreChipsPrev"),
+    chipsNext: document.getElementById("genreChipsNext"),
     rarityChips: document.getElementById("rarityChips"),
     search: document.getElementById("searchInput"),
     sort: document.getElementById("sortSelect"),
@@ -840,6 +861,14 @@
   }
   els.chips.addEventListener("scroll", updateChipFade);
   window.addEventListener("resize", updateChipFade);
+  els.chips.addEventListener("wheel", function (e) {
+    if (els.chips.scrollWidth <= els.chips.clientWidth) return;
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    e.preventDefault();
+    els.chips.scrollLeft += e.deltaY;
+  }, { passive: false });
+  els.chipsPrev.addEventListener("click", function () { els.chips.scrollBy({ left: -220, behavior: "smooth" }); });
+  els.chipsNext.addEventListener("click", function () { els.chips.scrollBy({ left: 220, behavior: "smooth" }); });
 
   var RARITY_ORDER = ["limited", "rare"];
   function renderRarityChips() {
