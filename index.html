@@ -169,7 +169,7 @@
     color: var(--cream-faint); white-space: nowrap; font-variant-numeric: tabular-nums;
   }
 
-  .chips { display: flex; gap: 10px; flex-wrap: wrap; }
+  .chips { display: flex; row-gap: 10px; flex-wrap: wrap; }
   /* genre chips: one swipeable strip instead of a wrapped grid */
   .chip-scroll { position: relative; margin-bottom: 14px; }
   .chip-scroll::before, .chip-scroll::after {
@@ -209,16 +209,24 @@
   .chip {
     --chip-c: var(--orange);
     position: relative; display: inline-flex; align-items: center; gap: 8px;
-    padding: 9px 16px; border-radius: 999px;
+    padding: 9px 16px; border-radius: 999px; margin-right: 10px;
     border: 1px solid var(--line-strong); background: transparent; color: var(--cream-soft);
     font: 600 0.76rem var(--display);
-    cursor: pointer; user-select: none; white-space: nowrap;
-    transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+    cursor: pointer; user-select: none; white-space: nowrap; overflow: hidden;
+    max-width: 260px;
+    transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease,
+      max-width 0.22s ease, margin-right 0.22s ease, padding 0.22s ease, opacity 0.18s ease;
   }
+  .chip:last-child { margin-right: 0; }
   .chip:hover { border-color: var(--cream-faint); color: var(--cream); }
   .chip.active {
     color: var(--chip-c); border-color: var(--chip-c);
     background: color-mix(in srgb, var(--chip-c) 10%, transparent);
+  }
+  /* when a row has an active filter, its other chips slide shut instead of just sitting dim */
+  .chip.collapsed {
+    max-width: 0; padding-left: 0; padding-right: 0; margin-right: 0;
+    border-color: transparent; opacity: 0; pointer-events: none;
   }
   /* every chip carries a status dot; it lights up in the chip's own color when active */
   .chip::before {
@@ -226,6 +234,15 @@
     background: var(--line-strong);
   }
   .chip.active::before { background: var(--chip-c); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--chip-c) 80%, transparent); }
+  /* the clear button that appears next to an active chip */
+  .chip-clear {
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 30px; height: 30px; border-radius: 999px; padding: 0;
+    border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream-soft);
+    font-size: 1.05rem; line-height: 1; cursor: pointer;
+    transition: border-color 0.12s ease, color 0.12s ease;
+  }
+  .chip-clear:hover { color: var(--cream); border-color: var(--cream-faint); }
   /* rarity chips glow CD-display blue instead of orange */
   #rarityChips .chip { --chip-c: #4fd3ff; }
 
@@ -555,6 +572,7 @@
     footEnd: { ru: "конец стороны", en: "end of side" },
     searchPlaceholder: { ru: "Поиск по коллекции…", en: "Search the collection…" },
     allGenres: { ru: "Все", en: "All" },
+    clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
     sortArtist: { ru: "Сортировка: Исполнитель А–Я", en: "Sort: Artist A–Z" },
     sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
     sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
@@ -829,6 +847,17 @@
     return list;
   }
 
+  function appendClearButton(container, onClear) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip-clear";
+    btn.textContent = "×";
+    btn.setAttribute("aria-label", t("clearFilter"));
+    btn.title = t("clearFilter");
+    btn.addEventListener("click", onClear);
+    container.appendChild(btn);
+  }
+
   function renderChips() {
     var groups = {};
     records.forEach(function (r) { if (r.genre) groups[genreGroupKey(r.genre)] = true; });
@@ -838,7 +867,7 @@
       var active = state.genre === key;
       var chip = document.createElement("button");
       chip.type = "button";
-      chip.className = "chip" + (active ? " active" : "");
+      chip.className = "chip" + (active ? " active" : (state.genre ? " collapsed" : ""));
       chip.textContent = t(key);
       chip.addEventListener("click", function () {
         state.genre = active ? null : key;
@@ -846,7 +875,11 @@
       });
       els.chips.appendChild(chip);
     });
+    if (state.genre) {
+      appendClearButton(els.chips, function () { state.genre = null; render(); });
+    }
     updateChipFade();
+    setTimeout(updateChipFade, 240);
   }
 
   function updateChipFade() {
@@ -877,7 +910,7 @@
       var active = state.rarity === key;
       var chip = document.createElement("button");
       chip.type = "button";
-      chip.className = "chip" + (active ? " active" : "");
+      chip.className = "chip" + (active ? " active" : (state.rarity ? " collapsed" : ""));
       chip.textContent = t("rarity" + (key === "limited" ? "Limited" : "Rare"));
       chip.addEventListener("click", function () {
         state.rarity = active ? null : key;
@@ -885,6 +918,9 @@
       });
       els.rarityChips.appendChild(chip);
     });
+    if (state.rarity) {
+      appendClearButton(els.rarityChips, function () { state.rarity = null; render(); });
+    }
   }
 
   function renderStats() {
