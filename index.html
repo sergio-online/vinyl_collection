@@ -898,7 +898,7 @@
       { value: records.length, label: t("statRecords") },
       { value: Object.keys(artists).length, label: t("statArtists") },
       { value: yearRange, label: t("statYears") },
-      { value: "≈€" + Math.round(total).toLocaleString("en-US"), label: valueLabel }
+      { value: "€" + Math.round(total).toLocaleString("en-US"), label: valueLabel }
     ];
     els.stats.innerHTML = '<div class="stats-row">' + tiles.map(function (tile) {
       return '<div class="stat-item"><span class="stat-val">' + tile.value + '</span><span class="stat-label">' + tile.label + "</span></div>";
