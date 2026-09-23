@@ -568,9 +568,9 @@
     </div>
     <div class="sort-wrap">
       <select class="sort-select" id="sortSelect">
-        <option value="artist">Сортировка: Исполнитель</option>
-        <option value="year">Сортировка: Год</option>
-        <option value="price">Сортировка: Стоимость</option>
+        <option value="artist">Артист</option>
+        <option value="year">Год</option>
+        <option value="price">Цена</option>
         </select>
       <span class="sort-label" id="sortLabel" aria-hidden="true">Сортировка</span>
     </div>
@@ -660,10 +660,10 @@
     searchPlaceholder: { ru: "Поиск", en: "Search" },
     sortLabel: { ru: "Сортировка", en: "Sort" },
     clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
-    sortArtist: { ru: "Сортировка: Исполнитель", en: "Sort: Artist" },
-    sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
-    sortAdded: { ru: "Сортировка: Дата добавления", en: "Sort: Recently added" },
-    sortPrice: { ru: "Сортировка: Стоимость", en: "Sort: Value" },
+    sortArtist: { ru: "Артист", en: "Artist" },
+    sortYear: { ru: "Год", en: "Year" },
+    sortAdded: { ru: "Добавлено", en: "Added" },
+    sortPrice: { ru: "Цена", en: "Price" },
     layoutGroupLabel: { ru: "Плиток в ряду", en: "Tiles per row" },
     layout3: { ru: "3 в ряду", en: "3 per row" },
     layout4: { ru: "4 в ряду", en: "4 per row" },
@@ -1055,7 +1055,7 @@
     els.search.placeholder = t("searchPlaceholder");
     Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(SORT_KEYS[o.value]); });
     els.sortLabel.textContent = t("sortLabel");
-    els.sort.setAttribute("aria-label", t(SORT_KEYS[els.sort.value]));
+    els.sort.setAttribute("aria-label", t("sortLabel") + ": " + t(SORT_KEYS[els.sort.value]));
     els.layoutBtns.forEach(function (btn) {
       var label = t("layout" + btn.dataset.cols);
       btn.title = label;
@@ -1383,7 +1383,7 @@
   els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
   els.sort.addEventListener("change", function () {
     state.sort = els.sort.value;
-    els.sort.setAttribute("aria-label", t(SORT_KEYS[els.sort.value]));
+    els.sort.setAttribute("aria-label", t("sortLabel") + ": " + t(SORT_KEYS[els.sort.value]));
     renderGrid();
   });
 
