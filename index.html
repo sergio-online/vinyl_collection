@@ -71,7 +71,7 @@
     .card:hover .cover-hint { opacity: 1; }
     .btn-ghost:hover { color: var(--cream); border-color: var(--cream-faint); }
     .btn-primary:hover { filter: brightness(1.08); }
-    .detail-close:hover { color: var(--cream); border-color: var(--cream-faint); }
+    .detail-close:hover { border-color: var(--cream-faint); }
     .detail-cover-btn:hover .cover-hint { opacity: 1; }
   }
 
@@ -438,13 +438,12 @@
   #detailBody { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
   .detail-close {
     position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 8px;
-    border: 1px solid var(--line-strong); background: var(--well); color: var(--cream-soft);
+    border: 1px solid var(--line-strong); background: var(--well); color: var(--orange);
     cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; z-index: 1;
   }
-  /* the dialog auto-focuses this button on open, so the global orange focus ring would show up on
-     it every time and read as a primary action - keep it neutral, at the window frame's own
-     1px weight and color */
-  .detail-close:focus-visible { outline: 1px solid var(--cream-faint); outline-offset: 2px; }
+  /* the dialog auto-focuses this button on open, so its focus ring is always on screen: keep it at
+     the window frame's own 1px weight (the global 2px ring looked heavier than the frame) */
+  .detail-close:focus-visible { outline: 1px solid var(--orange); outline-offset: 2px; }
   .detail-head { flex: 0 0 auto; display: flex; gap: 20px; padding: 26px 56px 22px 26px; border-bottom: 1px solid var(--line-strong); }
   .detail-cover-btn {
     position: relative; width: 132px; height: 132px; flex-shrink: 0; padding: 0; border: none; border-radius: 12px; overflow: hidden;
