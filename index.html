@@ -527,8 +527,7 @@
     </div>
     <div class="sort-wrap">
       <select class="sort-select" id="sortSelect">
-        <option value="artist">Сортировка: Исполнитель А–Я</option>
-        <option value="genre">Сортировка: Жанр</option>
+        <option value="artist">Сортировка: Исполнитель</option>
         <option value="year">Сортировка: Год</option>
         <option value="price">Сортировка: Стоимость</option>
         </select>
@@ -617,8 +616,7 @@
     searchPlaceholder: { ru: "Поиск", en: "Search" },
     sortLabel: { ru: "Сортировка", en: "Sort" },
     clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
-    sortArtist: { ru: "Сортировка: Исполнитель А–Я", en: "Sort: Artist A–Z" },
-    sortGenre: { ru: "Сортировка: Жанр", en: "Sort: Genre" },
+    sortArtist: { ru: "Сортировка: Исполнитель", en: "Sort: Artist" },
     sortYear: { ru: "Сортировка: Год", en: "Sort: Year" },
     sortAdded: { ru: "Сортировка: Дата добавления", en: "Sort: Recently added" },
     sortPrice: { ru: "Сортировка: Стоимость", en: "Sort: Value" },
@@ -716,7 +714,6 @@
   }
   var state = { search: "", genre: null, rarity: null, sort: "artist", cols: loadCols(), lang: loadLang() };
   function t(key) { return (STRINGS[key] && STRINGS[key][state.lang]) || key; }
-  function genreGroup(genre) { return t(genreGroupKey(genre)); }
 
   function isCyrillic(s) { return /[Ѐ-ӿ]/.test((s || "").trim().charAt(0)); }
   function compareNames(a, b) {
@@ -960,9 +957,6 @@
              (r.album || "").toLowerCase().indexOf(q) !== -1;
     });
     list.sort(function (a, b) {
-      if (state.sort === "genre") {
-        return genreGroup(a.genre).localeCompare(genreGroup(b.genre)) || compareNames(a.artist, b.artist);
-      }
       if (state.sort === "year") {
         return (b.year || 0) - (a.year || 0);
       }
@@ -1030,7 +1024,7 @@
   els.chipsPrev.addEventListener("click", function () { els.chips.scrollBy({ left: -220, behavior: "smooth" }); });
   els.chipsNext.addEventListener("click", function () { els.chips.scrollBy({ left: 220, behavior: "smooth" }); });
 
-  var SORT_KEYS = { artist: "sortArtist", genre: "sortGenre", year: "sortYear", added: "sortAdded", price: "sortPrice" };
+  var SORT_KEYS = { artist: "sortArtist", year: "sortYear", added: "sortAdded", price: "sortPrice" };
   var RARITY_ORDER = ["limited", "rare"];
   function renderRarityChips() {
     var present = {};
