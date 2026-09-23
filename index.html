@@ -68,11 +68,9 @@
     .chip:hover { border-color: var(--cream-faint); color: var(--cream); }
     .chip-clear:hover { color: var(--cream); border-color: var(--cream-faint); }
     .card:hover .cover-wrap { transform: translateY(-2px); box-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.9); }
-    .card:hover .cover-hint { opacity: 1; }
     .btn-ghost:hover { color: var(--cream); border-color: var(--cream-faint); }
     .btn-primary:hover { filter: brightness(1.08); }
     .detail-close:hover { color: var(--cream); border-color: var(--cream-faint); }
-    .detail-cover-btn:hover .cover-hint { opacity: 1; }
   }
 
   .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 30px 24px 56px; }
@@ -321,15 +319,6 @@
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
   }
   .cover-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cover-hint {
-    position: absolute; right: 8px; bottom: 8px; width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    background: color-mix(in srgb, var(--well) 70%, transparent);
-    border: 1px solid var(--line-strong);
-    color: var(--cream); opacity: 0; transition: opacity 0.15s ease; pointer-events: none;
-  }
-  .card:focus-visible .cover-hint { opacity: 1; }
-  .cover-hint svg { width: 14px; height: 14px; }
   .cover-placeholder {
     width: 100%; height: 100%;
     background:
@@ -453,8 +442,6 @@
     width: 132px; height: 132px; border-radius: 12px; object-fit: cover; display: block;
     border: 1px solid var(--line-strong); background: var(--well);
   }
-  .detail-cover-btn .cover-hint { opacity: 0; }
-  .detail-cover-btn:focus-visible .cover-hint { opacity: 1; }
   /* touch taps often satisfy :focus-visible's heuristics on mobile browsers the way a mouse
      click never does on desktop - suppress the global orange focus ring here so opening the
      full cover looks the same on both, instead of leaving a box around the thumbnail/image.
@@ -834,10 +821,6 @@
     '<circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.88"></circle>' +
     '<circle cx="8" cy="8" r="2.6" fill="var(--ground-2)"></circle>' +
     '<circle cx="8" cy="8" r="1" fill="currentColor"></circle></svg>';
-  var EXPAND_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>' +
-    '<circle cx="12" cy="12" r="3"></circle></svg>';
 
   function parsePrice(p) {
     if (!p) return null;
@@ -1250,7 +1233,7 @@
       else if (r.year) subBits.push("<span>" + r.year + "</span>");
       if (r.price) subBits.push('<span class="px">' + escapeHtml(cardPriceText(r.price)) + "</span>");
       card.innerHTML =
-        '<div class="cover-wrap">' + coverInner + '<span class="cover-hint">' + EXPAND_ICON_SVG + "</span></div>" +
+        '<div class="cover-wrap">' + coverInner + "</div>" +
         '<div class="card-meta">' +
         '<div class="card-artist">' + escapeHtml(r.artist) + "</div>" +
         '<div class="card-album" title="' + escapeHtml(shortAlbumTitle(r.album)) + '">' + escapeHtml(shortAlbumTitle(r.album)) + "</div>" +
@@ -1287,7 +1270,6 @@
     var coverHtml = url
       ? '<button type="button" class="detail-cover-btn" id="detailCoverBtn">' +
           '<img class="detail-cover" src="' + url + '" alt="' + escapeHtml(altText(r.album || "")) + '">' +
-          '<span class="cover-hint">' + EXPAND_ICON_SVG + '</span>' +
         '</button>'
       : '<div class="detail-cover cover-placeholder"><span style="font-size:0.5rem;">' + t("noCover") + '</span></div>';
     var subBits = [];
