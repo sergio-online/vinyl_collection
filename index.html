@@ -71,6 +71,7 @@
     .btn-ghost:hover { color: var(--cream); border-color: var(--cream-faint); }
     .btn-primary:hover { filter: brightness(1.08); }
     .detail-close:hover { color: var(--cream); border-color: var(--cream-faint); }
+    .search-clear:hover span { background: var(--cream-faint); color: var(--ground); }
   }
 
   .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 30px 24px 56px; }
@@ -151,7 +152,7 @@
      there's less free space than that cap, so it just fills what's there and can still shrink. */
   .search-box { position: relative; flex: 1 1 0; min-width: 0; max-width: calc(66.6667% - 5px); }
   .search-box input {
-    width: 100%; height: var(--ctrl-h); padding: 0 16px 0 42px; border-radius: 8px;
+    width: 100%; height: var(--ctrl-h); padding: 0 40px 0 42px; border-radius: 8px;
     border: 1px solid var(--line-strong); background: var(--ground-2); color: var(--cream);
     font: 400 0.72rem var(--body);
   }
@@ -161,6 +162,21 @@
     position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
     width: 17px; height: 17px; fill: var(--cream-faint); pointer-events: none;
   }
+  /* the browser's own clear (x) is hidden so there is exactly one, styled like the rest of the page */
+  .search-box input::-webkit-search-cancel-button { display: none; }
+  .search-clear {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; padding: 0; border: none; background: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; color: var(--cream-faint);
+  }
+  .search-clear[hidden] { display: none; }
+  .search-clear span {
+    display: flex; align-items: center; justify-content: center;
+    width: 16px; height: 16px; border-radius: 50%; background: var(--line-strong);
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .search-clear svg { width: 8px; height: 8px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .search-clear:focus-visible { outline: 1px solid var(--cream-faint); outline-offset: -2px; border-radius: 8px; }
   /* sort: a compact pill that always reads "Sort" - the real <select> sits underneath,
      fully functional, with its own chosen-option text hidden so our fixed label shows instead */
   .sort-wrap { position: relative; flex: 0 0 auto; }
@@ -557,6 +573,7 @@
     <div class="search-box">
       <svg class="search-icon" aria-hidden="true"><use href="#g-search"></use></svg>
       <input type="text" id="searchInput" placeholder="Поиск" autocomplete="off">
+      <button type="button" class="search-clear" id="searchClear" aria-label="Очистить поиск" title="Очистить поиск" hidden><span><svg viewBox="0 0 8 8" aria-hidden="true"><path d="M1 1l6 6M7 1L1 7"></path></svg></span></button>
     </div>
     <div class="sort-wrap">
       <select class="sort-select" id="sortSelect">
@@ -652,6 +669,7 @@
     searchPlaceholder: { ru: "Поиск", en: "Search" },
     sortLabel: { ru: "Сортировка", en: "Sort" },
     clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
+    clearSearch: { ru: "Очистить поиск", en: "Clear search" },
     sortArtist: { ru: "Артист", en: "Artist" },
     sortYear: { ru: "Год", en: "Year" },
     sortAdded: { ru: "Добавлено", en: "Added" },
@@ -854,6 +872,7 @@
     rarityChips: document.getElementById("rarityChips"),
     filterFoot: document.querySelector(".filter-foot"),
     search: document.getElementById("searchInput"),
+    searchClear: document.getElementById("searchClear"),
     sort: document.getElementById("sortSelect"),
     sortLabel: document.getElementById("sortLabel"),
     count: document.getElementById("countTag"),
@@ -1041,6 +1060,8 @@
     document.documentElement.lang = state.lang;
     els.detailCloseBtn.setAttribute("aria-label", t("close"));
     els.search.placeholder = t("searchPlaceholder");
+    els.searchClear.setAttribute("aria-label", t("clearSearch"));
+    els.searchClear.title = t("clearSearch");
     Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(SORT_KEYS[o.value]); });
     els.sortLabel.textContent = t("sortLabel");
     els.sort.setAttribute("aria-label", t("sortLabel") + ": " + t(SORT_KEYS[els.sort.value]));
@@ -1367,7 +1388,18 @@
     pressStartedOutside = false;
   });
 
-  els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
+  els.search.addEventListener("input", function () {
+    state.search = els.search.value;
+    els.searchClear.hidden = !els.search.value;
+    renderGrid();
+  });
+  els.searchClear.addEventListener("click", function () {
+    els.search.value = "";
+    state.search = "";
+    els.searchClear.hidden = true;
+    renderGrid();
+    els.search.focus();
+  });
   els.sort.addEventListener("change", function () {
     state.sort = els.sort.value;
     els.sort.setAttribute("aria-label", t("sortLabel") + ": " + t(SORT_KEYS[els.sort.value]));
