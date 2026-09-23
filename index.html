@@ -46,6 +46,7 @@
     font-size: 0.88rem;
     line-height: 1.5;
     min-height: 100vh;
+    min-height: 100dvh;
   }
   h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 600; text-wrap: balance; }
   ::selection { background: var(--orange); color: var(--orange-ink); }
@@ -413,8 +414,13 @@
   .confirm-message { font-size: 0.8rem; color: var(--cream-soft); line-height: 1.6; margin: 0; }
   .required-hint { font-size: 0.74rem; color: var(--cream-faint); margin-top: 6px; }
 
-  .detail-dialog { width: min(660px, 94vw); max-height: 86vh; padding: 0; }
-  .detail-inner { display: flex; flex-direction: column; max-height: 86vh; position: relative; }
+  /* vh on iOS Safari is measured against the tallest possible viewport (address bar hidden),
+     not what's actually visible - sizing the dialog against that phantom-taller viewport pushed
+     its top off the top of the screen and left dead space to overscroll into at the bottom.
+     dvh tracks the real, currently-visible viewport and updates live as the address bar
+     shows/hides; declared after vh so unsupported browsers just keep the vh fallback. */
+  .detail-dialog { width: min(660px, 94vw); max-height: 86vh; max-height: 86dvh; padding: 0; }
+  .detail-inner { display: flex; flex-direction: column; max-height: 86vh; max-height: 86dvh; position: relative; }
   .detail-close {
     position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 8px;
     border: 1px solid var(--line-strong); background: var(--well); color: var(--cream-soft);
@@ -436,10 +442,10 @@
      click never does on desktop - suppress the global orange focus ring here so opening the
      full cover looks the same on both, instead of leaving a box around the thumbnail/image */
   .detail-cover-btn:focus-visible, dialog.lightbox:focus-visible { outline: none; }
-  dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 8px; max-width: 92vw; max-height: 92vh; }
+  dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 8px; max-width: 92vw; max-height: 92vh; max-height: 92dvh; }
   dialog.lightbox::backdrop { background: rgba(6, 6, 5, 0.85); }
   dialog.lightbox img {
-    display: block; max-width: calc(92vw - 16px); max-height: calc(92vh - 16px); border-radius: 12px;
+    display: block; max-width: calc(92vw - 16px); max-height: calc(92vh - 16px); max-height: calc(92dvh - 16px); border-radius: 12px;
     border: 1px solid var(--line-strong);
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
   }
