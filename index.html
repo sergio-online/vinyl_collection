@@ -102,7 +102,6 @@
     font-family: var(--display); font-weight: 600; font-size: 0.78rem; color: var(--cream-soft);
   }
   .meta-row .rule { flex: 1 1 auto; height: 1px; min-width: 24px; background: var(--line-strong); }
-  .meta-row .lang-toggle { flex-shrink: 0; }
 
   /* ---------- stats: plain read-outs, no chrome ---------- */
   .stats-strip { position: relative; z-index: 1; margin: 16px 0 18px; }
@@ -529,12 +528,7 @@
   <header class="hero">
     <h1 class="wordmark" aria-label="THE JUKEBOX"><span aria-hidden="true">THE JUKEB<span class="o"><svg viewBox="0 0 16 16"><use href="#g-ff"></use></svg></span>X</span></h1>
     <div class="meta-row">
-      <span id="heroTag">Коллекция винила</span>
       <span class="rule" aria-hidden="true"></span>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button type="button" class="lang-btn" data-lang="en">EN</button>
-        <button type="button" class="lang-btn" data-lang="ru">RU</button>
-      </div>
     </div>
   </header>
 
@@ -585,6 +579,10 @@
 
   <footer class="foot">
     <span>© 2026 THE JUKEBOX</span>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="ru">RU</button>
+    </div>
   </footer>
 </div>
 
@@ -632,7 +630,6 @@
   }
 
   var STRINGS = {
-    heroTag: { ru: "Коллекция винила", en: "Vinyl record collection" },
     searchPlaceholder: { ru: "Поиск", en: "Search" },
     sortLabel: { ru: "Сортировка", en: "Sort" },
     clearFilter: { ru: "Сбросить фильтр", en: "Clear filter" },
@@ -951,7 +948,6 @@
   });
 
   function applyLang() {
-    document.getElementById("heroTag").textContent = t("heroTag");
     els.search.placeholder = t("searchPlaceholder");
     Array.prototype.forEach.call(els.sort.options, function (o) { o.textContent = t(SORT_KEYS[o.value]); });
     els.sortLabel.textContent = t("sortLabel");
