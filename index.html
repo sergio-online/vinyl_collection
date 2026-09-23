@@ -501,6 +501,13 @@
 
   @media (max-width: 640px) {
     .grid { gap: 28px 14px; }
+    /* pure-CSS backstop for the mobile column clamp: the JS path (applyCols() reading
+       matchMedia/innerWidth on resize/orientationchange) was found to not reliably re-fire or
+       resolve to the current viewport after a real iPhone rotate-then-rotate-back cycle, leaving
+       --cols stuck at the landscape value with no way back to 2 per row. A plain media query has
+       no such failure mode - the browser recomputes it on every reflow regardless of any JS
+       event's timing, so this always wins here no matter what --cols currently holds. */
+    .grid { grid-template-columns: repeat(2, 1fr) !important; }
   }
   @media (max-width: 560px) {
     .wrap { padding: 22px 16px 44px; }
