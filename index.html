@@ -385,12 +385,8 @@
 
   /* ---------- dialogs: flat rounded card ---------- */
   dialog.modal {
-    --ground: #1c1712; --ground-2: #241e18; --line: #382f26; --line-strong: #4d4132; --cream-soft: #c4bba9; --cream-faint: #948a78;
-    /* the local --line-strong above is too close in tone to --ground-2 to read as a visible
-       edge (especially at phone screenshot compression) - use the lighter local --cream-faint
-       for the outer frame specifically, leaving internal field/divider borders as they were */
     border: 1px solid var(--cream-faint); border-radius: 16px; padding: 0; width: min(480px, 92vw);
-    background: var(--ground-2); color: var(--cream);
+    background: var(--ground); color: var(--cream);
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
   }
   dialog.modal::backdrop { background: rgba(8, 8, 7, 0.78); }
