@@ -433,8 +433,11 @@
      its top off the top of the screen and left dead space to overscroll into at the bottom.
      dvh tracks the real, currently-visible viewport and updates live as the address bar
      shows/hides; declared after vh so unsupported browsers just keep the vh fallback. */
-  .detail-dialog { width: min(660px, 94vw); max-height: 86vh; max-height: 86dvh; padding: 0; }
-  .detail-inner { display: flex; flex-direction: column; max-height: 86vh; max-height: 86dvh; position: relative; }
+  .detail-dialog { width: min(660px, 94vw); max-height: 86vh; max-height: 86dvh; padding: 0; overflow: hidden; }
+  .detail-inner { display: flex; flex-direction: column; max-height: calc(86vh - 2px); max-height: calc(86dvh - 2px); position: relative; }
+  /* the head stays put and only the body scrolls: #detailBody must itself be a constrained flex column, otherwise .detail-body never overflows and the whole dialog scrolls instead (its scrollbar then runs over the rounded corners) */
+  #detailBody { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  .detail-head { flex: 0 0 auto; }
   .detail-close {
     position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 8px;
     border: 1px solid var(--line-strong); background: var(--well); color: var(--cream-soft);
@@ -476,7 +479,7 @@
     font: 600 0.8rem var(--display);
     border-bottom: 1px solid color-mix(in srgb, var(--orange) 50%, transparent);
   }
-  .detail-body { padding: 22px 26px 28px; overflow-y: auto; }
+  .detail-body { padding: 22px 26px 28px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
   .detail-meta-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 16px 20px; margin-bottom: 24px;
