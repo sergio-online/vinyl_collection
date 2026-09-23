@@ -902,6 +902,10 @@
     els.layoutBtns.forEach(function (btn) {
       btn.classList.toggle("active", Number(btn.dataset.cols) === state.cols);
     });
+    // iOS Safari has been known to skip re-running grid layout after a custom-property-driven
+    // column count change during a fast rotate/rotate-back cycle, leaving stale (often
+    // single-column) track sizing on screen - force a reflow as a cheap, harmless nudge
+    void els.grid.offsetHeight;
   }
   applyCols();
   els.layoutBtns.forEach(function (btn) {
@@ -913,8 +917,15 @@
   });
   if (narrowMq.addEventListener) narrowMq.addEventListener("change", applyCols);
   else if (narrowMq.addListener) narrowMq.addListener(applyCols);
-  window.addEventListener("orientationchange", function () { setTimeout(applyCols, 50); });
+  // orientationchange fires before iOS finishes settling the post-rotation viewport size, so
+  // one delayed re-check follows the immediate one - both call the same idempotent applyCols()
+  window.addEventListener("orientationchange", function () {
+    applyCols();
+    setTimeout(applyCols, 50);
+    setTimeout(applyCols, 300);
+  });
   window.addEventListener("resize", applyCols);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", applyCols);
 
   els.langBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
