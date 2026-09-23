@@ -161,7 +161,10 @@
   select option:checked, select option:hover, select option:focus {
     background: color-mix(in srgb, var(--orange) 30%, var(--ground-2)); color: var(--cream);
   }
-  .layout-toggle { display: inline-flex; gap: 10px; }
+  /* margin-left:auto soaks up whatever's left after search (capped near the stats divider) and
+     sort, so the icons still land flush on the row's right edge like every other row does -
+     without it, this row fell short of that edge once search-box stopped flex-growing to fill it */
+  .layout-toggle { display: inline-flex; gap: 10px; margin-left: auto; }
   .layout-btn {
     width: var(--ctrl-h); height: var(--ctrl-h); display: flex; align-items: center; justify-content: center;
     border: 1px solid var(--line-strong); border-radius: 8px; cursor: pointer;
