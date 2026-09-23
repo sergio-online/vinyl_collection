@@ -112,7 +112,11 @@
 
   .lang-toggle { display: inline-flex; gap: 10px; }
   .lang-btn {
-    height: var(--chip-h); padding: 0 11px; display: inline-flex; align-items: center; justify-content: center;
+    /* fixed to match .layout-btn's width (var(--ctrl-h)) so the EN/RU pair and the layout-toggle
+       pair - each right-flushed to the same edge, each with the same 10px gap - form two aligned
+       columns on wide screens instead of drifting apart by a few px of auto-sized text padding */
+    width: var(--ctrl-h);
+    height: var(--chip-h); padding: 0; display: inline-flex; align-items: center; justify-content: center;
     border-radius: 999px; border: 1px solid var(--line-strong);
     background: transparent; color: var(--cream-faint);
     font-family: var(--display); font-size: 0.64rem; font-weight: 500; cursor: pointer;
