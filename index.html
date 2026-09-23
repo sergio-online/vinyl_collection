@@ -312,8 +312,8 @@
   }
 
   /* ---------- record grid ---------- */
-  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 36px 22px; }
-  .card { position: relative; display: flex; flex-direction: column; cursor: pointer; }
+  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 36px 22px; }
+  .card { position: relative; display: flex; flex-direction: column; cursor: pointer; min-width: 0; }
   .cover-wrap {
     position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 10px;
     border: 1px solid var(--line-strong); background: var(--ground-2);
@@ -518,7 +518,7 @@
      actual aspect ratio rather than a single width value, so it may stay reliable even if the
      width-based query doesn't. */
   @media (max-width: 640px), (orientation: portrait) and (max-width: 820px) {
-    .grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   }
   @media (max-width: 560px) {
     .wrap { padding: 22px 16px 44px; }
@@ -971,11 +971,27 @@
     clearTimeout(vpResyncTimer);
     vpResyncTimer = setTimeout(function () { vpMeta.setAttribute("content", orig); applyCols(); }, 120);
   }
+  // stronger than the offsetHeight nudge in applyCols: detach the grid from layout entirely and
+  // bring it back, so Safari can't keep track sizes computed for the pre-rotation width
+  function forceGridRelayout() {
+    var g = els.grid;
+    g.style.display = "none";
+    void g.offsetHeight;
+    g.style.display = "";
+    void g.offsetHeight;
+  }
+  var relayoutTimer = null;
+  function scheduleRelayout() {
+    clearTimeout(relayoutTimer);
+    relayoutTimer = setTimeout(function () { applyCols(); forceGridRelayout(); }, 250);
+  }
   window.addEventListener("orientationchange", function () {
     setTimeout(resyncViewport, 350);
     setTimeout(resyncViewport, 900);
+    scheduleRelayout();
+    setTimeout(forceGridRelayout, 900);
   });
-  window.addEventListener("resize", function () { setTimeout(resyncViewport, 350); });
+  window.addEventListener("resize", function () { setTimeout(resyncViewport, 350); scheduleRelayout(); });
 
   // add #debug to the page address to show live viewport numbers on screen (for diagnosing
   // device-only layout problems); off unless asked for
@@ -992,6 +1008,9 @@
         "\nclientW " + document.documentElement.clientWidth + " scrollW " + document.documentElement.scrollWidth +
         "\nscreenW " + screen.width + " vvW " + (vv ? vv.width.toFixed(0) : "-") + " scale " + (vv ? vv.scale.toFixed(2) : "-") +
         "\nnarrow " + narrowMq.matches + " portrait " + matchMedia("(orientation: portrait)").matches +
+        "\nmq560 " + matchMedia("(max-width: 560px)").matches + " mq640 " + matchMedia("(max-width: 640px)").matches +
+        " wrapPad " + getComputedStyle(document.querySelector(".wrap")).paddingLeft +
+        "\ntracks " + g.gridTemplateColumns + " card0W " + (els.grid.firstElementChild ? els.grid.firstElementChild.getBoundingClientRect().width.toFixed(0) : "-") +
         "\ngridCols " + g.gridTemplateColumns.split(" ").length + " gridW " + els.grid.getBoundingClientRect().width.toFixed(0) +
         "\nmeta " + (vpMeta ? vpMeta.getAttribute("content") : "none");
     };
