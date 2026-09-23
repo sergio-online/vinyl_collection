@@ -328,15 +328,9 @@
   .card-meta { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
   .card-artist {
     font-family: var(--display); font-size: 0.72rem; font-weight: 700; line-height: 1.35;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    overflow-wrap: anywhere;
   }
-  /* clamped to a fixed 2-line box (min-height reserves that space even for a 1-line title) so
-     every card's sub-line (year/price) lands on the same row regardless of album title length */
-  .card-album {
-    font-size: 0.72rem; color: var(--cream-soft); margin-top: 2px; line-height: 1.35;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden; overflow-wrap: anywhere; min-height: calc(1.35em * 2);
-  }
+  .card-album { font-size: 0.72rem; color: var(--cream-soft); margin-top: 2px; overflow-wrap: anywhere; }
   .card-sub {
     display: flex; align-items: center; flex-wrap: wrap; gap: 0 7px; margin-top: 4px;
     font-size: 0.72rem; color: var(--cream-faint);
