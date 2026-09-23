@@ -442,8 +442,9 @@
     cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; z-index: 1;
   }
   /* the dialog auto-focuses this button on open, so the global orange focus ring would show up on
-     it every time and read as a primary action - keep it in the neutral cream instead */
-  .detail-close:focus-visible { outline-color: var(--cream-soft); }
+     it every time and read as a primary action - keep it neutral, at the window frame's own
+     1px weight and color */
+  .detail-close:focus-visible { outline: 1px solid var(--cream-faint); outline-offset: 2px; }
   .detail-head { flex: 0 0 auto; display: flex; gap: 20px; padding: 26px 56px 22px 26px; border-bottom: 1px solid var(--line-strong); }
   .detail-cover-btn {
     position: relative; width: 132px; height: 132px; flex-shrink: 0; padding: 0; border: none; border-radius: 12px; overflow: hidden;
