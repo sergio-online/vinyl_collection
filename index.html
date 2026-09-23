@@ -104,7 +104,7 @@
   .meta-row .rule { flex: 1 1 auto; height: 1px; min-width: 24px; background: var(--line-strong); }
 
   /* ---------- stats: plain read-outs, no chrome ---------- */
-  .stats-strip { position: relative; z-index: 1; margin: 14px 0 16px; }
+  .stats-strip { position: relative; z-index: 1; margin: 16px 0; }
   .stats-strip:empty { display: none; }
   .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); }
   .stat-item {
@@ -145,7 +145,7 @@
 
   /* ---------- controls ---------- */
   .controls, #statusBanner, .chips, .count-tag, .grid, .foot { position: relative; z-index: 1; }
-  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
   /* basis:0 keeps flex-wrap's line-breaking decision from seeing a large hypothetical size (that
      caused it to wrap early before - see the max-width comment below); grow:1 fills available
      space up to max-width, which caps it at 2/3 of the row (minus half the 10px gap) so its right
@@ -266,7 +266,7 @@
   }
   #genreChips::-webkit-scrollbar { display: none; }
   #genreChips .chip { flex: 0 0 auto; scroll-snap-align: start; }
-  .filter-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 18px; }
+  .filter-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 16px; }
   .filter-foot[hidden] { display: none; }
   .count-rule { flex: 1 1 40px; min-width: 24px; height: 1px; background: var(--line-strong); }
   /* filter chips: flat outline pills, orange when active */
@@ -393,7 +393,7 @@
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
   }
   dialog.modal::backdrop { background: rgba(8, 8, 7, 0.78); }
-  .modal-inner { padding: 26px 26px 22px; }
+  .modal-inner { padding: 26px; }
   .modal-inner h2 {
     font-size: 1rem; font-weight: 700; color: var(--orange); margin-bottom: 20px;
   }
@@ -442,7 +442,7 @@
     border: 1px solid var(--line-strong); background: var(--well); color: var(--cream-soft);
     cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; z-index: 1;
   }
-  .detail-head { display: flex; gap: 20px; padding: 26px 56px 20px 26px; border-bottom: 1px solid var(--line-strong); }
+  .detail-head { display: flex; gap: 20px; padding: 26px 56px 22px 26px; border-bottom: 1px solid var(--line-strong); }
   .detail-cover-btn {
     position: relative; width: 132px; height: 132px; flex-shrink: 0; padding: 0; border: none; border-radius: 12px; overflow: hidden;
     background: none; cursor: pointer;
@@ -478,7 +478,7 @@
     font: 600 0.8rem var(--display);
     border-bottom: 1px solid color-mix(in srgb, var(--orange) 50%, transparent);
   }
-  .detail-body { padding: 22px 26px 28px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+  .detail-body { padding: 22px 26px 26px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
   .detail-meta-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 16px 20px; margin-bottom: 24px;
@@ -525,10 +525,10 @@
   @media (max-width: 560px) {
     .wrap { padding: 22px 16px 44px; }
     .field-row { flex-direction: column; gap: 0; }
-    .modal-inner { padding: 22px 18px 18px; }
-    .detail-head { padding: 22px 50px 16px 18px; gap: 14px; }
+    .modal-inner { padding: 22px 18px; }
+    .detail-head { padding: 22px 50px 18px 18px; gap: 14px; }
     .detail-cover-btn, .detail-cover { width: 104px; height: 104px; }
-    .detail-body { padding: 18px 18px 24px; }
+    .detail-body { padding: 18px 18px 22px; }
   }
 </style>
 </head>
