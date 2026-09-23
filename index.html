@@ -179,6 +179,10 @@
   .layout-btn svg { width: 15px; height: 15px; fill: currentColor; }
   @media (max-width: 640px) {
     .layout-toggle { display: none; }
+    /* layout-toggle (which normally carries the margin-left:auto that flushes the row's
+       trailing edge) is hidden here, so sort-wrap becomes the last visible child and needs
+       that same auto margin to still land flush with EN/RU and the count above it */
+    .sort-wrap { margin-left: auto; }
   }
   .count-tag {
     font-family: var(--display); font-weight: 500; font-size: 0.8rem;
