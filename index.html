@@ -1335,6 +1335,25 @@
 
   els.detailCloseBtn.addEventListener("click", function () { closeDialog(els.detailDialog); });
 
+  // desktop (mouse) only: a click on the dimmed area outside the details window closes it.
+  // Requiring the press to have *started* on the backdrop too keeps a text-selection drag that
+  // ends outside the window from closing it.
+  var mouseMq = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var pressStartedOutside = false;
+  function isOutsideDialog(e) {
+    var r = els.detailDialog.getBoundingClientRect();
+    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+  }
+  els.detailDialog.addEventListener("mousedown", function (e) {
+    pressStartedOutside = e.target === els.detailDialog && isOutsideDialog(e);
+  });
+  els.detailDialog.addEventListener("click", function (e) {
+    if (mouseMq.matches && pressStartedOutside && e.target === els.detailDialog && isOutsideDialog(e)) {
+      closeDialog(els.detailDialog);
+    }
+    pressStartedOutside = false;
+  });
+
   els.search.addEventListener("input", function () { state.search = els.search.value; renderGrid(); });
   els.sort.addEventListener("change", function () {
     state.sort = els.sort.value;
