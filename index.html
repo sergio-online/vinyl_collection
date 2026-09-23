@@ -312,7 +312,7 @@
   }
 
   /* ---------- record grid ---------- */
-  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 36px 22px; }
+  .grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 26px 22px; }
   .card { position: relative; display: flex; flex-direction: column; cursor: pointer; min-width: 0; }
   .cover-wrap {
     position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 10px;
@@ -506,7 +506,7 @@
   .detail-empty { font-size: 0.84rem; color: var(--cream-faint); }
 
   @media (max-width: 640px) {
-    .grid { gap: 28px 14px; }
+    .grid { gap: 22px 14px; }
   }
   /* pure-CSS backstop for the mobile column clamp: the JS path (applyCols() reading
      matchMedia/innerWidth on resize/orientationchange) was found to not reliably re-fire or
