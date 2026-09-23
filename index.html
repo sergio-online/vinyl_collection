@@ -1024,10 +1024,13 @@
       if (v !== null) { total += v; priced++; }
     });
     var valueLabel = t("statValue") + (priced < records.length ? " (" + priced + " " + t("countConnector") + " " + records.length + ")" : "");
+    // rounded to the nearest €0.5K step, e.g. 2171 -> "€2K", 2350 -> "€2.5K"
+    var roundedK = Math.round(total / 500) * 0.5;
+    var valueText = "€" + (roundedK % 1 === 0 ? roundedK.toFixed(0) : roundedK.toFixed(1)) + "K";
     var tiles = [
       { value: records.length, label: t("statRecords") },
       { value: Object.keys(artists).length, label: t("statArtists") },
-      { value: "€" + Math.round(total).toLocaleString("en-US"), label: valueLabel }
+      { value: valueText, label: valueLabel }
     ];
     els.stats.innerHTML = '<div class="stats-row">' + tiles.map(function (tile) {
       return '<div class="stat-item"><span class="stat-val">' + tile.value + '</span><span class="stat-label">' + tile.label + "</span></div>";
