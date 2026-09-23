@@ -179,10 +179,21 @@
   .layout-btn svg { width: 15px; height: 15px; fill: currentColor; }
   @media (max-width: 640px) {
     .layout-toggle { display: none; }
-    /* layout-toggle (which normally carries the margin-left:auto that flushes the row's
-       trailing edge) is hidden here, so sort-wrap becomes the last visible child and needs
-       that same auto margin to still land flush with EN/RU and the count above it */
-    .sort-wrap { margin-left: auto; }
+    /* layout-toggle is hidden here, so sort-wrap becomes the last visible child. Give it its
+       own (small) flex-grow so it fills any dead space, rather than the empty auto-margin this
+       used before - but search-box needs a much bigger grow ratio (not an equal one), or the two
+       split newly-available space evenly whenever search's cap *isn't* binding (true narrow
+       phones), starving search down to a sliver. At the ratio below, once search's max-width
+       cap does bind and freezes it (wider phones/small tablets), sort correctly inherits 100% of
+       whatever's left over and grows to fill it; below that cap width, search still gets the
+       lion's share and sort only stretches a little. */
+    .search-box { flex-grow: 20; }
+    /* explicit 116px basis (its natural non-mobile width), not auto - auto here was circular
+       with the select's own width:100% (a percentage child sizing against the very wrapper
+       we're trying to auto-size) and resolved degenerately at narrow widths, ballooning sort
+       to 240px+ while search collapsed to just its icon */
+    .sort-wrap { flex: 1 1 116px; }
+    select.sort-select { width: 100%; }
   }
   .count-tag {
     font-family: var(--display); font-weight: 500; font-size: 0.8rem;
@@ -300,9 +311,6 @@
   }
   .card:hover .cover-hint, .card:focus-visible .cover-hint { opacity: 1; }
   .cover-hint svg { width: 14px; height: 14px; }
-  @media (max-width: 640px) {
-    .cover-hint { opacity: 0.9; }
-  }
   .cover-placeholder {
     width: 100%; height: 100%;
     background:
@@ -359,7 +367,10 @@
   /* ---------- dialogs: flat rounded card ---------- */
   dialog.modal {
     --ground: #1c1712; --ground-2: #241e18; --line: #382f26; --line-strong: #4d4132; --cream-soft: #c4bba9; --cream-faint: #948a78;
-    border: 1px solid var(--line-strong); border-radius: 16px; padding: 0; width: min(480px, 92vw);
+    /* the local --line-strong above is too close in tone to --ground-2 to read as a visible
+       edge (especially at phone screenshot compression) - use the lighter local --cream-faint
+       for the outer frame specifically, leaving internal field/divider borders as they were */
+    border: 1px solid var(--cream-faint); border-radius: 16px; padding: 0; width: min(480px, 92vw);
     background: var(--ground-2); color: var(--cream);
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
   }
@@ -419,6 +430,10 @@
   }
   .detail-cover-btn .cover-hint { opacity: 0; }
   .detail-cover-btn:hover .cover-hint, .detail-cover-btn:focus-visible .cover-hint { opacity: 1; }
+  /* touch taps often satisfy :focus-visible's heuristics on mobile browsers the way a mouse
+     click never does on desktop - suppress the global orange focus ring here so opening the
+     full cover looks the same on both, instead of leaving a box around the thumbnail/image */
+  .detail-cover-btn:focus-visible, dialog.lightbox:focus-visible { outline: none; }
   dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 8px; max-width: 92vw; max-height: 92vh; }
   dialog.lightbox::backdrop { background: rgba(6, 6, 5, 0.85); }
   dialog.lightbox img {
@@ -853,6 +868,17 @@
       document.body.style.right = "";
       document.body.style.paddingRight = "";
       window.scrollTo(0, savedScrollY);
+    } else {
+      // a nested dialog (the lightbox) closed back into one that's still open (the detail
+      // dialog) - iOS Safari can lose track of the still-open dialog's own scrollable panel
+      // after repeated nested-dialog open/close cycles and stop responding to scroll gestures
+      // on it. Force a reflow on its scroll container as a cheap, harmless-if-unneeded fix.
+      var scrollPanel = document.querySelector(".detail-body");
+      if (scrollPanel) {
+        scrollPanel.style.overflowY = "hidden";
+        void scrollPanel.offsetHeight;
+        scrollPanel.style.overflowY = "";
+      }
     }
   }
   function closeDialog(dlg) { dlg.close(); unlockScroll(dlg); }
