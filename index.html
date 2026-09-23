@@ -620,7 +620,8 @@
     fieldPressingYear: { ru: "Год этого экземпляра", en: "Year of this pressing" },
     fieldAlbum: { ru: "Альбом", en: "Album" },
     fieldGenre: { ru: "Жанр", en: "Genre" },
-    fieldCondition: { ru: "Состояние", en: "Condition" },
+    fieldCondition: { ru: "Состояние пластинки", en: "Media condition" },
+    fieldConditionSleeve: { ru: "Состояние конверта", en: "Sleeve condition" },
     fieldLabel: { ru: "Лейбл", en: "Label" },
     fieldPrice: { ru: "Примерная стоимость", en: "Estimated value" },
     fieldPriceNote: { ru: "Примечание к цене", en: "Price note" },
@@ -679,7 +680,8 @@
     reissueEdition: { ru: "Переиздание", en: "Reissue" },
     detailCatalogNo: { ru: "Каталожный номер", en: "Catalog no." },
     detailBarcode: { ru: "Штрихкод", en: "Barcode" },
-    detailCondition: { ru: "Состояние", en: "Condition" },
+    detailCondition: { ru: "Состояние пластинки", en: "Media condition" },
+    detailConditionSleeve: { ru: "Состояние конверта", en: "Sleeve condition" },
     detailPrice: { ru: "Стоимость", en: "Value" },
     detailRarity: { ru: "Редкость", en: "Rarity" },
     detailVinylColor: { ru: "Цвет винила", en: "Vinyl color" },
@@ -1143,6 +1145,7 @@
     if (r.catalogNo) metaItems.push([t("detailCatalogNo"), escapeHtml(r.catalogNo)]);
     if (r.barcode) metaItems.push([t("detailBarcode"), escapeHtml(r.barcode)]);
     if (r.condition) metaItems.push([t("detailCondition"), escapeHtml(r.condition)]);
+    if (r.conditionSleeve) metaItems.push([t("detailConditionSleeve"), escapeHtml(r.conditionSleeve)]);
     if (r.vinylColor) metaItems.push([t("detailVinylColor"), escapeHtml(localizeVinylColor(r.vinylColor))]);
     if (r.rarity === "limited" || r.rarity === "rare") {
       metaItems.push([t("detailRarity"), t(r.rarity === "rare" ? "rarityRare" : "rarityLimited")]);
