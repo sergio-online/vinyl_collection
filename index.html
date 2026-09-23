@@ -458,8 +458,10 @@
   .detail-cover-btn:focus-visible .cover-hint { opacity: 1; }
   /* touch taps often satisfy :focus-visible's heuristics on mobile browsers the way a mouse
      click never does on desktop - suppress the global orange focus ring here so opening the
-     full cover looks the same on both, instead of leaving a box around the thumbnail/image */
-  .detail-cover-btn:focus-visible, dialog.lightbox:focus-visible { outline: none; }
+     full cover looks the same on both, instead of leaving a box around the thumbnail/image.
+     Same for the details window itself: closing the full cover hands focus back to it, which
+     otherwise draws the ring around the whole window */
+  .detail-cover-btn:focus-visible, dialog.lightbox:focus-visible, dialog.modal:focus-visible { outline: none; }
   dialog.lightbox { background: transparent; border: none; box-shadow: none; padding: 8px; max-width: 92vw; max-height: 92vh; max-height: 92dvh; }
   dialog.lightbox::backdrop { background: rgba(6, 6, 5, 0.85); }
   dialog.lightbox img {
