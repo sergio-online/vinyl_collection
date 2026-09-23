@@ -1120,7 +1120,7 @@
         subBits.push('<span class="vinyl-icon" style="color:' + vinylColorToCss(r.vinylColor) + '" title="' +
           escapeHtml(vinylTitle) + '">' + VINYL_ICON_SVG + "</span>");
       }
-      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + " → " + r.pressingYear + "</span>");
+      if (r.year && r.pressingYear && r.pressingYear !== r.year) subBits.push("<span>" + r.year + "/" + r.pressingYear + "</span>");
       else if (r.year) subBits.push("<span>" + r.year + "</span>");
       if (r.price) subBits.push('<span class="px">' + escapeHtml(cardPriceText(r.price)) + "</span>");
       card.innerHTML =
