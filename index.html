@@ -1209,8 +1209,8 @@
     records.forEach(function (r) { if (Array.isArray(r.tracklist)) trackCount += r.tracklist.length; });
     var tiles = [
       { value: records.length, label: t("statRecords") },
-      { value: trackCount, label: t("statTracks") },
       { value: Object.keys(artists).length, label: t("statArtists") },
+      { value: trackCount, label: t("statTracks") },
       { value: valueText, label: valueLabel }
     ];
     els.stats.innerHTML = '<div class="stats-row">' + tiles.map(function (tile) {
