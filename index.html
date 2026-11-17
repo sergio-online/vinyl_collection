@@ -105,7 +105,7 @@
   /* ---------- stats: plain read-outs, no chrome ---------- */
   .stats-strip { position: relative; z-index: 1; margin: 16px 0; }
   .stats-strip:empty { display: none; }
-  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .stat-item {
     display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
     gap: 3px; min-width: 0; text-align: left;
@@ -119,6 +119,8 @@
   }
   .stat-label { font-size: 0.78rem; line-height: 1.2; color: var(--cream-faint); }
   @media (max-width: 640px) {
+    .stats-row { grid-template-columns: repeat(4, max-content); justify-content: space-between; }
+    .stat-label { white-space: nowrap; }
     .stat-item { padding-inline: 8px; }
     .stat-item:first-child { padding-left: 0; }
     .stat-val { font-size: 1.4rem; }
@@ -126,6 +128,16 @@
   }
   @media (max-width: 420px) {
     .stat-val { font-size: 1.2rem; }
+    .stat-label { font-size: 0.62rem; }
+    .stat-item { padding-inline: 5px; }
+    .stat-item:first-child { padding-left: 0; }
+  }
+  @media (max-width: 340px) {
+    .stats-row { grid-template-columns: repeat(2, auto); justify-content: start; gap: 12px 0; }
+    .stat-item { padding-inline: 0 16px; }
+    .stat-item:not(:first-child) { padding-left: 0; }
+    .stat-item:nth-child(2n) { border-right: none; padding-left: 16px; }
+    .stat-label { font-size: 0.7rem; }
   }
 
   .lang-toggle { display: inline-flex; gap: 10px; }
@@ -742,6 +754,7 @@
     groupRock: { ru: "Рок", en: "Rock" },
     groupPop: { ru: "Поп", en: "Pop" },
     statRecords: { ru: "Пластинок", en: "Records" },
+    statTracks: { ru: "Композиций", en: "Tracks" },
     statArtists: { ru: "Исполнителей", en: "Artists" },
     statValue: { ru: "Стоимость", en: "Value" },
     detailEdition: { ru: "Издание", en: "Edition" },
@@ -1192,8 +1205,11 @@
     // rounded to the nearest €0.5K step, e.g. 2171 -> "€2K", 2350 -> "€2.5K"
     var roundedK = Math.round(total / 500) * 0.5;
     var valueText = "€" + (roundedK % 1 === 0 ? roundedK.toFixed(0) : roundedK.toFixed(1)) + "K";
+    var trackCount = 0;
+    records.forEach(function (r) { if (Array.isArray(r.tracklist)) trackCount += r.tracklist.length; });
     var tiles = [
       { value: records.length, label: t("statRecords") },
+      { value: trackCount, label: t("statTracks") },
       { value: Object.keys(artists).length, label: t("statArtists") },
       { value: valueText, label: valueLabel }
     ];
