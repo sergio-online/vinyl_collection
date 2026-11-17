@@ -712,6 +712,7 @@
     fieldRarity: { ru: "Редкость", en: "Rarity" },
     rarityLimited: { ru: "Лимит", en: "Limited" },
     rarityRare: { ru: "Редкая", en: "Rare" },
+    rarityColor: { ru: "Цветная", en: "Colored" },
     vinylColorPlaceholder: { ru: "Розовый, прозрачный, чёрный с блёстками…", en: "Pink, clear, black with glitter…" },
     vinylWord: { ru: "винил", en: "vinyl" },
     fieldCover: { ru: "Обложка", en: "Cover art" },
@@ -1094,7 +1095,7 @@
     var q = state.search.trim().toLowerCase();
     var list = records.filter(function (r) {
       if (state.genre && genreGroupKey(r.genre) !== state.genre) return false;
-      if (state.rarity && r.rarity !== state.rarity) return false;
+      if (state.rarity && !matchesRarity(r, state.rarity)) return false;
       if (!q) return true;
       return (r.artist || "").toLowerCase().indexOf(q) !== -1 ||
              (r.album || "").toLowerCase().indexOf(q) !== -1;
@@ -1168,10 +1169,22 @@
   els.chipsNext.addEventListener("click", function () { els.chips.scrollBy({ left: 220, behavior: "smooth" }); });
 
   var SORT_KEYS = { artist: "sortArtist", year: "sortYear", added: "sortAdded", price: "sortPrice" };
-  var RARITY_ORDER = ["limited", "rare"];
+  var RARITY_ORDER = ["limited", "rare", "color"];
+  var RARITY_LABELS = { limited: "rarityLimited", rare: "rarityRare", color: "rarityColor" };
+  // "Colored" is derived from the vinyl colour field: anything that is not plain black
+  function isColoredVinyl(r) {
+    var c = (r.vinylColor || "").trim();
+    return !!c && !/^(чёрн\S*|черн\S*|black)$/i.test(c);
+  }
+  function matchesRarity(r, key) {
+    return key === "color" ? isColoredVinyl(r) : r.rarity === key;
+  }
   function renderRarityChips() {
     var present = {};
-    records.forEach(function (r) { if (r.rarity) present[r.rarity] = true; });
+    records.forEach(function (r) {
+      if (r.rarity) present[r.rarity] = true;
+      if (isColoredVinyl(r)) present.color = true;
+    });
     var keys = RARITY_ORDER.filter(function (k) { return present[k]; });
     els.rarityChips.hidden = !keys.length;
     els.rarityChips.innerHTML = "";
@@ -1180,7 +1193,7 @@
       var chip = document.createElement("button");
       chip.type = "button";
       chip.className = "chip" + (active ? " active" : (state.rarity ? " collapsed" : ""));
-      chip.textContent = t("rarity" + (key === "limited" ? "Limited" : "Rare"));
+      chip.textContent = t(RARITY_LABELS[key]);
       chip.addEventListener("click", function () {
         state.rarity = active ? null : key;
         render();
